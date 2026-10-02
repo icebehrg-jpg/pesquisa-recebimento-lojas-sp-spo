@@ -170,6 +170,7 @@
         }
         
         .nav a {
+            white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 7px;
@@ -238,7 +239,16 @@
             justify-content: center
         }
         
-        @media (max-width:860px) {
+        @media (max-width:1320px) {
+            .brand span {
+                display: none
+            }
+        }
+        
+        @media (max-width:1100px) {
+            .brand span {
+                display: inline
+            }
             .top .nav {
                 display: none
             }
@@ -330,7 +340,7 @@
         .explore {
             grid-column: 1/-1;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
             margin-top: 20px
         }
@@ -797,7 +807,7 @@
         }
         
         .week thead th:first-child {
-            width: 230px
+            width: 290px
         }
         
         .week thead th:last-child {
@@ -941,6 +951,285 @@
             padding: 40px;
             text-align: center;
             color: var(--muted)
+        }
+        /* Novos elementos */
+        
+        .selects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%
+        }
+        
+        .selects label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            color: var(--muted)
+        }
+        
+        .selects select {
+            font: inherit;
+            font-size: 14px;
+            color: var(--ink);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 7px 30px 7px 10px;
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+            background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%;
+            background-size: 5px 5px;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            max-width: 100%
+        }
+        
+        .store button {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px
+        }
+        
+        .store .l1 {
+            display: flex;
+            align-items: baseline;
+            gap: 10px
+        }
+        
+        .store .sub {
+            font-size: 12px;
+            color: var(--muted);
+            padding-left: 44px
+        }
+        
+        .cell.pend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px dashed var(--line);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 500
+        }
+        
+        tr.pend .nm {
+            color: var(--muted)
+        }
+        
+        .tag {
+            display: inline-block;
+            font-size: 11.5px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--hover);
+            color: var(--muted);
+            margin-left: 6px;
+            vertical-align: 1px
+        }
+        
+        .tag.warn {
+            background: color-mix(in srgb, var(--manha) 28%, transparent);
+            color: var(--ink)
+        }
+        
+        .gsum {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px
+        }
+        
+        .gsum .kpi {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface)
+        }
+        
+        .gcards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px
+        }
+        
+        .gcard .gt {
+            min-width: 640px
+        }
+        
+        .gt td.gs {
+            width: 30%
+        }
+        
+        .gcard {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-width: 0
+        }
+        
+        .gcard h3 {
+            font-size: 17px;
+            margin: 0
+        }
+        
+        .gcard .gmeta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px
+        }
+        
+        .gcard .gmeta span {
+            font-size: 12.5px;
+            padding: 3px 9px;
+            border-radius: 6px;
+            background: var(--bg);
+            border: 1px solid var(--line)
+        }
+        
+        .gwrap {
+            overflow-x: auto
+        }
+        
+        table.gt {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            min-width: 520px;
+            font-size: 13.5px
+        }
+        
+        .gt th {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-align: center;
+            padding: 8px 4px;
+            border-bottom: 1px solid var(--line)
+        }
+        
+        .gt th:first-child,
+        .gt td:first-child {
+            text-align: left
+        }
+        
+        .gt td {
+            padding: 8px 4px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: middle
+        }
+        
+        .gt tbody tr {
+            cursor: pointer
+        }
+        
+        .gt tbody tr:hover td {
+            background: var(--hover)
+        }
+        
+        .gt tr.hl td {
+            background: color-mix(in srgb, var(--accent) 9%, transparent)
+        }
+        
+        .gt td.gs {
+            white-space: nowrap;
+            padding-left: 6px
+        }
+        
+        .gt td.gs b {
+            font-weight: 500
+        }
+        
+        .gt td.gs small {
+            color: var(--muted);
+            margin-right: 6px
+        }
+        
+        .gt td.gx {
+            color: var(--muted);
+            font-size: 12.5px;
+            white-space: nowrap;
+            text-align: center
+        }
+        
+        .gt tfoot td {
+            border-bottom: 0;
+            padding-top: 10px;
+            font-weight: 600;
+            font-size: 12.5px
+        }
+        
+        .cell.mini {
+            height: 24px;
+            padding: 3px;
+            gap: 2px;
+            border-radius: 5px;
+            min-width: 38px
+        }
+        
+        .cell.mini.no,
+        .cell.mini.pend {
+            font-size: 11px
+        }
+        
+        .cell.none {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--nao-soft);
+            color: var(--nao-ink);
+            font-size: 11px;
+            font-weight: 600
+        }
+        
+        .cell.common {
+            background: color-mix(in srgb, var(--accent) 12%, transparent);
+            outline: 1px solid color-mix(in srgb, var(--accent) 40%, transparent)
+        }
+        
+        .gnote {
+            font-size: 13px;
+            color: var(--muted);
+            margin: 0
+        }
+        
+        .gnote strong {
+            color: var(--ink);
+            font-weight: 600
+        }
+        
+        .mod-sec h4 {
+            font-size: 15px;
+            margin: 0 0 4px
+        }
+        
+        .mod-sec p.hint {
+            margin: 0 0 12px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+        
+        .notice {
+            border: 1px dashed var(--line);
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: var(--muted);
+            font-size: 14px
+        }
+        
+        @media (max-width:860px) {
+            .gsum {
+                grid-template-columns: 1fr
+            }
+            .gcards {
+                grid-template-columns: 1fr
+            }
         }
         /* Tooltip */
         
@@ -1139,8 +1428,8 @@
             overflow: auto;
             overscroll-behavior: contain;
             margin: auto;
-            max-height: min(86vh, 860px);
-            width: min(640px, calc(100% - 32px));
+            max-height: min(88vh, 900px);
+            width: min(780px, calc(100% - 32px));
             border: 1px solid var(--line);
             border-radius: 14px;
             padding: 0;
@@ -1365,29 +1654,35 @@
     <header class="top">
         <div class="wrap">
             <div class="brand">
-                <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="7" width="15" height="11" rx="2"
-              fill="var(--accent)" /><path d="M16 10h4.5l3.5 4v4h-8z"
-              fill="var(--sim)" /><circle cx="6" cy="20" r="2.6"
-              fill="var(--ink)" /><circle cx="19.5" cy="20" r="2.6"
-              fill="var(--ink)" /></svg>
+                <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="7" width="15"
+                            height="11" rx="2" fill="var(--accent)" /><path
+                            d="M16 10h4.5l3.5 4v4h-8z"
+                            fill="var(--sim)" /><circle cx="6" cy="20" r="2.6"
+                            fill="var(--ink)" /><circle cx="19.5" cy="20"
+                            r="2.6" fill="var(--ink)" /></svg>
                 <span>Recebimento de carga nas lojas</span>
             </div>
             <nav class="nav" aria-label="Seções">
-                <a href="#resumo"><span class="num">1</span>Resumo</a><a href="#dias"><span class="num">2</span>Dias e turnos</a><a href="#quadro"><span class="num">3</span>Quadro semanal</a><a href="#motivos"><span class="num">4</span>Motivos</a>
+                <a href="#resumo"><span class="num">1</span>Resumo</a><a href="#dias"><span class="num">2</span>Dias e
+                        turnos</a><a href="#quadro"><span
+                            class="num">3</span>Quadro semanal</a><a href="#grupos"><span
+                            class="num">4</span>Agrupamentos</a>
+                <a href="#motivos"><span class="num">5</span>Motivos</a>
             </nav>
             <button class="btn icon-btn" id="themeBtn" aria-label="Alternar tema claro ou escuro" title="Tema">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2"><path
-              d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
-        </button>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2"><path
+                            d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+                </button>
             <button class="btn" id="presentBtn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20"
-              height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
-          <span>Apresentar</span>
-        </button>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2"><rect x="2" y="4"
+                            width="20" height="13" rx="2" /><path
+                            d="M8 21h8M12 17v4" /></svg>
+                    <span>Apresentar</span>
+                </button>
         </div>
-        <nav class="mnav" aria-label="Páginas"><a href="#resumo">Resumo</a><a href="#dias">Dias e turnos</a><a href="#quadro">Quadro semanal</a><a href="#motivos">Motivos</a></nav>
+        <nav class="mnav" aria-label="Páginas"><a href="#resumo">Resumo</a><a href="#dias">Dias e turnos</a><a href="#quadro">Quadro semanal</a><a href="#grupos">Agrupamentos</a><a href="#motivos">Motivos</a></nav>
     </header>
 
     <main>
@@ -1407,8 +1702,7 @@
             <div class="grid2">
                 <div class="panel">
                     <h3>Lojas que recebem por dia</h3>
-                    <p class="hint">Verde: recebe. Rosa: não recebe. Total de 44 lojas.
-                    </p>
+                    <p class="hint"><span id="daysHint"></span></p>
                     <div class="days" id="days" role="group" aria-label="Dias da semana"></div>
                     <div class="daydetail" id="dayDetail" aria-live="polite"></div>
                 </div>
@@ -1423,44 +1717,65 @@
 
         <section id="quadro" class="wrap">
             <h2>Quadro semanal por loja</h2>
-            <p class="lead">Cada célula mostra as janelas da loja naquele dia, na ordem manhã, tarde e noite. Passe o mouse para ver o detalhe e clique em uma linha para abrir a ficha da loja.</p>
+            <p class="lead">Cada célula mostra as janelas da loja naquele dia, na ordem manhã, tarde e noite. Abaixo do nome aparecem o agrupamento, o caminhão e o ativo. Passe o mouse para ver o detalhe e clique em uma linha para abrir a ficha da loja.
+            </p>
             <div class="panel">
                 <div class="toolbar">
                     <label class="search">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2"><circle cx="11" cy="11"
-                  r="7" /><path d="m20 20-3.5-3.5" /></svg>
-              <input id="q" type="search" placeholder="Buscar loja ou código"
-                aria-label="Buscar loja ou código">
-            </label>
+                            <svg width="15" height="15" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor"
+                                stroke-width="2"><circle cx="11" cy="11"
+                                    r="7" /><path d="m20 20-3.5-3.5" /></svg>
+                            <input id="q" type="search"
+                                placeholder="Buscar loja ou código"
+                                aria-label="Buscar loja ou código">
+                        </label>
                     <div class="seg" id="fProfile" role="group" aria-label="Perfil">
                         <button data-v="all" aria-pressed="true">Todas</button>
                         <button data-v="full" aria-pressed="false">Semana
-                completa</button>
-                        <button data-v="restr" aria-pressed="false">Com restrição</button>
+                                completa</button>
+                        <button data-v="restr" aria-pressed="false">Com
+                                restrição</button>
+                        <button data-v="pend" aria-pressed="false">Sem
+                                resposta</button>
                     </div>
                     <div class="seg" id="fTurn" role="group" aria-label="Destacar turno">
-                        <button data-v aria-pressed="true">Todos os turnos</button>
+                        <button data-v aria-pressed="true">Todos os
+                                turnos</button>
                         <button data-v="Manhã" aria-pressed="false">Manhã</button>
                         <button data-v="Tarde" aria-pressed="false">Tarde</button>
                         <button data-v="Noite" aria-pressed="false">Noite</button>
                     </div>
                     <div class="seg" id="fSort" role="group" aria-label="Ordenar">
-                        <button data-v="code" aria-pressed="true">Por código</button>
+                        <button data-v="code" aria-pressed="true">Por
+                                código</button>
                         <button data-v="score" aria-pressed="false">Por
-                disponibilidade</button>
+                                disponibilidade</button>
+                    </div>
+                    <div class="selects">
+                        <label>Agrupamento <select
+                                    id="fGrp"></select></label>
+                        <label>Caminhão <select
+                                    id="fTruck"></select></label>
+                        <label>Ativo <select id="fAtivo"></select></label>
                     </div>
                 </div>
                 <div class="legend" style="margin-bottom:18px">
-                    <span><i class="sw" style="background:var(--manha)"></i>Manhã</span>
-                    <span><i class="sw" style="background:var(--tarde)"></i>Tarde</span>
-                    <span><i class="sw" style="background:var(--noite)"></i>Noite</span>
                     <span><i class="sw"
-                style="background:var(--empty);outline:1px solid var(--line)"></i>Turno
-              não disponível</span>
+                                style="background:var(--manha)"></i>Manhã</span>
                     <span><i class="sw"
-                style="background:var(--nao-soft);outline:1px solid var(--nao)"></i>Não
-              recebe</span>
+                                style="background:var(--tarde)"></i>Tarde</span>
+                    <span><i class="sw"
+                                style="background:var(--noite)"></i>Noite</span>
+                    <span><i class="sw"
+                                style="background:var(--empty);outline:1px solid var(--line)"></i>Turno
+                            não disponível</span>
+                    <span><i class="sw"
+                                style="background:var(--nao-soft);outline:1px solid var(--nao)"></i>Não
+                            recebe</span>
+                    <span><i class="sw"
+                                style="outline:1px dashed var(--muted)"></i>Sem
+                            resposta</span>
                     <span class="count" id="count"></span>
                 </div>
                 <div class="board">
@@ -1469,9 +1784,27 @@
             </div>
         </section>
 
+        <section id="grupos" class="wrap">
+            <h2>Agrupamentos: quem vai junto com quem</h2>
+            <p class="lead">Lojas do mesmo agrupamento, com o caminhão, o ativo e a grade de cada uma. A linha "Janela em comum" mostra os turnos que todas as lojas que responderam aceitam no mesmo dia. Clique em uma loja para abrir a ficha.</p>
+            <div class="gsum" id="gsum"></div>
+            <div class="toolbar" style="border:0;padding:0">
+                <div class="selects" style="width:auto"><label>Agrupamento
+                            <select id="gSel"></select></label></div>
+                <div class="seg" id="gSort" role="group" aria-label="Ordenar agrupamentos">
+                    <button data-v="name" aria-pressed="true">Por
+                            nome</button>
+                    <button data-v="conf" aria-pressed="false">Menos janelas
+                            em comum primeiro</button>
+                </div>
+            </div>
+            <div class="gcards" id="gcards"></div>
+        </section>
+
         <section id="motivos" class="wrap">
             <h2>Por que algumas lojas não recebem</h2>
-            <p class="lead">Justificativas informadas pelas lojas, com a ortografia revisada. Os motivos foram agrupados em temas para facilitar a leitura; clique em um tema para filtrar.</p>
+            <p class="lead">Justificativas informadas pelas lojas, com a ortografia revisada. Os motivos foram agrupados em temas para facilitar a leitura; clique em um tema para filtrar.
+            </p>
             <div class="panel" style="margin-bottom:20px">
                 <h3>Temas das justificativas</h3>
                 <p class="hint" id="catHint"></p>
@@ -1481,10 +1814,11 @@
                 <div class="rhead">
                     <div>
                         <h3 id="rTitle">Todas as justificativas</h3>
-                        <p class="hint">Textos iguais em dias diferentes aparecem uma vez, com os dias marcados. Clique em um cartão para ler a justificativa completa.</p>
+                        <p class="hint">Textos iguais em dias diferentes aparecem uma vez, com os dias marcados. Clique em um cartão para ler a justificativa completa.
+                        </p>
                     </div>
-                    <button class="btn" id="clearCat" hidden>Mostrar todos os
-              temas</button></div>
+                    <button class="btn" id="clearCat" hidden>Mostrar todos
+                            os temas</button></div>
                 <div class="reasons" id="reasons"></div>
             </div>
         </section>
@@ -1494,14 +1828,12 @@
 
     <div class="pager">
         <span class="pos" id="pos"></span>
-        <button class="btn icon-btn" id="prevS" aria-label="Página anterior"><svg
-          width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2"><path
-            d="m15 18-6-6 6-6" /></svg></button>
-        <button class="btn icon-btn" id="nextS" aria-label="Próxima página"><svg
-          width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2"><path
-            d="m9 18 6-6-6-6" /></svg></button>
+        <button class="btn icon-btn" id="prevS" aria-label="Página anterior"><svg width="16" height="16"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2"><path d="m15 18-6-6 6-6" /></svg></button>
+        <button class="btn icon-btn" id="nextS" aria-label="Próxima página"><svg width="16" height="16"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2"><path d="m9 18 6-6-6-6" /></svg></button>
     </div>
 
     <div class="tip" id="tip" role="tooltip"></div>
@@ -1511,10 +1843,15 @@
     </dialog>
 
     <script>
-        const DATA = [{
+        const ALL = [{
             "code": "0003",
             "name": "Ipiranga",
             "full": "0003 - SP-SPO-Ipiranga",
+            "grp": "Capital Sul 1",
+            "grpFull": "São Paulo / Capital Sul 1",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Michele Aparecida do Carmo",
             "role": "Gerente",
             "days": [{
@@ -1541,6 +1878,11 @@
             "code": "0007",
             "name": "Lapa",
             "full": "0007 - SP-SPO-Lapa",
+            "grp": "Capital Norte Oeste",
+            "grpFull": "São Paulo / Capital Norte Oeste",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Josimar Cavalcante",
             "role": "Gerente I",
             "days": [{
@@ -1567,6 +1909,11 @@
             "code": "0008",
             "name": "Tuiuti",
             "full": "0008 - SP-SPO-Tuiuti",
+            "grp": "Capital Leste 1",
+            "grpFull": "São Paulo / Capital Leste 1",
+            "truck": "Toco",
+            "ativo": "PQ 3 ALTO",
+            "responded": true,
             "resp": "Juliana Mendes de Oliveira",
             "role": "Gerente de loja",
             "days": [{
@@ -1593,6 +1940,11 @@
             "code": "0009",
             "name": "R.Iguatemi",
             "full": "0009 - SP-SPO-R.Iguatemi",
+            "grp": "Capital Oeste",
+            "grpFull": "São Paulo / Capital Oeste",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Fabiana Odilia da Costa Ciriaco",
             "role": "Gerente",
             "days": [{
@@ -1619,6 +1971,11 @@
             "code": "0010",
             "name": "Pompeia",
             "full": "0010 - SP-SPO-Pompeia",
+            "grp": "Capital Norte Oeste",
+            "grpFull": "São Paulo / Capital Norte Oeste",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Marcos de Toledo",
             "role": "Gerente",
             "days": [{
@@ -1642,9 +1999,27 @@
             }],
             "ts": "01/10/2026 12:14"
         }, {
+            "code": "0011",
+            "name": "S.Trimais",
+            "full": "0011 - SP-SPO-S.Trimais",
+            "grp": "Capital Norte 1",
+            "grpFull": "São Paulo / Capital Norte 1",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": false,
+            "resp": "",
+            "role": "",
+            "days": null,
+            "ts": ""
+        }, {
             "code": "0013",
             "name": "V.Mariana",
             "full": "0013 - SP-SPO-V.Mariana",
+            "grp": "Capital Sul 1",
+            "grpFull": "São Paulo / Capital Sul 1",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Márcio Mathias",
             "role": "Gerente",
             "days": [{
@@ -1671,6 +2046,11 @@
             "code": "0022",
             "name": "Moema",
             "full": "0022 - SP-SPO-Moema",
+            "grp": "Capital Sul 2",
+            "grpFull": "São Paulo / Capital Sul 2",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Marco Antonio Almeida Monteiro",
             "role": "Gerente administrativo",
             "days": [{
@@ -1697,6 +2077,11 @@
             "code": "0023",
             "name": "Vergueiro",
             "full": "0023 - SP-SPO-Vergueiro",
+            "grp": "Capital Sul 1",
+            "grpFull": "São Paulo / Capital Sul 1",
+            "truck": "Toco",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Guilherme",
             "role": "Gerente operacional",
             "days": [{
@@ -1723,6 +2108,11 @@
             "code": "0025",
             "name": "ItaAvJPessego",
             "full": "0025 - SP-SPO-ItaAvJPessego",
+            "grp": "Capital Leste 2",
+            "grpFull": "São Paulo / Capital Leste 2",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Patrícia de Jesus",
             "role": "Gerente trainee",
             "days": [{
@@ -1749,6 +2139,11 @@
             "code": "0026",
             "name": "Santana",
             "full": "0026 - SP-SPO-Santana",
+            "grp": "Capital Norte 1",
+            "grpFull": "São Paulo / Capital Norte 1",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Adriana Marangoni",
             "role": "Gerente operacional",
             "days": [{
@@ -1775,6 +2170,11 @@
             "code": "0030",
             "name": "S.Aricanduva",
             "full": "0030 - SP-SPO-S.Aricanduva",
+            "grp": "Capital Leste 2",
+            "grpFull": "São Paulo / Capital Leste 2",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Jackson Lima",
             "role": "Gerente de loja",
             "days": [{
@@ -1803,6 +2203,11 @@
             "code": "0031",
             "name": "AvPaulistaTri",
             "full": "0031 - SP-SPO-AvPaulistaTri",
+            "grp": "Capital Central Paulista",
+            "grpFull": "São Paulo / Capital Central Paulista",
+            "truck": "Toco",
+            "ativo": "ROLL GRANDE",
+            "responded": true,
             "resp": "Victor Marco Salgado",
             "role": "Gerente administrativo",
             "days": [{
@@ -1831,6 +2236,11 @@
             "code": "0032",
             "name": "S.MarketPlace",
             "full": "0032 - SP-SPO-S.MarketPlace",
+            "grp": "Capital Sul 2",
+            "grpFull": "São Paulo / Capital Sul 2",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Jaciel Braz",
             "role": "Gerente operacional",
             "days": [{
@@ -1861,6 +2271,11 @@
             "code": "0033",
             "name": "Fco.Morato",
             "full": "0033 - SP-SPO-Fco.Morato",
+            "grp": "Capital Oeste",
+            "grpFull": "São Paulo / Capital Oeste",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Fernanda",
             "role": "Gerente operacional",
             "days": [{
@@ -1889,6 +2304,11 @@
             "code": "0038",
             "name": "S.Interlagos",
             "full": "0038 - SP-SPO-S.Interlagos",
+            "grp": "Capital Sul 4",
+            "grpFull": "São Paulo / Capital Sul 4",
+            "truck": "Toco",
+            "ativo": "GD 2 ALTO",
+            "responded": true,
             "resp": "Vitória Wendy Almeida Maia",
             "role": "Gerente",
             "days": [{
@@ -1917,6 +2337,11 @@
             "code": "0043",
             "name": "S.Cantareira",
             "full": "0043 - SP-SPO-S.Cantareira",
+            "grp": "Capital Norte Oeste",
+            "grpFull": "São Paulo / Capital Norte Oeste",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Fernanda Alves da Silva",
             "role": "Gerente administrativo de loja",
             "days": [{
@@ -1945,6 +2370,11 @@
             "code": "0045",
             "name": "S.Penha",
             "full": "0045 - SP-SPO-S.Penha",
+            "grp": "Capital Leste 1",
+            "grpFull": "São Paulo / Capital Leste 1",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Ricardo Gabriel",
             "role": "Gerente de loja",
             "days": [{
@@ -1971,6 +2401,11 @@
             "code": "0047",
             "name": "Leopoldina",
             "full": "0047 - SP-SPO-Leopoldina",
+            "grp": "Capital Oeste",
+            "grpFull": "São Paulo / Capital Oeste",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Gabriel Alcantara",
             "role": "Assistente administrativo",
             "days": [{
@@ -1997,6 +2432,11 @@
             "code": "0056",
             "name": "A.Pinheiro",
             "full": "0056 - SP-SPO-A.Pinheiro",
+            "grp": "Capital Sul 3",
+            "grpFull": "São Paulo / Capital Sul 3",
+            "truck": "Truck",
+            "ativo": "PQ 3 ALTO",
+            "responded": true,
             "resp": "Ronaldo Dutra da Silva",
             "role": "Gerente operacional",
             "days": [{
@@ -2033,6 +2473,11 @@
             "code": "0057",
             "name": "V.Maria",
             "full": "0057 - SP-SPO-V.Maria",
+            "grp": "Capital Norte 1",
+            "grpFull": "São Paulo / Capital Norte 1",
+            "truck": "Truck",
+            "ativo": "GD 2 ALTO",
+            "responded": true,
             "resp": "Carlos Tomaz",
             "role": "Gerente",
             "days": [{
@@ -2059,6 +2504,11 @@
             "code": "0060",
             "name": "Freguesia",
             "full": "0060 - SP-SPO-Freguesia",
+            "grp": "Capital Norte Oeste",
+            "grpFull": "São Paulo / Capital Norte Oeste",
+            "truck": "Truck",
+            "ativo": "PQ 3 ALTO",
+            "responded": true,
             "resp": "Elaine Cristina Lobo de Araújo",
             "role": "Gerente de loja",
             "days": [{
@@ -2085,6 +2535,11 @@
             "code": "0061",
             "name": "V.Guilherme",
             "full": "0061 - SP-SPO-V.Guilherme",
+            "grp": "Capital Norte 1",
+            "grpFull": "São Paulo / Capital Norte 1",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Sandro Gamarra",
             "role": "Gerente",
             "days": [{
@@ -2111,6 +2566,11 @@
             "code": "0064",
             "name": "LiberoBadaro",
             "full": "0064 - SP-SPO-LiberoBadaro",
+            "grp": "Capital Central",
+            "grpFull": "São Paulo / Capital Central",
+            "truck": "Toco",
+            "ativo": "ROLL PEQ",
+            "responded": true,
             "resp": "Leandro",
             "role": "Gerente",
             "days": [{
@@ -2147,6 +2607,11 @@
             "code": "0068",
             "name": "SantaCatarina",
             "full": "0068 - SP-SPO-SantaCatarina",
+            "grp": "Capital Sul 4",
+            "grpFull": "São Paulo / Capital Sul 4",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Uilson da Costa Aguiar",
             "role": "Gerente operacional",
             "days": [{
@@ -2183,6 +2648,11 @@
             "code": "0076",
             "name": "Sao Miguel",
             "full": "0076 - SP-SPO-Sao Miguel",
+            "grp": "Capital Leste 2",
+            "grpFull": "São Paulo / Capital Leste 2",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Rivania Bayma Oliveira",
             "role": "Gerente",
             "days": [{
@@ -2209,6 +2679,11 @@
             "code": "0079",
             "name": "N.Cantareira",
             "full": "0079 - SP-SPO-N.Cantareira",
+            "grp": "Capital Norte 1",
+            "grpFull": "São Paulo / Capital Norte 1",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Edvanilson de Andrade Almeida",
             "role": "Gerente",
             "days": [{
@@ -2235,6 +2710,11 @@
             "code": "0084",
             "name": "S.Eldorado",
             "full": "0084 - SP-SPO-S.Eldorado",
+            "grp": "Capital Oeste",
+            "grpFull": "São Paulo / Capital Oeste",
+            "truck": "Toco",
+            "ativo": "GD 2 ALTO",
+            "responded": true,
             "resp": "Pedro Camargo Girardi",
             "role": "Gerente de loja",
             "days": [{
@@ -2258,9 +2738,27 @@
             }],
             "ts": "01/10/2026 13:25"
         }, {
+            "code": "0085",
+            "name": "S.Mooca",
+            "full": "0085 - SP-SPO-S.Mooca",
+            "grp": "Capital Leste 1",
+            "grpFull": "São Paulo / Capital Leste 1",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": false,
+            "resp": "",
+            "role": "",
+            "days": null,
+            "ts": ""
+        }, {
             "code": "0091",
             "name": "Alvarenga",
             "full": "0091 - SP-SPO-Alvarenga",
+            "grp": "Capital Oeste",
+            "grpFull": "São Paulo / Capital Oeste",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Lucia Petulia da Silva",
             "role": "Gerente",
             "days": [{
@@ -2287,6 +2785,11 @@
             "code": "0093",
             "name": "V.Formosa",
             "full": "0093 - SP-SPO-V.Formosa",
+            "grp": "Capital Leste 1",
+            "grpFull": "São Paulo / Capital Leste 1",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Rodolpho Stephano",
             "role": "Gerente",
             "days": [{
@@ -2313,6 +2816,11 @@
             "code": "0111",
             "name": "S.Itaquera",
             "full": "0111 - SP-SPO-S.Itaquera",
+            "grp": "Capital Leste 2",
+            "grpFull": "São Paulo / Capital Leste 2",
+            "truck": "Truck",
+            "ativo": "ROLL GRANDE",
+            "responded": true,
             "resp": "Flavio de Jesus Santos",
             "role": "Gerente de loja",
             "days": [{
@@ -2339,6 +2847,11 @@
             "code": "0112",
             "name": "MariaAntônia",
             "full": "0112 - SP-SPO-MariaAntônia",
+            "grp": "Capital Central",
+            "grpFull": "São Paulo / Capital Central",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Rodrigo Ribeiro",
             "role": "Gerente de loja",
             "days": [{
@@ -2372,9 +2885,27 @@
             }],
             "ts": "01/10/2026 13:16"
         }, {
+            "code": "0124",
+            "name": "Giov.Gronchi",
+            "full": "0124 - SP-SPO-Giov.Gronchi",
+            "grp": "Capital Sul 3",
+            "grpFull": "São Paulo / Capital Sul 3",
+            "truck": "Truck",
+            "ativo": "GD 3 ALTO",
+            "responded": false,
+            "resp": "",
+            "role": "",
+            "days": null,
+            "ts": ""
+        }, {
             "code": "0128",
             "name": "Morumbi",
             "full": "0128 - SP-SPO-Morumbi",
+            "grp": "Capital Sul 2",
+            "grpFull": "São Paulo / Capital Sul 2",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Fernanda Faria dos Santos",
             "role": "Gerente trainee",
             "days": [{
@@ -2411,6 +2942,11 @@
             "code": "0130",
             "name": "S.Tiete",
             "full": "0130 - SP-SPO-S.Tiete",
+            "grp": "Capital Norte Oeste",
+            "grpFull": "São Paulo / Capital Norte Oeste",
+            "truck": "Truck",
+            "ativo": "ROLL GRANDE",
+            "responded": true,
             "resp": "Fabio Gama",
             "role": "Gerente de loja",
             "days": [{
@@ -2439,6 +2975,11 @@
             "code": "0138",
             "name": "S.VilaOlimpia",
             "full": "0138 - SP-SPO-S.VilaOlimpia",
+            "grp": "Capital Sul 2",
+            "grpFull": "São Paulo / Capital Sul 2",
+            "truck": "Truck",
+            "ativo": "GD 2 ALTO",
+            "responded": true,
             "resp": "Fabia",
             "role": "Gerente operacional",
             "days": [{
@@ -2467,6 +3008,11 @@
             "code": "0151",
             "name": "AvDePinedo",
             "full": "0151 - SP-SPO-AvDePinedo",
+            "grp": "Capital Sul 3",
+            "grpFull": "São Paulo / Capital Sul 3",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Derlania",
             "role": "Gerente",
             "days": [{
@@ -2493,6 +3039,11 @@
             "code": "0162",
             "name": "AvPaulista",
             "full": "0162 - SP-SPO-AvPaulista",
+            "grp": "Capital Central Paulista",
+            "grpFull": "São Paulo / Capital Central Paulista",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Adriano Pedreira / Lincoln Olinto",
             "role": "Gerentes",
             "days": [{
@@ -2525,6 +3076,11 @@
             "code": "0174",
             "name": "S.Pamplona",
             "full": "0174 - SP-SPO-S.Pamplona",
+            "grp": "Capital Central Paulista",
+            "grpFull": "São Paulo / Capital Central Paulista",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Éder Lucas Gomes",
             "role": "Gerente",
             "days": [{
@@ -2561,6 +3117,11 @@
             "code": "0190",
             "name": "W.Luis",
             "full": "0190 - SP-SPO-W.Luis",
+            "grp": "Capital Sul 4",
+            "grpFull": "São Paulo / Capital Sul 4",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Camila Gabriele da Silva",
             "role": "Gerente administrativo",
             "days": [{
@@ -2587,6 +3148,11 @@
             "code": "0195",
             "name": "F.Coutinho",
             "full": "0195 - SP-SPO-F.Coutinho",
+            "grp": "Capital Oeste",
+            "grpFull": "São Paulo / Capital Oeste",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Ana Sara",
             "role": "Gerente administrativo",
             "days": [{
@@ -2619,6 +3185,11 @@
             "code": "0196",
             "name": "RicardoJafet",
             "full": "0196 - SP-SPO-RicardoJafet",
+            "grp": "Capital Sul 1",
+            "grpFull": "São Paulo / Capital Sul 1",
+            "truck": "Truck",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Marília",
             "role": "Gerente de loja",
             "days": [{
@@ -2655,6 +3226,11 @@
             "code": "0199",
             "name": "JabaquaraBra",
             "full": "0199 - SP-SPO-JabaquaraBra",
+            "grp": "Capital Sul 1",
+            "grpFull": "São Paulo / Capital Sul 1",
+            "truck": "Toco",
+            "ativo": "GD 3 ALTO",
+            "responded": true,
             "resp": "Aparecida Cristina Silva Gomes",
             "role": "Gerente",
             "days": [{
@@ -2681,6 +3257,11 @@
             "code": "0200",
             "name": "RadialMooca",
             "full": "0200 - SP-SPO-RadialMooca",
+            "grp": "Capital Leste 1",
+            "grpFull": "São Paulo / Capital Leste 1",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": true,
             "resp": "Leandro Teixeira de Araujo",
             "role": "Gerente",
             "days": [{
@@ -2707,6 +3288,11 @@
             "code": "0203",
             "name": "Av.Rudge",
             "full": "0203 - SP-SPO-Av.Rudge",
+            "grp": "Capital Central",
+            "grpFull": "São Paulo / Capital Central",
+            "truck": "Toco",
+            "ativo": "PQ 3 ALTO",
+            "responded": true,
             "resp": "Flávio Luiz de Moraes",
             "role": "Gerente operacional",
             "days": [{
@@ -2730,9 +3316,27 @@
             }],
             "ts": "01/10/2026 13:37"
         }, {
+            "code": "0212",
+            "name": "S.FCaneca",
+            "full": "0212 - SP-SPO-S.FCaneca",
+            "grp": "Capital Central Paulista",
+            "grpFull": "São Paulo / Capital Central Paulista",
+            "truck": "Toco",
+            "ativo": "PQ 2 ALTO",
+            "responded": false,
+            "resp": "",
+            "role": "",
+            "days": null,
+            "ts": ""
+        }, {
             "code": "0243",
             "name": "MateoBei",
             "full": "0243 - SP-SPO-MateoBei",
+            "grp": "Capital Leste 2",
+            "grpFull": "São Paulo / Capital Leste 2",
+            "truck": "Truck",
+            "ativo": "PQ 3 ALTO",
+            "responded": true,
             "resp": "Makeila Cristina",
             "role": "Gerente",
             "days": [{
@@ -2756,6 +3360,8 @@
             }],
             "ts": "01/10/2026 15:59"
         }];
+        const DATA = ALL.filter(s => s.responded);
+        const PEND = ALL.filter(s => !s.responded);
         const DAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
         const DAYS_SHORT = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
         const TURNS = [
@@ -2790,8 +3396,8 @@
         const N = DATA.length,
             TOTAL = N * 6;
         const pct = (a, b) => Math.round(a / b * 100);
-        DATA.forEach(s => {
-            s.score = s.days.filter(d => d.ok).length;
+        ALL.forEach(s => {
+            s.score = s.responded ? s.days.filter(d => d.ok).length : -1;
         });
 
         /* ---------- Resumo ---------- */
@@ -2802,32 +3408,31 @@
         const satMorning = DATA.filter(s => s.days[5].ok && s.days[5].p.includes('Manhã')).length;
         const satOk = DATA.filter(s => s.days[5].ok).length;
         const satNight = DATA.filter(s => s.days[5].ok && s.days[5].p.includes('Noite')).length;
-        const wkNight = Math.round(DATA.filter(s => s.days.slice(0, 5).some(d => d.ok && d.p.includes('Noite'))).length);
 
-        $('#metaLine').textContent = `Pesquisa com ${N} lojas de São Paulo, respondida em 1 e 2 de outubro de 2026`;
-        $('#headline').textContent = `${weekdays} das ${N} lojas recebem caminhão todos os dias, de segunda a sexta.`;
-        $('#subline').textContent = `No sábado, a janela se desloca para a manhã: ${satMorning} das ${satOk} lojas que recebem nesse dia aceitam a manhã, e só ${satNight} aceitam a noite. ${onlySat.length} lojas só conseguem receber no sábado.`;
-        $('#kpis').innerHTML = [
-            [`${pct(okAll,TOTAL)}%`, `dos dias aceitam caminhão (${okAll} de ${TOTAL} combinações de loja e dia)`, 'var(--sim)'],
-            [fullWeek, 'lojas recebem de segunda a sábado, sem nenhuma restrição', 'var(--sim)'],
-            [N - fullWeek, 'lojas têm ao menos um dia sem recebimento', 'var(--nao)'],
-            [onlySat.length, 'lojas recebem apenas no sábado', 'var(--nao)']
-        ].map(([v, l, c]) => `<div class="kpi"><b>${v}</b><small><span class="dot" style="background:${c}"></span>${l}</small></div>`).join('');
+        $('#metaLine').textContent = `Pesquisa com ${ALL.length} lojas de São Paulo: ${N} responderam em 1 e 2 de outubro de 2026${PEND.length?`, ${PEND.length} ainda não responderam`:''}`;
+$('#daysHint').textContent = `Verde: recebe. Rosa: não recebe. Base: ${N} lojas que responderam.`;
+$('#headline').textContent = `${weekdays} das ${N} lojas que responderam recebem caminhão de segunda a sexta.`;
+$('#subline').textContent = `No sábado, a janela se desloca para a manhã: ${satMorning} das ${satOk} lojas que recebem nesse dia aceitam a manhã, e só ${satNight} aceitam a noite. ${onlySat.length} lojas só conseguem receber no sábado.`;
+$('#kpis').innerHTML = [
+  [`${pct(okAll,TOTAL)}%`, `dos dias aceitam caminhão (${okAll} de ${TOTAL} combinações de loja e dia)`, 'var(--sim)'],
+  [fullWeek, 'lojas recebem de segunda a sábado, sem nenhuma restrição', 'var(--sim)'],
+  [N - fullWeek, 'lojas têm ao menos um dia sem recebimento', 'var(--nao)'],
+  [onlySat.length, 'lojas recebem apenas no sábado', 'var(--nao)']
+].map(([v,l,c]) => `<div class="kpi"><b>${v}</b><small><span class="dot" style="background:${c}"></span>${l}</small></div>`).join('');
 
-        /* ---------- Dias ---------- */
-        let selDay = 0;
-
-        function renderDays() {
-            $('#days').innerHTML = DAYS.map((d, i) => {
-                const ok = DATA.filter(s => s.days[i].ok).length;
-                return `<button class="day" data-i="${i}" aria-pressed="${i===selDay}" aria-label="${d}: ${ok} de ${N} lojas recebem">
+/* ---------- Dias ---------- */
+let selDay = 0;
+function renderDays(){
+  $('#days').innerHTML = DAYS.map((d,i) => {
+    const ok = DATA.filter(s => s.days[i].ok).length;
+    return `<button class="day" data-i="${i}" aria-pressed="${i===selDay}" aria-label="${d}: ${ok} de ${N} lojas recebem">
       <span class="val">${ok}<small>${pct(ok,N)}%</small></span>
       <span class="bar"><span class="yes" style="height:${ok/N*100}%"></span></span>
       <span class="lbl">${d}</span></button>`;
-            }).join('');
-            const no = DATA.filter(s => !s.days[selDay].ok);
-            $('#dayDetail').innerHTML = no.length ?
-                `<p><strong>${DAYS[selDay]}:</strong> ${no.length} ${no.length>1?'lojas não recebem':'loja não recebe'}.</p><div class="chips">${no.map(s=>`<button class="chip" data-code="${s.code}"><span class="c">${s.code}</span>${esc(s.name)}</button>`).join('')}</div>`
+  }).join('');
+  const no = DATA.filter(s => !s.days[selDay].ok);
+  $('#dayDetail').innerHTML = no.length
+    ? `<p><strong>${DAYS[selDay]}:</strong> ${no.length} ${no.length>1?'lojas não recebem':'loja não recebe'}.</p><div class="chips">${no.map(s=>`<button class="chip" data-code="${s.code}"><span class="c">${s.code}</span>${esc(s.name)}</button>`).join('')}</div>`
     : `<p><strong>${DAYS[selDay]}:</strong> todas as lojas recebem.</p>`;
 }
 $('#days').addEventListener('click', e => { const b = e.target.closest('.day'); if(!b) return; selDay = +b.dataset.i; renderDays(); });
@@ -2848,7 +3453,11 @@ const wkM = DATA.filter(s=>s.days[0].ok&&s.days[0].p.includes('Manhã')).length;
 $('#tnote').innerHTML = `De segunda a sexta, manhã e noite têm adesão parecida, perto de <strong>${wkM} lojas</strong> cada. No sábado a noite praticamente some: <strong>${satNight} lojas</strong>.`;
 
 /* ---------- Quadro semanal ---------- */
-const st = { q:'', profile:'all', turn:'', sort:'code' };
+const st = { q:'', profile:'all', turn:'', sort:'code', grp:'', truck:'', ativo:'' };
+const uniq = k => [...new Set(ALL.map(s => s[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt'));
+const fillSel = (id, k, label) => { $(id).innerHTML = `<option value="">${label}</option>` + uniq(k).map(v=>`<option>${esc(v)}</option>`).join(''); };
+fillSel('#fGrp','grp','Todos'); fillSel('#fTruck','truck','Todos'); fillSel('#fAtivo','ativo','Todos');
+[['#fGrp','grp'],['#fTruck','truck'],['#fAtivo','ativo']].forEach(([id,k]) => $(id).addEventListener('change', e => { st[k] = e.target.value; renderWeek(); }));
 function segBind(id, key, after){
   $(id).addEventListener('click', e => {
     const b = e.target.closest('button'); if(!b) return;
@@ -2856,8 +3465,14 @@ function segBind(id, key, after){
     st[key] = b.dataset.v; after();
   });
 }
-function cellHTML(s, i){
+function cellHTML(s, i, mini){
+  const m = mini ? ' mini' : '';
+  if(!s.responded) return `<div class="cell pend${m}" data-c="${s.code}" data-i="${i}">${mini?'?':'Sem resposta'}</div>`;
   const d = s.days[i];
+  if(mini){
+    if(!d.ok) return `<div class="cell no mini" data-c="${s.code}" data-i="${i}">Não</div>`;
+    return `<div class="cell mini" data-c="${s.code}" data-i="${i}">${TURNS.map(([t,k]) => `<i class="${d.p.includes(t)?k:''}"></i>`).join('')}</div>`;
+  }
   if(!d.ok){
     const dim = st.turn ? ' dim' : '';
     return `<div class="cell no${dim}" data-c="${s.code}" data-i="${i}">Não</div>`;
@@ -2867,18 +3482,19 @@ function cellHTML(s, i){
 }
 function renderWeek(){
   const q = st.q.trim().toLowerCase();
-  let rows = DATA.filter(s =>
+  let rows = ALL.filter(s =>
     (!q || s.name.toLowerCase().includes(q) || s.code.includes(q)) &&
-    (st.profile==='all' || (st.profile==='full' ? s.score===6 : s.score<6)) &&
-    (!st.turn || s.days.some(d => d.ok && d.p.includes(st.turn))));
+    (st.profile==='all' || (st.profile==='full' ? s.score===6 : st.profile==='pend' ? !s.responded : (s.responded && s.score<6))) &&
+    (!st.turn || !s.responded || s.days.some(d => d.ok && d.p.includes(st.turn))) &&
+    (!st.grp || s.grp===st.grp) && (!st.truck || s.truck===st.truck) && (!st.ativo || s.ativo===st.ativo));
   rows = rows.slice().sort(st.sort==='code' ? (a,b)=>a.code.localeCompare(b.code) : (a,b)=>b.score-a.score || a.code.localeCompare(b.code));
-  $('#count').textContent = `${rows.length} de ${N} lojas`;
+  $('#count').textContent = `${rows.length} de ${ALL.length} lojas`;
   $('#week').innerHTML = `<thead><tr><th>Loja</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th style="text-align:right;padding-right:18px">Dias</th></tr></thead>
-  <tbody>${rows.length ? rows.map(s => `<tr data-code="${s.code}">
-    <td class="store"><button aria-label="Abrir ficha da loja ${esc(s.name)}"><span class="code">${s.code}</span><span class="nm">${esc(s.name)}</span></button></td>
+  <tbody>${rows.length ? rows.map(s => `<tr data-code="${s.code}" class="${s.responded?'':'pend'}">
+    <td class="store"><button aria-label="Abrir ficha da loja ${esc(s.name)}"><span class="l1"><span class="code">${s.code}</span><span class="nm">${esc(s.name)}</span></span><span class="sub">${esc(s.grp)}, ${esc(s.truck)}, ${esc(s.ativo)}</span></button></td>
     ${DAYS.map((_,i)=>`<td>${cellHTML(s,i)}</td>`).join('')}
-    <td class="score">${s.score} de 6</td></tr>`).join('')
-    : `<tr><td colspan="8" class="empty">Nenhuma loja corresponde aos filtros. Limpe a busca ou escolha "Todas".</td></tr>`}</tbody>`;
+    <td class="score">${s.responded?`${s.score} de 6`:'Pendente'}</td></tr>`).join('')
+    : `<tr><td colspan="8" class="empty">Nenhuma loja corresponde aos filtros. Limpe a busca ou volte os filtros para "Todas" e "Todos".</td></tr>`}</tbody>`;
 }
 $('#q').addEventListener('input', e => { st.q = e.target.value; renderWeek(); });
 segBind('#fProfile','profile',renderWeek); segBind('#fTurn','turn',renderWeek); segBind('#fSort','sort',renderWeek);
@@ -2887,12 +3503,14 @@ renderWeek();
 
 /* Tooltip */
 const tip = $('#tip');
-const byCode = Object.fromEntries(DATA.map(s => [s.code, s]));
+const byCode = Object.fromEntries(ALL.map(s => [s.code, s]));
 document.addEventListener('pointermove', e => {
   const c = e.target.closest('.cell');
   if(!c){ tip.classList.remove('on'); return; }
-  const s = byCode[c.dataset.c], i = +c.dataset.i, d = s.days[i];
-  const body = d.ok ? `Recebe: ${d.p.join(', ').toLowerCase()}` : `Não recebe. ${esc(d.why.split('\n')[0].slice(0,160))}${d.why.length>160?'…':''}`;
+  const s = byCode[c.dataset.c], i = +c.dataset.i;
+  if(!s){ tip.classList.remove('on'); return; }
+  const d = s.responded ? s.days[i] : null;
+  const body = !d ? 'A loja ainda não respondeu à pesquisa.' : d.ok ? `Recebe: ${d.p.join(', ').toLowerCase()}` : `Não recebe. ${esc(d.why.split('\n')[0].slice(0,160))}${d.why.length>160?'…':''}`;
   tip.innerHTML = `<b>${esc(s.name)}, ${DAYS[i].toLowerCase()}</b><br>${body}`;
   tip.classList.add('on');
   const r = tip.getBoundingClientRect();
@@ -2938,6 +3556,73 @@ $('#clearCat').addEventListener('click', () => { selCat=''; renderCats(); });
 $('#reasons').addEventListener('click', e => { const b = e.target.closest('.reason'); if(b) openReason(groups[+b.dataset.g]); });
 renderCats();
 
+/* ---------- Agrupamentos ---------- */
+const byCodeSort = (a,b) => a.code.localeCompare(b.code);
+const GROUPS = [...new Set(ALL.map(s => s.grp))].sort((a,b)=>a.localeCompare(b,'pt'));
+const groupStores = g => ALL.filter(s => s.grp===g).sort(byCodeSort);
+function commonDay(ss, i){
+  const r = ss.filter(s => s.responded); if(!r.length) return null;
+  return TURNS.map(t=>t[0]).filter(t => r.every(s => s.days[i].ok && s.days[i].p.includes(t)));
+}
+function mix(ss, k){
+  const c = {}; ss.forEach(s => c[s[k]] = (c[s[k]]||0) + 1);
+  return Object.entries(c).sort((a,b)=>b[1]-a[1]).map(([v,n]) => `${n} ${v}`).join(', ');
+}
+function groupInfo(g){
+  const ss = groupStores(g), com = DAYS.map((_,i)=>commonDay(ss,i));
+  const resp = ss.filter(s=>s.responded).length, pend = ss.length - resp;
+  const days = com.filter(c => c && c.length).length;
+  return {g, ss, com, resp, pend, days};
+}
+const GI = GROUPS.map(groupInfo);
+function groupTable(info, hl){
+  const {ss, com} = info;
+  return `<div class="gwrap"><table class="gt"><thead><tr><th>Loja</th><th>Caminhão</th><th>Ativo</th>${DAYS_SHORT.map(d=>`<th>${d}</th>`).join('')}</tr></thead>
+  <tbody>${ss.map(s=>`<tr data-code="${s.code}" class="${s.code===hl?'hl':''}" title="Abrir ficha de ${esc(s.name)}">
+    <td class="gs"><small>${s.code}</small><b>${esc(s.name)}</b></td><td class="gx">${esc(s.truck)}</td><td class="gx">${esc(s.ativo)}</td>
+    ${DAYS.map((_,i)=>`<td>${cellHTML(s,i,true)}</td>`).join('')}</tr>`).join('')}</tbody>
+  <tfoot><tr><td colspan="3">Janela em comum</td>${com.map((c,i) => c===null ? '<td></td>' : `<td>${c.length
+      ? `<div class="cell mini common" title="${DAYS[i]}: ${c.join(', ').toLowerCase()}">${TURNS.map(([t,k])=>`<i class="${c.includes(t)?k:''}"></i>`).join('')}</div>`
+      : `<div class="cell mini none" title="${DAYS[i]}: nenhum turno em comum">–</div>`}</td>`).join('')}</tr></tfoot></table></div>`;
+}
+function groupNote(info){
+  const {resp, pend, days, com} = info;
+  if(!resp) return `Nenhuma loja deste agrupamento respondeu ainda.`;
+  const best = com.map((c,i)=>c&&c.length?`${DAYS_SHORT[i]} (${c.join(', ').toLowerCase()})`:null).filter(Boolean);
+  let t = resp===1 ? `Só uma loja respondeu, então a janela em comum é a dela: ${days} de 6 dias.`
+    : days ? `As ${resp} lojas que responderam têm janela em comum em <strong>${days} de 6 dias</strong>: ${best.join('; ')}.`
+           : `As ${resp} lojas que responderam <strong>não têm nenhuma janela em comum</strong> na semana.`;
+  if(pend) t += ` ${pend} ${pend>1?'lojas ainda não responderam':'loja ainda não respondeu'}, então a janela pode mudar.`;
+  return t;
+}
+const gFull5 = GI.filter(x => x.resp && x.com.slice(0,5).every(c => c && c.length)).length;
+const gNone = GI.filter(x => x.resp && x.days===0).length;
+const gPend = GI.filter(x => x.pend).length;
+$('#gsum').innerHTML = [
+  [GROUPS.length, `agrupamentos, somando ${ALL.length} lojas`, 'var(--accent)'],
+  [gFull5, 'agrupamentos têm janela em comum todos os dias, de segunda a sexta', 'var(--sim)'],
+  [gNone, `${gNone===1?'agrupamento não tem':'agrupamentos não têm'} nenhuma janela em comum${gPend?`; ${gPend} têm loja sem resposta`:''}`, 'var(--nao)']
+].map(([v,l,c]) => `<div class="kpi"><b>${v}</b><small><span class="dot" style="background:${c}"></span>${l}</small></div>`).join('');
+const gst = { sel:'', sort:'name' };
+$('#gSel').innerHTML = '<option value="">Todos</option>' + GROUPS.map(g=>`<option>${esc(g)}</option>`).join('');
+$('#gSel').addEventListener('change', e => { gst.sel = e.target.value; renderGroups(); });
+$('#gSort').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  $('#gSort').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x===b));
+  gst.sort = b.dataset.v; renderGroups();
+});
+function renderGroups(){
+  let list = GI.filter(x => !gst.sel || x.g===gst.sel);
+  if(gst.sort==='conf') list = list.slice().sort((a,b) => a.days-b.days || a.g.localeCompare(b.g,'pt'));
+  $('#gcards').innerHTML = list.map(x => `<article class="gcard">
+    <div><h3>${esc(x.g)}${x.pend?`<span class="tag warn">${x.pend} sem resposta</span>`:''}</h3></div>
+    <div class="gmeta"><span>${x.ss.length} lojas</span><span>${mix(x.ss,'truck')}</span><span>${mix(x.ss,'ativo')}</span></div>
+    ${groupTable(x)}
+    <p class="gnote">${groupNote(x)}</p></article>`).join('');
+}
+renderGroups();
+$('#gcards').addEventListener('click', e => { const tr = e.target.closest('tr[data-code]'); if(tr) openStore(tr.dataset.code); });
+
 /* ---------- Ficha da loja ---------- */
 const dr = $('#drawer');
 function mergeDays(days){
@@ -2948,20 +3633,29 @@ function mergeDays(days){
 }
 function openStore(code){
   const s = byCode[code];
+  const info = GI.find(x => x.g===s.grp);
+  const others = info.ss.length - 1;
   $('#drIn').innerHTML = `
-    <div class="dr-head"><div><h2 id="drTitle">${esc(s.name)}</h2><p>Loja ${s.code}, recebe em ${s.score} de 6 dias</p></div>
+    <div class="dr-head"><div><h2 id="drTitle">${esc(s.name)}</h2><p>Loja ${s.code}, ${s.responded?`recebe em ${s.score} de 6 dias`:'ainda não respondeu à pesquisa'}</p></div>
       ${closeBtn('drClose')}</div>
-    <dl class="facts"><dt>Respondido por</dt><dd>${esc(s.resp)}</dd><dt>Cargo</dt><dd>${esc(s.role)}</dd><dt>Data da resposta</dt><dd>${s.ts}</dd></dl>
-    <div class="dlist">${mergeDays(s.days).map(({d,a,b}) => `<div class="drow"><span class="dn">${a===b?DAYS[a]:(b-a===1?DAYS_SHORT[a]+' e '+DAYS_SHORT[b]:DAYS_SHORT[a]+' a '+DAYS_SHORT[b])}</span><div>${
+    <dl class="facts"><dt>Agrupamento</dt><dd>${esc(s.grpFull)}</dd><dt>Caminhão</dt><dd>${esc(s.truck)}</dd><dt>Ativo</dt><dd>${esc(s.ativo)}</dd>
+      ${s.responded?`<dt>Respondido por</dt><dd>${esc(s.resp)}</dd><dt>Cargo</dt><dd>${esc(s.role)}</dd><dt>Data da resposta</dt><dd>${s.ts}</dd>`:''}</dl>
+    <div class="mod-sec"><h4>Vão junto no agrupamento ${esc(s.grp)}</h4>
+      <p class="hint">${others ? `${others} ${others>1?'outras lojas':'outra loja'} no mesmo agrupamento: ${mix(info.ss,'truck')}; ${mix(info.ss,'ativo')}. Esta loja está destacada; clique em outra para abrir a ficha dela.` : 'Esta é a única loja do agrupamento.'}</p>
+      ${groupTable(info, s.code)}
+      <p class="gnote" style="margin-top:12px">${groupNote(info)}</p></div>
+    <div class="mod-sec"><h4>Detalhe por dia</h4>
+    ${s.responded ? `<div class="dlist">${mergeDays(s.days).map(({d,a,b}) => `<div class="drow"><span class="dn">${a===b?DAYS[a]:(b-a===1?DAYS_SHORT[a]+' e '+DAYS_SHORT[b]:DAYS_SHORT[a]+' a '+DAYS_SHORT[b])}</span><div>${
       d.ok ? TURNS.filter(([t])=>d.p.includes(t)).map(([t,k])=>`<span class="pill ${k}">${t}</span>`).join('')
            : `<span class="pill x">Não recebe</span><span class="pill" style="background:var(--bg)">${CATS[d.cat].t}</span><p>${esc(d.why)}</p>
               ${d.orig.trim()!==d.why.trim()?`<details class="orig"><summary>Ver texto original</summary><div>${esc(d.orig)}</div></details>`:''}`
-    }</div></div>`).join('')}</div>`;
+    }</div></div>`).join('')}</div>` : `<div class="notice">A loja ainda não respondeu. Os dias e turnos aparecem aqui assim que a resposta entrar na planilha.</div>`}</div>`;
   $('#drClose').onclick = () => dr.close();
   tip.classList.remove('on');
   if(!dr.open) dr.showModal();
   dr.scrollTop = 0;
 }
+$('#drIn').addEventListener('click', e => { const tr = e.target.closest('.gt tr[data-code]'); if(tr && tr.dataset.code) openStore(tr.dataset.code); });
 dr.addEventListener('click', e => { if(e.target === dr) dr.close(); });
 const closeBtn = id => `<button class="btn icon-btn" id="${id}" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 function openReason(g){
@@ -2993,7 +3687,8 @@ try{ const t = localStorage.getItem('theme'); if(t) document.documentElement.dat
 const PAGES = [
   {id:'resumo', t:'Resumo'},
   {id:'dias', t:'Dias e turnos', d:'Quantas lojas recebem em cada dia e em quais janelas de horário.', k:()=>`Dia com mais lojas: ${DAYS[[0,1,2,3,4,5].sort((a,b)=>DATA.filter(s=>s.days[b].ok).length-DATA.filter(s=>s.days[a].ok).length)[0]].toLowerCase()}`},
-  {id:'quadro', t:'Quadro semanal', d:'A semana de cada uma das lojas, com filtros por perfil e turno.', k:()=>`${fullWeek} lojas sem nenhuma restrição`},
+  {id:'quadro', t:'Quadro semanal', d:'A semana de cada uma das lojas, com filtros por perfil e turno.', k:()=>`${fullWeek} lojas sem nenhuma restrição${PEND.length?`, ${PEND.length} sem resposta`:''}`},
+  {id:'grupos', t:'Agrupamentos', d:'Quem vai junto com quem: caminhão, ativo e grade de cada loja do grupo.', k:()=>`${GROUPS.length} agrupamentos, ${gFull5} com janela em comum de segunda a sexta`},
   {id:'motivos', t:'Motivos', d:'Por que algumas lojas não recebem, agrupado por tema.', k:()=>`${noTotal} dias sem recebimento no total`}
 ];
 const secs = PAGES.map(p => document.getElementById(p.id));
@@ -3025,6 +3720,7 @@ document.addEventListener('click', e => {
   if(PAGES.some(p=>p.id===id)){ e.preventDefault(); show(id, true); }
 });
 addEventListener('popstate', () => show(location.hash.slice(1)));
+addEventListener('hashchange', () => { const id=location.hash.slice(1); if(PAGES[cur].id!==id) show(id); });
 if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 show(location.hash.slice(1) || 'resumo');
 addEventListener('load', () => setTimeout(() => window.scrollTo(0,0), 0));
@@ -3052,7 +3748,7 @@ document.addEventListener('keydown', e => {
   if(['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); go(-1); }
 });
 
-$('#foot').textContent = `Fonte: Pesquisa de Recebimento de Caminhão nas Lojas (${N} respostas). Textos das justificativas com ortografia revisada; o original fica disponível nos detalhes de cada justificativa. Os temas dos motivos são um agrupamento feito a partir das respostas.`;
+$('#foot').textContent = `Fonte: Pesquisa de Recebimento de Caminhão nas Lojas (${N} respostas de ${ALL.length} lojas). Textos das justificativas com ortografia revisada; o original fica disponível nos detalhes de cada justificativa. Os temas dos motivos são um agrupamento feito a partir das respostas.`;
     </script>
 </body>
 
