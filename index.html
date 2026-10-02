@@ -1,249 +1,213 @@
 <!doctype html>
 <html lang="pt-BR">
 
-    <head>
-            <meta charset="utf-8">
-            <meta name="viewport"
-                content="width=device-width, initial-scale=1, viewport-fit=cover">
-            <title>Recebimento de carga nas lojas</title>
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link
-       
-     href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap"
-            rel="stylesheet">
-            <link rel="stylesheet" href="styles.css">
-          </head>
-            <body>
-                  <header class="top">
-                      <div class="wrap">
-                        <div class="brand">
-                            <svg width="26" height="26" viewBox="0 0 26 26"
-                                  aria-hidden="true"><rect x="1" y="7" width="15"
-                
-                   
-                                    height="11" rx="2" fill="var(--accent)" /><path
-                                    d="M16 10h4.5l3.5 4v4h-8z"
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Recebimento de carga nas lojas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="top">
+        <div class="wrap">
+            <div class="brand">
+                <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="7" width="15"
+                            height="11" rx="2" fill="var(--accent)" /><path
+                            d="M16 10h4.5l3.5 4v4h-8z"
                             fill="var(--sim)" /><circle cx="6" cy="20" r="2.6"
                             fill="var(--ink)" /><circle cx="19.5" cy="20"
-                                    r="2.6" fill="var(--ink)" /></svg>
-                    <span>Recebimento de carga nas lojas</span>
-                </div>
-                <nav class="nav" aria-label="Seções">
-                          <a href="#resumo"><span class="num">1</span>Resumo</a><a
-                              href="#dias"><span class="num">2</span>Dias e
-                            turnos</a><a href="#quadro"><span
-                            class="num">3</span>Quadro semanal</a><a
-                            href="#grupos"><span
-                                  class="num">4</span>Agrupamentos</a><a
-                                href="#motivos"><span class="num">5</span>Motivos</a>
-                          </nav>
-                          <button class="btn icon-btn" id="themeBtn"
-                              aria-label="Alternar tema claro ou escuro" title="Tema">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2"><path
-                                    d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
-                      </button>
-                <button class="btn" id="presentBtn">
-                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2"><rect x="2" y="4"
-                                    width="20" height="13" rx="2" /><path
-                                    d="M8 21h8M12 17v4" /></svg>
-                              <span>Apresentar</span>
-                            </button>
-                        </div>
-                        <nav class="mnav" aria-label="Páginas"><a
-                                href="#resumo">Resumo</a><a href="#dias">Dias e turnos</a><a
-                              href="#quadro">Quadro semanal</a><a
-                              href="#grupos">Agrupamentos</a><a
-                                href="#motivos">Motivos</a></nav>
-                    </header>
-            
-                    <main>
-                      <section id="resumo" class="wrap hero">
-                        <div>
-                          <p class="meta" id="metaLine"></p>
-                    <h1 id="headline"></h1>
-                          <p class="sub" id="subline"></p>
-                        </div>
-                        <div class="kpis" id="kpis"></div>
-                        <div class="explore" id="explore"></div>
-                        </section>
-              
-            <section id="dias" class="wrap">
-                              <h2>Disponibilidade por dia e turno</h2>
-                              <p class="lead">Quantas lojas aceitam o caminhão em cada dia e
-                    em quais janelas. Domingo não tem recebimento. Clique em um
-                                  dia para ver quem não recebe.</p>
-                <div class="grid2">
-                                  <div class="panel">
-                                      <h3>Lojas que recebem por dia</h3>
-                                      <p class="hint"><span id="daysHint"></span></p>
-                                      <div class="days" id="days" role="group"
-                                          aria-label="Dias da semana"></div>
-                        <div class="daydetail" id="dayDetail"
-                                          aria-live="polite"></div>
-                                </div>
-                                <div class="panel">
-                                      <h3>Janelas de horário disponíveis</h3>
-                                      <p class="hint">Número de lojas que aceitam cada turno.
-                                          Uma loja pode marcar mais de um.</p>
-                                      <div class="tgrid" id="tgrid"></div>
-                                      <p class="tnote" id="tnote"></p>
-                                  </div>
-                              </div>
-                        </section>
-            
-                    
-                
-                    <section id="quadro" class="wrap">
-                      <h2>Quadro semanal por loja</h2>
-                <p class="lead">Cada célula mostra as janelas da loja naquele
-                          dia, na ordem manhã, tarde e noite. Abaixo do nome aparecem
-                            o agrupamento, o caminhão e o ativo. Passe o mouse para ver
-                            o detalhe e clique em uma linha para abrir a ficha da
-                            loja.</p>
-                        <div class="panel">
-                              <div class="fbar" role="search"
-                                  aria-label="Filtros do quadro">
-                                  <label class="fsearch"><svg width="15" height="15"
-                                viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2"
-                                        aria-hidden="true"><circle cx="11" cy="11"
-                                          r="7" /><path d="m20 20-3.5-3.5" /></svg>
-                            <input id="q" type="search"
-                                      placeholder="Buscar loja"
-                                        aria-label="Buscar loja ou código"></label>
-                                <span class="fsep"></span>
-                                <label class="fchip"><span class="fl">Perfil</span><b
-                                          class="fv"></b><select id="fProfile"
-                                          aria-label="Perfil">
-                                          <option value="all">Todas</option><option
-                                            value="full">Semana completa</option><option
-                                            value="restr">Com restrição</option><option
-                                   
-                         
-                              value="pend">Sem
-                                                      resposta</option></select></label>
-                    
-                                      <label class="fchip"><span class="fl">Turno</span><b
-                                          class="fv"></b><select id="fTurn"
-                                        aria-label="Turno">
-                                      <option
-                                        value>Todos</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></label>
-                        <label class="fchip"><span
-                                    class="fl">Agrupamento</span><b
-                                class="fv"></b><select id="fGrp"
-                                    aria-label="Agrupamento"></select></label>
-                              <label class="fchip"><span class="fl">Caminhão</span><b
-                                      class="fv"></b><select id="fTruck"
-                                      aria-label="Caminhão"></select></label>
-                            <label class="fchip"><span class="fl">Ativo</span><b
-                                class="fv"></b><select id="fAtivo"
-                                    aria-label="Ativo"></select></label>
-                        <span class="fsep"></span>
-                            <label class="fchip" data-neutral="1"
-        ><span
-    
-                                class="fl">Ordenar</span><b
-                                    class="fv"></b><select id="fSort"
-       
-                         aria-label="Ordenar">
-                                <option value="code">Código</option><option
-                                    value="score">Disponibilidade</option></select></label>
-                        <button class="fclear" id="fClear"
-                            hidden>Limpar</button>
-                    </div>
-                    <div class="legend" style="margin-bottom:18px">
-                        <span><i class="sw"
-                                style="background:var(--manha)"></i>Manhã</span>
-                        <span><i class="sw"
-                                style="background:var(--tarde)"></i>Tarde</span>
-                        <span><i class="sw"
-                                style="background:var(--noite)"></i>Noite</span>
-                        <span><i class="sw"
-                                style="background:var(--empty);outline:1px solid var(--line)"></i>Turno
-                            não disponível</span>
-                        <span><i class="sw"
-                                style="background:var(--nao-soft);outline:1px solid var(--nao)"></i>Não
-                            recebe</span>
-                        <span><i class="sw"
-                                style="outline:1px dashed var(--muted)"></i>Sem
-                            resposta</span>
-                        <span class="count" id="count"></span>
-                    </div>
-                    <div class="board"><table class="week"
-                            id="week"></table></div>
-                </div>
-            </section>
+                            r="2.6" fill="var(--ink)" /></svg>
+                <span>Recebimento de carga nas lojas</span>
+            </div>
+            <nav class="nav" aria-label="Seções">
+                <a href="#resumo"><span class="num">1</span>Resumo</a><a href="#dias"><span class="num">2</span>Dias e
+                        turnos</a><a href="#quadro"><span
+                            class="num">3</span>Quadro semanal</a><a href="#grupos"><span
+                            class="num">4</span>Agrupamentos</a>
+                <a href="#motivos"><span class="num">5</span>Motivos</a>
+            </nav>
+            <button class="btn icon-btn" id="themeBtn" aria-label="Alternar tema claro ou escuro" title="Tema">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2"><path
+                            d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+                </button>
+            <button class="btn" id="presentBtn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2"><rect x="2" y="4"
+                            width="20" height="13" rx="2" /><path
+                            d="M8 21h8M12 17v4" /></svg>
+                    <span>Apresentar</span>
+                </button>
+        </div>
+        <nav class="mnav" aria-label="Páginas"><a href="#resumo">Resumo</a><a href="#dias">Dias e turnos</a><a href="#quadro">Quadro semanal</a><a href="#grupos">Agrupamentos</a><a href="#motivos">Motivos</a></nav>
+    </header>
 
-            <section id="grupos" class="wrap">
-                <h2>Agrupamentos: quem vai junto com quem</h2>
-                <p class="lead">Lojas do mesmo agrupamento, com o caminhão, o
-                    ativo e a grade de cada uma. A linha "Janela em comum"
-                    mostra os turnos que todas as lojas que responderam aceitam
-                    no mesmo dia. Clique em uma loja para abrir a ficha.</p>
-                <div class="gsum" id="gsum"></div>
-                <div class="fbar" style="width:max-content;max-width:100%"
-                    aria-label="Filtros dos agrupamentos">
-                    <label class="fchip"><span class="fl">Agrupamento</span><b
-                            class="fv"></b><select id="gSel"
-                            aria-label="Agrupamento"></select></label>
+    <main>
+        <section id="resumo" class="wrap hero">
+            <div>
+                <p class="meta" id="metaLine"></p>
+                <h1 id="headline"></h1>
+                <p class="sub" id="subline"></p>
+            </div>
+            <div class="kpis" id="kpis"></div>
+            <div class="explore" id="explore"></div>
+        </section>
+
+        <section id="dias" class="wrap">
+            <h2>Disponibilidade por dia e turno</h2>
+            <p class="lead">Quantas lojas aceitam o caminhão em cada dia e em quais janelas. Domingo não tem recebimento. Clique em um dia para ver quem não recebe.</p>
+            <div class="grid2">
+                <div class="panel">
+                    <h3>Lojas que recebem por dia</h3>
+                    <p class="hint"><span id="daysHint"></span></p>
+                    <div class="days" id="days" role="group" aria-label="Dias da semana"></div>
+                    <div class="daydetail" id="dayDetail" aria-live="polite"></div>
+                </div>
+                <div class="panel">
+                    <h3>Janelas de horário disponíveis</h3>
+                    <p class="hint">Número de lojas que aceitam cada turno. Uma loja pode marcar mais de um.</p>
+                    <div class="tgrid" id="tgrid"></div>
+                    <p class="tnote" id="tnote"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="quadro" class="wrap">
+            <h2>Quadro semanal por loja</h2>
+            <p class="lead">Cada célula mostra as janelas da loja naquele dia, na ordem manhã, tarde e noite. Abaixo do nome aparecem o agrupamento, o caminhão e o ativo. Passe o mouse para ver o detalhe e clique em uma linha para abrir a ficha da loja.
+            </p>
+            <div class="panel">
+                <div class="fbar" role="search" aria-label="Filtros do quadro">
+                    <label class="fsearch"><svg width="15" height="15"
+                                viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2"
+                                aria-hidden="true"><circle cx="11" cy="11"
+                                    r="7" /><path d="m20 20-3.5-3.5" /></svg>
+                            <input id="q" type="search"
+                                placeholder="Buscar loja"
+                                aria-label="Buscar loja ou código"></label>
+                    <span class="fsep"></span>
+                    <label class="fchip"><span class="fl">Perfil</span><b
+                                class="fv"></b><select id="fProfile"
+                                aria-label="Perfil">
+                                <option value="all">Todas</option><option
+                                    value="full">Semana completa</option><option
+                                    value="restr">Com restrição</option><option
+                                    value="pend">Sem
+                                    resposta</option></select></label>
+                    <label class="fchip"><span class="fl">Turno</span><b
+                                class="fv"></b><select id="fTurn"
+                                aria-label="Turno">
+                                <option
+                                    value>Todos</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></label>
+                    <label class="fchip"><span
+                                class="fl">Agrupamento</span><b
+                                class="fv"></b><select id="fGrp"
+                                aria-label="Agrupamento"></select></label>
+                    <label class="fchip"><span class="fl">Caminhão</span><b
+                                class="fv"></b><select id="fTruck"
+                                aria-label="Caminhão"></select></label>
+                    <label class="fchip"><span class="fl">Ativo</span><b
+                                class="fv"></b><select id="fAtivo"
+                                aria-label="Ativo"></select></label>
                     <span class="fsep"></span>
                     <label class="fchip" data-neutral="1"><span
+                                class="fl">Ordenar</span><b
+                                class="fv"></b><select id="fSort"
+                                aria-label="Ordenar">
+                                <option value="code">Código</option><option
+                                    value="score">Disponibilidade</option></select></label>
+                    <button class="fclear" id="fClear" hidden>Limpar</button>
+                </div>
+                <div class="legend" style="margin-bottom:18px">
+                    <span><i class="sw"
+                                style="background:var(--manha)"></i>Manhã</span>
+                    <span><i class="sw"
+                                style="background:var(--tarde)"></i>Tarde</span>
+                    <span><i class="sw"
+                                style="background:var(--noite)"></i>Noite</span>
+                    <span><i class="sw"
+                                style="background:var(--empty);outline:1px solid var(--line)"></i>Turno
+                            não disponível</span>
+                    <span><i class="sw"
+                                style="background:var(--nao-soft);outline:1px solid var(--nao)"></i>Não
+                            recebe</span>
+                    <span><i class="sw"
+                                style="outline:1px dashed var(--muted)"></i>Sem
+                            resposta</span>
+                    <span class="count" id="count"></span>
+                </div>
+                <div class="board">
+                    <table class="week" id="week"></table>
+                </div>
+            </div>
+        </section>
+
+        <section id="grupos" class="wrap">
+            <h2>Agrupamentos: quem vai junto com quem</h2>
+            <p class="lead">Lojas do mesmo agrupamento, com o caminhão, o ativo e a grade de cada uma. A linha "Janela em comum" mostra os turnos que todas as lojas que responderam aceitam no mesmo dia. Clique em uma loja para abrir a ficha.</p>
+            <div class="gsum" id="gsum"></div>
+            <div class="fbar" style="width:max-content;max-width:100%" aria-label="Filtros dos agrupamentos">
+                <label class="fchip"><span class="fl">Agrupamento</span><b
+                            class="fv"></b><select id="gSel"
+                            aria-label="Agrupamento"></select></label>
+                <span class="fsep"></span>
+                <label class="fchip" data-neutral="1"><span
                             class="fl">Ordenar</span><b class="fv"></b><select
                             id="gSort" aria-label="Ordenar">
                             <option value="name">Nome</option><option
                                 value="conf">Menos janelas em
                                 comum</option></select></label>
-                </div>
-                <div class="gcards" id="gcards"></div>
-            </section>
+            </div>
+            <div class="gcards" id="gcards"></div>
+        </section>
 
-            <section id="motivos" class="wrap">
-                <h2>Por que algumas lojas não recebem</h2>
-                <p class="lead">Justificativas informadas pelas lojas, com a
-                    ortografia revisada. Os motivos foram agrupados em temas
-                    para facilitar a leitura; clique em um tema para
-                    filtrar.</p>
-                <div class="panel" style="margin-bottom:20px">
-                    <h3>Temas das justificativas</h3>
-                    <p class="hint" id="catHint"></p>
-                    <div class="cats" id="cats"></div>
-                </div>
-                <div class="panel">
-                    <div class="rhead"><div><h3 id="rTitle">Todas as
-                                justificativas</h3>
-                            <p class="hint">Textos iguais em dias diferentes
-                                aparecem uma vez, com os dias marcados. Clique
-                                em um cartão para ler a justificativa
-                                completa.</p></div>
-                        <button class="btn" id="clearCat" hidden>Mostrar todos
+        <section id="motivos" class="wrap">
+            <h2>Por que algumas lojas não recebem</h2>
+            <p class="lead">Justificativas informadas pelas lojas, com a ortografia revisada. Os motivos foram agrupados em temas para facilitar a leitura; clique em um tema para filtrar.
+            </p>
+            <div class="panel" style="margin-bottom:20px">
+                <h3>Temas das justificativas</h3>
+                <p class="hint" id="catHint"></p>
+                <div class="cats" id="cats"></div>
+            </div>
+            <div class="panel">
+                <div class="rhead">
+                    <div>
+                        <h3 id="rTitle">Todas as justificativas</h3>
+                        <p class="hint">Textos iguais em dias diferentes aparecem uma vez, com os dias marcados. Clique em um cartão para ler a justificativa completa.
+                        </p>
+                    </div>
+                    <button class="btn" id="clearCat" hidden>Mostrar todos
                             os temas</button></div>
-                    <div class="reasons" id="reasons"></div>
-                </div>
-            </section>
-        </main>
+                <div class="reasons" id="reasons"></div>
+            </div>
+        </section>
+    </main>
 
-        <footer class="wrap" id="foot"></footer>
+    <footer class="wrap" id="foot"></footer>
 
-        <div class="pager">
-            <span class="pos" id="pos"></span>
-            <button class="btn icon-btn" id="prevS"
-                aria-label="Página anterior"><svg width="16" height="16"
+    <div class="pager">
+        <span class="pos" id="pos"></span>
+        <button class="btn icon-btn" id="prevS" aria-label="Página anterior"><svg width="16" height="16"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2"><path d="m15 18-6-6 6-6" /></svg></button>
-            <button class="btn icon-btn" id="nextS"
-                aria-label="Próxima página"><svg width="16" height="16"
+        <button class="btn icon-btn" id="nextS" aria-label="Próxima página"><svg width="16" height="16"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2"><path d="m9 18 6-6-6-6" /></svg></button>
-        </div>
+    </div>
 
-        <div class="tip" id="tip" role="tooltip"></div>
+    <div class="tip" id="tip" role="tooltip"></div>
 
-        <dialog class="drawer" id="drawer" aria-labelledby="drTitle"><div
-                class="dr-in" id="drIn"></div></dialog>
+    <dialog class="drawer" id="drawer" aria-labelledby="drTitle">
+        <div class="dr-in" id="drIn"></div>
+    </dialog>
 
-        <script src="app.js" defer></script>
-    </body>
+    <script src="app.js" defer></script>
+</body>
+
 </html>
