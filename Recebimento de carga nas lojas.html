@@ -1,0 +1,3059 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Recebimento de carga nas lojas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #F2F5F7;
+            --surface: #FFFFFF;
+            --ink: #1D2733;
+            --muted: #5D6B7A;
+            --line: #DCE3E9;
+            --hover: #EAF0F4;
+            --sim: #5FAE9E;
+            --sim-soft: #DCEFEA;
+            --nao: #DE8C8C;
+            --nao-soft: #F8E3E3;
+            --nao-ink: #9E4747;
+            --manha: #F0BF62;
+            --tarde: #8FBCE3;
+            --noite: #7E86C8;
+            --empty: #E8EDF1;
+            --accent: #2F5D7C;
+            color-scheme: light;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        
+        @media (prefers-color-scheme:dark) {
+             :root:not([data-theme="light"]) {
+                --bg: #121820;
+                --surface: #19212B;
+                --ink: #E4EAF0;
+                --muted: #94A2B0;
+                --line: #2A3542;
+                --hover: #202A36;
+                --sim: #5FAE9E;
+                --sim-soft: #1D3833;
+                --nao: #D98585;
+                --nao-soft: #3A2427;
+                --nao-ink: #F0B0B0;
+                --manha: #E3B45B;
+                --tarde: #7FAED6;
+                --noite: #8B92D6;
+                --empty: #26303C;
+                --accent: #8DB8D6;
+                color-scheme: dark;
+            }
+        }
+        
+        :root[data-theme="dark"] {
+            --bg: #121820;
+            --surface: #19212B;
+            --ink: #E4EAF0;
+            --muted: #94A2B0;
+            --line: #2A3542;
+            --hover: #202A36;
+            --sim: #5FAE9E;
+            --sim-soft: #1D3833;
+            --nao: #D98585;
+            --nao-soft: #3A2427;
+            --nao-ink: #F0B0B0;
+            --manha: #E3B45B;
+            --tarde: #7FAED6;
+            --noite: #8B92D6;
+            --empty: #26303C;
+            --accent: #8DB8D6;
+            color-scheme: dark;
+        }
+        
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit
+        }
+        
+        [hidden] {
+            display: none!important
+        }
+        
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+        
+        @media (prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+            * {
+                transition: none!important;
+                animation: none!important
+            }
+        }
+        
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            font-variant-numeric: tabular-nums;
+            -webkit-font-smoothing: antialiased
+        }
+        
+        button {
+            font: inherit;
+            color: inherit
+        }
+        
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px
+        }
+        
+        .wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 clamp(16px, 4vw, 40px)
+        }
+        /* Topo */
+        
+        .top {
+            position: sticky;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 20;
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line)
+        }
+        
+        .top .wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            height: 60px
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            margin-right: auto;
+            min-width: 0
+        }
+        
+        .brand svg {
+            flex: none
+        }
+        
+        .brand span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+        
+        .nav {
+            display: flex;
+            gap: 2px;
+            align-self: stretch
+        }
+        
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 12px;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px
+        }
+        
+        .nav a:hover {
+            color: var(--ink);
+            background: var(--hover)
+        }
+        
+        .nav a[aria-current="page"] {
+            color: var(--ink);
+            font-weight: 600;
+            border-bottom-color: var(--accent)
+        }
+        
+        .nav a .num {
+            font-size: 11.5px;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--hover);
+            color: var(--muted)
+        }
+        
+        .nav a[aria-current="page"] .num {
+            background: var(--accent);
+            color: var(--surface)
+        }
+        
+        .mnav {
+            display: none
+        }
+        
+        .btn {
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px
+        }
+        
+        .btn:hover {
+            background: var(--hover)
+        }
+        
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            justify-content: center
+        }
+        
+        @media (max-width:860px) {
+            .top .nav {
+                display: none
+            }
+            .mnav {
+                display: flex;
+                overflow-x: auto;
+                border-top: 1px solid var(--line);
+                scrollbar-width: none
+            }
+            .mnav a {
+                flex: 1 0 auto;
+                text-align: center;
+                padding: 11px 14px;
+                font-size: 13.5px;
+                color: var(--muted);
+                text-decoration: none;
+                border-bottom: 2px solid transparent
+            }
+            .mnav a[aria-current="page"] {
+                color: var(--ink);
+                font-weight: 600;
+                border-bottom-color: var(--accent)
+            }
+            .brand span {
+                font-size: 14px
+            }
+        }
+        
+        main>section:not(.active) {
+            display: none
+        }
+        
+        main>section.active {
+            animation: pagein .3s ease
+        }
+        
+        @keyframes pagein {
+            from {
+                opacity: 0;
+                translate: 0 6px
+            }
+        }
+        
+        main {
+            min-height: calc(100vh - 160px)
+        }
+        
+        .pagenav {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid var(--line)
+        }
+        
+        .pagenav a {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-decoration: none;
+            color: var(--ink);
+            padding: 12px 16px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--surface);
+            min-width: 200px
+        }
+        
+        .pagenav a:hover {
+            background: var(--hover)
+        }
+        
+        .pagenav a small {
+            color: var(--muted);
+            font-size: 12.5px
+        }
+        
+        .pagenav a b {
+            font-weight: 600;
+            font-size: 15px
+        }
+        
+        .pagenav a.next {
+            margin-left: auto;
+            text-align: right
+        }
+        
+        .explore {
+            grid-column: 1/-1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 20px
+        }
+        
+        .explore a {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--ink);
+            padding: 22px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface)
+        }
+        
+        .explore a:hover {
+            background: var(--hover)
+        }
+        
+        .explore a b {
+            font-size: 17px;
+            font-weight: 600
+        }
+        
+        .explore a span {
+            color: var(--muted);
+            font-size: 14px
+        }
+        
+        .explore a em {
+            font-style: normal;
+            margin-top: auto;
+            padding-top: 8px;
+            font-size: 13.5px;
+            color: var(--accent);
+            font-weight: 500
+        }
+        
+        @media (max-width:860px) {
+            .explore {
+                grid-template-columns: 1fr
+            }
+            .pagenav a {
+                min-width: 0;
+                flex: 1
+            }
+        }
+        /* Seções */
+        
+        main>section.wrap {
+            padding-top: 64px;
+            padding-bottom: 8px
+        }
+        
+        h1 {
+            font-size: clamp(28px, 4.2vw, 46px);
+            line-height: 1.12;
+            letter-spacing: -.02em;
+            font-weight: 600;
+            margin: 0;
+            max-width: 22ch;
+            text-wrap: balance
+        }
+        
+        h2 {
+            font-size: 22px;
+            letter-spacing: -.01em;
+            font-weight: 600;
+            margin: 0 0 4px
+        }
+        
+        .lead {
+            color: var(--muted);
+            margin: 0 0 24px;
+            max-width: 70ch
+        }
+        
+        .meta {
+            color: var(--muted);
+            font-size: 14px;
+            margin: 0 0 18px
+        }
+        /* Hero */
+        
+        .hero {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 40px;
+            align-items: end
+        }
+        
+        main>section.hero {
+            padding-top: 72px
+        }
+        
+        .hero p.sub {
+            color: var(--muted);
+            font-size: 17px;
+            max-width: 52ch;
+            margin: 18px 0 0
+        }
+        
+        .kpis {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface);
+            overflow: hidden
+        }
+        
+        .kpi {
+            padding: 18px 20px;
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line)
+        }
+        
+        .kpi:nth-child(2n) {
+            border-right: 0
+        }
+        
+        .kpi:nth-last-child(-n+2) {
+            border-bottom: 0
+        }
+        
+        .kpi b {
+            display: block;
+            font-size: 34px;
+            font-weight: 600;
+            letter-spacing: -.02em;
+            line-height: 1.1
+        }
+        
+        .kpi small {
+            color: var(--muted);
+            font-size: 13.5px;
+            display: block;
+            margin-top: 4px
+        }
+        
+        .kpi .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: 1px
+        }
+        
+        @media (max-width:880px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 28px
+            }
+        }
+        /* Painéis */
+        
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 22px
+        }
+        
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 20px
+        }
+        
+        .grid2.rev {
+            grid-template-columns: 1fr 1.4fr
+        }
+        
+        @media (max-width:960px) {
+            .grid2,
+            .grid2.rev {
+                grid-template-columns: 1fr
+            }
+        }
+        
+        @media (max-width:600px) {
+            .week td.store {
+                min-width: 150px;
+                padding-left: 12px
+            }
+            .panel {
+                padding: 16px
+            }
+        }
+        
+        .panel h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0 0 2px
+        }
+        
+        .panel .hint {
+            color: var(--muted);
+            font-size: 13.5px;
+            margin: 0 0 18px
+        }
+        /* Gráfico de dias */
+        
+        .days {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            align-items: end;
+            height: 250px
+        }
+        
+        .day {
+            all: unset;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: 100%;
+            gap: 8px;
+            border-radius: 8px;
+            padding: 6px
+        }
+        
+        .day:hover {
+            background: var(--hover)
+        }
+        
+        .day[aria-pressed="true"] {
+            background: var(--hover);
+            box-shadow: inset 0 0 0 1px var(--line)
+        }
+        
+        .day:focus-visible {
+            outline: 2px solid var(--accent)
+        }
+        
+        .day .val {
+            font-weight: 600;
+            font-size: 18px;
+            text-align: center;
+            line-height: 1
+        }
+        
+        .day .val small {
+            display: block;
+            font-weight: 400;
+            color: var(--muted);
+            font-size: 12.5px;
+            margin-top: 3px
+        }
+        
+        .bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--nao-soft)
+        }
+        
+        .bar .no {
+            background: var(--nao-soft)
+        }
+        
+        .bar .yes {
+            background: var(--sim);
+            margin-top: auto;
+            transition: height .6s cubic-bezier(.2, .7, .2, 1)
+        }
+        
+        .day .lbl {
+            text-align: center;
+            font-size: 13.5px;
+            color: var(--muted)
+        }
+        
+        .day[aria-pressed="true"] .lbl {
+            color: var(--ink);
+            font-weight: 600
+        }
+        
+        .daydetail {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+            font-size: 14px
+        }
+        
+        .daydetail p {
+            margin: 0 0 10px
+        }
+        
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px
+        }
+        
+        .chip {
+            border: 1px solid var(--line);
+            background: var(--bg);
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 13px;
+            cursor: pointer
+        }
+        
+        .chip:hover {
+            background: var(--hover)
+        }
+        
+        .chip .c {
+            color: var(--muted);
+            margin-right: 4px
+        }
+        /* Grade de turnos */
+        
+        .tgrid {
+            display: grid;
+            grid-template-columns: auto repeat(6, 1fr);
+            gap: 6px;
+            align-items: center
+        }
+        
+        .tgrid .h {
+            font-size: 12.5px;
+            color: var(--muted);
+            text-align: center
+        }
+        
+        .tgrid .r {
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-right: 6px
+        }
+        
+        .sw {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            flex: none
+        }
+        
+        .tcell {
+            height: 44px;
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--ink)
+        }
+        
+        .tnote {
+            margin: 18px 0 0;
+            font-size: 14px;
+            color: var(--muted)
+        }
+        
+        .tnote strong {
+            color: var(--ink);
+            font-weight: 600
+        }
+        /* Legenda */
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+        
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px
+        }
+        /* Quadro semanal */
+        
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--line)
+        }
+        
+        .search {
+            flex: 1 1 220px;
+            max-width: 320px;
+            position: relative
+        }
+        
+        .search input {
+            width: 100%;
+            font: inherit;
+            font-size: 14px;
+            padding: 8px 12px 8px 34px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--ink)
+        }
+        
+        .search svg {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            translate: 0 -50%;
+            color: var(--muted)
+        }
+        
+        .seg {
+            display: inline-flex;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--surface);
+            padding: 3px;
+            gap: 2px
+        }
+        
+        .seg button {
+            border: 0;
+            background: transparent;
+            padding: 5px 11px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            cursor: pointer;
+            color: var(--muted)
+        }
+        
+        .seg button[aria-pressed="true"] {
+            background: var(--hover);
+            color: var(--ink);
+            font-weight: 600
+        }
+        
+        .count {
+            font-size: 13.5px;
+            color: var(--muted);
+            margin-left: auto
+        }
+        
+        .board {
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--surface)
+        }
+        
+        table.week {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            min-width: 860px;
+            table-layout: fixed
+        }
+        
+        .week thead th:first-child {
+            width: 230px
+        }
+        
+        .week thead th:last-child {
+            width: 96px
+        }
+        
+        @media (max-width:600px) {
+            .week thead th:first-child {
+                width: 160px
+            }
+        }
+        
+        .week th,
+        .week td {
+            padding: 0
+        }
+        
+        .week thead th {
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--muted);
+            text-align: center;
+            padding: 14px 8px;
+            border-bottom: 1px solid var(--line)
+        }
+        
+        .week thead th:first-child {
+            text-align: left;
+            padding-left: 20px
+        }
+        
+        .week tbody tr {
+            cursor: pointer
+        }
+        
+        .week tbody tr:hover td {
+            background: var(--hover)
+        }
+        
+        .week td {
+            border-bottom: 1px solid var(--line);
+            padding: 12px 8px;
+            vertical-align: middle
+        }
+        
+        .week tr:last-child td {
+            border-bottom: 0
+        }
+        
+        .week td.store {
+            position: sticky;
+            left: 0;
+            background: var(--surface);
+            padding-left: 20px;
+            z-index: 1
+        }
+        
+        .week tr:hover td.store {
+            background: var(--hover)
+        }
+        
+        .store button {
+            all: unset;
+            cursor: pointer;
+            display: flex;
+            align-items: baseline;
+            gap: 10px
+        }
+        
+        .store button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px
+        }
+        
+        .store .code {
+            color: var(--muted);
+            font-size: 12.5px;
+            width: 34px
+        }
+        
+        .store .nm {
+            font-weight: 500;
+            font-size: 14.5px
+        }
+        
+        .week td.score {
+            text-align: right;
+            padding-right: 20px;
+            font-size: 13.5px;
+            color: var(--muted);
+            white-space: nowrap
+        }
+        
+        .cell {
+            height: 38px;
+            border-radius: 7px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            padding: 4px;
+            background: var(--sim-soft);
+            transition: opacity .2s
+        }
+        
+        .cell i {
+            border-radius: 4px;
+            background: var(--empty)
+        }
+        
+        .cell i.m {
+            background: var(--manha)
+        }
+        
+        .cell i.t {
+            background: var(--tarde)
+        }
+        
+        .cell i.n {
+            background: var(--noite)
+        }
+        
+        .cell.no {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--nao-soft);
+            color: var(--nao-ink);
+            font-size: 13px;
+            font-weight: 600;
+            gap: 5px
+        }
+        
+        .cell.dim {
+            opacity: .18
+        }
+        
+        .empty {
+            padding: 40px;
+            text-align: center;
+            color: var(--muted)
+        }
+        /* Tooltip */
+        
+        .tip {
+            position: fixed;
+            z-index: 50;
+            pointer-events: none;
+            max-width: 320px;
+            background: var(--ink);
+            color: var(--bg);
+            font-size: 13px;
+            line-height: 1.45;
+            padding: 9px 12px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity .12s
+        }
+        
+        .tip.on {
+            opacity: 1
+        }
+        
+        .tip b {
+            font-weight: 600
+        }
+        /* Motivos */
+        
+        .cats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px
+        }
+        
+        .cat {
+            all: unset;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--surface)
+        }
+        
+        .cat:hover {
+            background: var(--hover)
+        }
+        
+        .cat[aria-pressed="true"] {
+            border-color: var(--nao);
+            background: var(--nao-soft)
+        }
+        
+        .cat:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px
+        }
+        
+        .cat b {
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: -.02em;
+            line-height: 1
+        }
+        
+        .cat b small {
+            font-size: 13.5px;
+            font-weight: 400;
+            color: var(--muted);
+            letter-spacing: 0;
+            margin-left: 6px
+        }
+        
+        .cat .t {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.35;
+            min-height: 2.7em
+        }
+        
+        .cat .n {
+            font-size: 13px;
+            color: var(--muted)
+        }
+        
+        .cat .track {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--empty);
+            overflow: hidden;
+            margin-top: auto
+        }
+        
+        .cat .fill {
+            display: block;
+            height: 100%;
+            background: var(--nao);
+            border-radius: 3px
+        }
+        
+        .rhead {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap
+        }
+        
+        .reasons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px
+        }
+        
+        .reason {
+            all: unset;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 18px;
+            background: var(--surface)
+        }
+        
+        .reason:hover {
+            background: var(--hover)
+        }
+        
+        .reason:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px
+        }
+        
+        .reason .who {
+            font-weight: 600;
+            font-size: 15px
+        }
+        
+        .reason .who span {
+            color: var(--muted);
+            font-weight: 400;
+            font-size: 13px;
+            margin-right: 6px
+        }
+        
+        .reason .cname {
+            font-size: 12.5px;
+            color: var(--muted)
+        }
+        
+        .dd {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px
+        }
+        
+        .dd span {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 5px;
+            background: var(--nao-soft);
+            color: var(--nao-ink);
+            font-weight: 600
+        }
+        
+        .reason p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--ink);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden
+        }
+        
+        .reason .more {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-top: auto
+        }
+        
+        .note {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin: 14px 0 0
+        }
+        /* Drawer */
+        
+        dialog.drawer {
+            overflow: auto;
+            overscroll-behavior: contain;
+            margin: auto;
+            max-height: min(86vh, 860px);
+            width: min(640px, calc(100% - 32px));
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 0;
+            background: var(--surface);
+            color: var(--ink)
+        }
+        
+        dialog.drawer::backdrop {
+            background: rgba(15, 22, 30, .35)
+        }
+        
+        dialog.drawer[open] {
+            animation: pop .22s cubic-bezier(.2, .7, .2, 1)
+        }
+        
+        @keyframes pop {
+            from {
+                scale: .97;
+                opacity: 0
+            }
+        }
+        
+        dialog.drawer::backdrop {
+            backdrop-filter: blur(2px)
+        }
+        
+        .dr-in {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px
+        }
+        
+        @media (max-width:600px) {
+            .dr-in {
+                padding: 20px
+            }
+        }
+        
+        .dr-head {
+            position: sticky;
+            top: -28px;
+            background: var(--surface);
+            padding-top: 0;
+            z-index: 1
+        }
+        
+        .dr-text {
+            white-space: pre-line;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+            max-width: 65ch
+        }
+        
+        .dr-foot {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            border-top: 1px solid var(--line);
+            padding-top: 18px
+        }
+        
+        .dr-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px
+        }
+        
+        .dr-head h2 {
+            font-size: 22px;
+            margin: 0
+        }
+        
+        .dr-head p {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: 13.5px
+        }
+        
+        .dr-head .btn {
+            margin-left: auto
+        }
+        
+        .facts {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 6px 16px;
+            font-size: 14px;
+            margin: 0
+        }
+        
+        .facts dt {
+            color: var(--muted)
+        }
+        
+        .facts dd {
+            margin: 0
+        }
+        
+        .dlist {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden
+        }
+        
+        .drow {
+            display: grid;
+            grid-template-columns: 84px 1fr;
+            gap: 12px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--line);
+            font-size: 14px
+        }
+        
+        .drow:last-child {
+            border-bottom: 0
+        }
+        
+        .drow .dn {
+            font-weight: 600
+        }
+        
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12.5px;
+            padding: 2px 9px;
+            border-radius: 999px;
+            margin: 0 4px 4px 0;
+            font-weight: 500
+        }
+        
+        .pill.m {
+            background: color-mix(in srgb, var(--manha) 30%, transparent)
+        }
+        
+        .pill.t {
+            background: color-mix(in srgb, var(--tarde) 32%, transparent)
+        }
+        
+        .pill.n {
+            background: color-mix(in srgb, var(--noite) 30%, transparent)
+        }
+        
+        .pill.x {
+            background: var(--nao-soft);
+            color: var(--nao-ink)
+        }
+        
+        .drow p {
+            margin: 4px 0 0;
+            white-space: pre-line;
+            color: var(--ink)
+        }
+        
+        details.orig {
+            margin-top: 6px;
+            font-size: 12.5px;
+            color: var(--muted)
+        }
+        
+        details.orig summary {
+            cursor: pointer
+        }
+        
+        details.orig div {
+            white-space: pre-line;
+            margin-top: 4px;
+            font-style: italic
+        }
+        
+        footer {
+            color: var(--muted);
+            font-size: 13px;
+            padding: 40px 0 48px
+        }
+        /* Modo apresentação */
+        
+        body.present #themeBtn {
+            display: none
+        }
+        
+        body.present footer,
+        body.present .pagenav {
+            display: none
+        }
+        
+        body.present main>section.wrap {
+            padding-top: 40px
+        }
+        
+        .pager {
+            position: fixed;
+            right: 18px;
+            bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+            display: none;
+            gap: 6px;
+            z-index: 30;
+            align-items: center
+        }
+        
+        .pager .pos {
+            font-size: 13px;
+            color: var(--muted);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 7px 10px
+        }
+        
+        body.present .pager {
+            display: flex
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top">
+        <div class="wrap">
+            <div class="brand">
+                <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="7" width="15" height="11" rx="2"
+              fill="var(--accent)" /><path d="M16 10h4.5l3.5 4v4h-8z"
+              fill="var(--sim)" /><circle cx="6" cy="20" r="2.6"
+              fill="var(--ink)" /><circle cx="19.5" cy="20" r="2.6"
+              fill="var(--ink)" /></svg>
+                <span>Recebimento de carga nas lojas</span>
+            </div>
+            <nav class="nav" aria-label="Seções">
+                <a href="#resumo"><span class="num">1</span>Resumo</a><a href="#dias"><span class="num">2</span>Dias e turnos</a><a href="#quadro"><span class="num">3</span>Quadro semanal</a><a href="#motivos"><span class="num">4</span>Motivos</a>
+            </nav>
+            <button class="btn icon-btn" id="themeBtn" aria-label="Alternar tema claro ou escuro" title="Tema">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"><path
+              d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+        </button>
+            <button class="btn" id="presentBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20"
+              height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
+          <span>Apresentar</span>
+        </button>
+        </div>
+        <nav class="mnav" aria-label="Páginas"><a href="#resumo">Resumo</a><a href="#dias">Dias e turnos</a><a href="#quadro">Quadro semanal</a><a href="#motivos">Motivos</a></nav>
+    </header>
+
+    <main>
+        <section id="resumo" class="wrap hero">
+            <div>
+                <p class="meta" id="metaLine"></p>
+                <h1 id="headline"></h1>
+                <p class="sub" id="subline"></p>
+            </div>
+            <div class="kpis" id="kpis"></div>
+            <div class="explore" id="explore"></div>
+        </section>
+
+        <section id="dias" class="wrap">
+            <h2>Disponibilidade por dia e turno</h2>
+            <p class="lead">Quantas lojas aceitam o caminhão em cada dia e em quais janelas. Domingo não tem recebimento. Clique em um dia para ver quem não recebe.</p>
+            <div class="grid2">
+                <div class="panel">
+                    <h3>Lojas que recebem por dia</h3>
+                    <p class="hint">Verde: recebe. Rosa: não recebe. Total de 44 lojas.
+                    </p>
+                    <div class="days" id="days" role="group" aria-label="Dias da semana"></div>
+                    <div class="daydetail" id="dayDetail" aria-live="polite"></div>
+                </div>
+                <div class="panel">
+                    <h3>Janelas de horário disponíveis</h3>
+                    <p class="hint">Número de lojas que aceitam cada turno. Uma loja pode marcar mais de um.</p>
+                    <div class="tgrid" id="tgrid"></div>
+                    <p class="tnote" id="tnote"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="quadro" class="wrap">
+            <h2>Quadro semanal por loja</h2>
+            <p class="lead">Cada célula mostra as janelas da loja naquele dia, na ordem manhã, tarde e noite. Passe o mouse para ver o detalhe e clique em uma linha para abrir a ficha da loja.</p>
+            <div class="panel">
+                <div class="toolbar">
+                    <label class="search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2"><circle cx="11" cy="11"
+                  r="7" /><path d="m20 20-3.5-3.5" /></svg>
+              <input id="q" type="search" placeholder="Buscar loja ou código"
+                aria-label="Buscar loja ou código">
+            </label>
+                    <div class="seg" id="fProfile" role="group" aria-label="Perfil">
+                        <button data-v="all" aria-pressed="true">Todas</button>
+                        <button data-v="full" aria-pressed="false">Semana
+                completa</button>
+                        <button data-v="restr" aria-pressed="false">Com restrição</button>
+                    </div>
+                    <div class="seg" id="fTurn" role="group" aria-label="Destacar turno">
+                        <button data-v aria-pressed="true">Todos os turnos</button>
+                        <button data-v="Manhã" aria-pressed="false">Manhã</button>
+                        <button data-v="Tarde" aria-pressed="false">Tarde</button>
+                        <button data-v="Noite" aria-pressed="false">Noite</button>
+                    </div>
+                    <div class="seg" id="fSort" role="group" aria-label="Ordenar">
+                        <button data-v="code" aria-pressed="true">Por código</button>
+                        <button data-v="score" aria-pressed="false">Por
+                disponibilidade</button>
+                    </div>
+                </div>
+                <div class="legend" style="margin-bottom:18px">
+                    <span><i class="sw" style="background:var(--manha)"></i>Manhã</span>
+                    <span><i class="sw" style="background:var(--tarde)"></i>Tarde</span>
+                    <span><i class="sw" style="background:var(--noite)"></i>Noite</span>
+                    <span><i class="sw"
+                style="background:var(--empty);outline:1px solid var(--line)"></i>Turno
+              não disponível</span>
+                    <span><i class="sw"
+                style="background:var(--nao-soft);outline:1px solid var(--nao)"></i>Não
+              recebe</span>
+                    <span class="count" id="count"></span>
+                </div>
+                <div class="board">
+                    <table class="week" id="week"></table>
+                </div>
+            </div>
+        </section>
+
+        <section id="motivos" class="wrap">
+            <h2>Por que algumas lojas não recebem</h2>
+            <p class="lead">Justificativas informadas pelas lojas, com a ortografia revisada. Os motivos foram agrupados em temas para facilitar a leitura; clique em um tema para filtrar.</p>
+            <div class="panel" style="margin-bottom:20px">
+                <h3>Temas das justificativas</h3>
+                <p class="hint" id="catHint"></p>
+                <div class="cats" id="cats"></div>
+            </div>
+            <div class="panel">
+                <div class="rhead">
+                    <div>
+                        <h3 id="rTitle">Todas as justificativas</h3>
+                        <p class="hint">Textos iguais em dias diferentes aparecem uma vez, com os dias marcados. Clique em um cartão para ler a justificativa completa.</p>
+                    </div>
+                    <button class="btn" id="clearCat" hidden>Mostrar todos os
+              temas</button></div>
+                <div class="reasons" id="reasons"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="wrap" id="foot"></footer>
+
+    <div class="pager">
+        <span class="pos" id="pos"></span>
+        <button class="btn icon-btn" id="prevS" aria-label="Página anterior"><svg
+          width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"><path
+            d="m15 18-6-6 6-6" /></svg></button>
+        <button class="btn icon-btn" id="nextS" aria-label="Próxima página"><svg
+          width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"><path
+            d="m9 18 6-6-6-6" /></svg></button>
+    </div>
+
+    <div class="tip" id="tip" role="tooltip"></div>
+
+    <dialog class="drawer" id="drawer" aria-labelledby="drTitle">
+        <div class="dr-in" id="drIn"></div>
+    </dialog>
+
+    <script>
+        const DATA = [{
+            "code": "0003",
+            "name": "Ipiranga",
+            "full": "0003 - SP-SPO-Ipiranga",
+            "resp": "Michele Aparecida do Carmo",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 12:37"
+        }, {
+            "code": "0007",
+            "name": "Lapa",
+            "full": "0007 - SP-SPO-Lapa",
+            "resp": "Josimar Cavalcante",
+            "role": "Gerente I",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "01/10/2026 12:07"
+        }, {
+            "code": "0008",
+            "name": "Tuiuti",
+            "full": "0008 - SP-SPO-Tuiuti",
+            "resp": "Juliana Mendes de Oliveira",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "02/10/2026 09:50"
+        }, {
+            "code": "0009",
+            "name": "R.Iguatemi",
+            "full": "0009 - SP-SPO-R.Iguatemi",
+            "resp": "Fabiana Odilia da Costa Ciriaco",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 13:47"
+        }, {
+            "code": "0010",
+            "name": "Pompeia",
+            "full": "0010 - SP-SPO-Pompeia",
+            "resp": "Marcos de Toledo",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }],
+            "ts": "01/10/2026 12:14"
+        }, {
+            "code": "0013",
+            "name": "V.Mariana",
+            "full": "0013 - SP-SPO-V.Mariana",
+            "resp": "Márcio Mathias",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 14:59"
+        }, {
+            "code": "0022",
+            "name": "Moema",
+            "full": "0022 - SP-SPO-Moema",
+            "resp": "Marco Antonio Almeida Monteiro",
+            "role": "Gerente administrativo",
+            "days": [{
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "02/10/2026 10:47"
+        }, {
+            "code": "0023",
+            "name": "Vergueiro",
+            "full": "0023 - SP-SPO-Vergueiro",
+            "resp": "Guilherme",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 16:40"
+        }, {
+            "code": "0025",
+            "name": "ItaAvJPessego",
+            "full": "0025 - SP-SPO-ItaAvJPessego",
+            "resp": "Patrícia de Jesus",
+            "role": "Gerente trainee",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 14:55"
+        }, {
+            "code": "0026",
+            "name": "Santana",
+            "full": "0026 - SP-SPO-Santana",
+            "resp": "Adriana Marangoni",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }],
+            "ts": "01/10/2026 16:23"
+        }, {
+            "code": "0030",
+            "name": "S.Aricanduva",
+            "full": "0030 - SP-SPO-S.Aricanduva",
+            "resp": "Jackson Lima",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "Existe uma restrição do shopping devido à alta circulação de pessoas.",
+                "orig": "Existe uma restrição do shopping devido a alta circulação de pessoas.",
+                "cat": "shopping"
+            }],
+            "ts": "02/10/2026 10:00"
+        }, {
+            "code": "0031",
+            "name": "AvPaulistaTri",
+            "full": "0031 - SP-SPO-AvPaulistaTri",
+            "resp": "Victor Marco Salgado",
+            "role": "Gerente administrativo",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "Aos domingos estamos fechados; seria um dia a menos para realizar a conferência da mercadoria.",
+                "orig": "Domingos estamos fechados , seria 1 dia a menos para realizar a conferencia da mercadoria .",
+                "cat": "rotina"
+            }],
+            "ts": "01/10/2026 12:28"
+        }, {
+            "code": "0032",
+            "name": "S.MarketPlace",
+            "full": "0032 - SP-SPO-S.MarketPlace",
+            "resp": "Jaciel Braz",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "Junto à doca há uma operação do iFood, onde os entregadores retiram pedidos; por ser sexta-feira, a doca fica cheia de entregadores com as motos, dificultando o recebimento de carga.",
+                "orig": "JUNTO A DOCA TEM UMA OPERAÇÃO DO IFOOD, ONDE OS ENTREGADORES RETIRAM PEDIDOS, POR SER SEXTA FEIRA A DOCA FICA CHEIO DE ENTREGADORES COM AS MOTOS, DIFICULTANDO O RECEBIMENTO DE CARGA.",
+                "cat": "doca"
+            }, {
+                "ok": false,
+                "why": "A doca não funciona aos finais de semana.",
+                "orig": "DOCA NÃO FUNCIONA AOS FINAIS DE SEMANA",
+                "cat": "shopping"
+            }],
+            "ts": "01/10/2026 13:04"
+        }, {
+            "code": "0033",
+            "name": "Fco.Morato",
+            "full": "0033 - SP-SPO-Fco.Morato",
+            "resp": "Fernanda",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": false,
+                "why": "Dia em que os gerentes que trabalham no domingo folgam. Como o caminhão sempre vem por volta das 21h/22h, quem for receber entra mais tarde; sendo assim, a loja ficaria muito tempo sem a presença da gerência.",
+                "orig": "Dia em que os gerente que trabalha domingo folga. Como o caminhão sempre vem por volta de 21/22hs quem for receber entra mais tarde, sendo assim a loja ficaria muito tempo sem a presença da gerencia.",
+                "cat": "equipe"
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Tarde"]
+            }],
+            "ts": "01/10/2026 12:11"
+        }, {
+            "code": "0038",
+            "name": "S.Interlagos",
+            "full": "0038 - SP-SPO-S.Interlagos",
+            "resp": "Vitória Wendy Almeida Maia",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "O shopping realiza uma feira de produtos artesanais; os corredores ficam com a passagem obstruída, pois são montadas barraquinhas pelos corredores do shopping.",
+                "orig": "O shopping realiza uma feira de produtos artesanais, os corredores ficam com a passagem obstruída, pois é montada barraquinhas peles corredores do shopping.",
+                "cat": "shopping"
+            }],
+            "ts": "01/10/2026 16:12"
+        }, {
+            "code": "0043",
+            "name": "S.Cantareira",
+            "full": "0043 - SP-SPO-S.Cantareira",
+            "resp": "Fernanda Alves da Silva",
+            "role": "Gerente administrativo de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": false,
+                "why": "A administração do shopping tem como regra: no sábado, somente em ocasiões muito críticas.",
+                "orig": "Administração do shopping tem como regra, sábado, somente em ocasiões muito críticas.",
+                "cat": "shopping"
+            }],
+            "ts": "01/10/2026 12:18"
+        }, {
+            "code": "0045",
+            "name": "S.Penha",
+            "full": "0045 - SP-SPO-S.Penha",
+            "resp": "Ricardo Gabriel",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "02/10/2026 09:59"
+        }, {
+            "code": "0047",
+            "name": "Leopoldina",
+            "full": "0047 - SP-SPO-Leopoldina",
+            "resp": "Gabriel Alcantara",
+            "role": "Assistente administrativo",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "01/10/2026 12:48"
+        }, {
+            "code": "0056",
+            "name": "A.Pinheiro",
+            "full": "0056 - SP-SPO-A.Pinheiro",
+            "resp": "Ronaldo Dutra da Silva",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": false,
+                "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.",
+                "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.",
+                "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.",
+                "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.",
+                "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.",
+                "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações",
+                "cat": "horario"
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 15:18"
+        }, {
+            "code": "0057",
+            "name": "V.Maria",
+            "full": "0057 - SP-SPO-V.Maria",
+            "resp": "Carlos Tomaz",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "01/10/2026 15:25"
+        }, {
+            "code": "0060",
+            "name": "Freguesia",
+            "full": "0060 - SP-SPO-Freguesia",
+            "resp": "Elaine Cristina Lobo de Araújo",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "01/10/2026 12:02"
+        }, {
+            "code": "0061",
+            "name": "V.Guilherme",
+            "full": "0061 - SP-SPO-V.Guilherme",
+            "resp": "Sandro Gamarra",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "02/10/2026 09:39"
+        }, {
+            "code": "0064",
+            "name": "LiberoBadaro",
+            "full": "0064 - SP-SPO-LiberoBadaro",
+            "resp": "Leandro",
+            "role": "Gerente",
+            "days": [{
+                "ok": false,
+                "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos durante a semana, onde o caminhão descarrega.",
+                "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos durante a semana, onde o caminhão descarrega.",
+                "cat": "horario"
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 15:36"
+        }, {
+            "code": "0068",
+            "name": "SantaCatarina",
+            "full": "0068 - SP-SPO-SantaCatarina",
+            "resp": "Uilson da Costa Aguiar",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": false,
+                "why": "Porque nosso horário é de madrugada.",
+                "orig": "Porque nosso horário é de madrugada.",
+                "cat": "rotina"
+            }, {
+                "ok": false,
+                "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.",
+                "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.",
+                "cat": "rotina"
+            }, {
+                "ok": false,
+                "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.",
+                "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.",
+                "cat": "rotina"
+            }, {
+                "ok": false,
+                "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.",
+                "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.",
+                "cat": "rotina"
+            }, {
+                "ok": false,
+                "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.",
+                "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.",
+                "cat": "rotina"
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 15:08"
+        }, {
+            "code": "0076",
+            "name": "Sao Miguel",
+            "full": "0076 - SP-SPO-Sao Miguel",
+            "resp": "Rivania Bayma Oliveira",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 14:15"
+        }, {
+            "code": "0079",
+            "name": "N.Cantareira",
+            "full": "0079 - SP-SPO-N.Cantareira",
+            "resp": "Edvanilson de Andrade Almeida",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "01/10/2026 14:20"
+        }, {
+            "code": "0084",
+            "name": "S.Eldorado",
+            "full": "0084 - SP-SPO-S.Eldorado",
+            "resp": "Pedro Camargo Girardi",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }],
+            "ts": "01/10/2026 13:25"
+        }, {
+            "code": "0091",
+            "name": "Alvarenga",
+            "full": "0091 - SP-SPO-Alvarenga",
+            "resp": "Lucia Petulia da Silva",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 12:36"
+        }, {
+            "code": "0093",
+            "name": "V.Formosa",
+            "full": "0093 - SP-SPO-V.Formosa",
+            "resp": "Rodolpho Stephano",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 14:18"
+        }, {
+            "code": "0111",
+            "name": "S.Itaquera",
+            "full": "0111 - SP-SPO-S.Itaquera",
+            "resp": "Flavio de Jesus Santos",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 16:03"
+        }, {
+            "code": "0112",
+            "name": "MariaAntônia",
+            "full": "0112 - SP-SPO-MariaAntônia",
+            "resp": "Rodrigo Ribeiro",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": false,
+                "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.",
+                "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.",
+                "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.",
+                "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.",
+                "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.",
+                "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento",
+                "cat": "horario"
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 13:16"
+        }, {
+            "code": "0128",
+            "name": "Morumbi",
+            "full": "0128 - SP-SPO-Morumbi",
+            "resp": "Fernanda Faria dos Santos",
+            "role": "Gerente trainee",
+            "days": [{
+                "ok": false,
+                "why": "Os caminhões só podem transitar na Av. Marginal após as 21h, e devido aos assaltos.",
+                "orig": "Os caminhões só pode transitar na av marginal após as 21:00 e devido aos assaltos.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.",
+                "orig": "Por o caminhão não poder transitar na av marginal e devido aos assaltos.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.",
+                "orig": "Por o caminhão não poder transitar na av marginal e devido aos assaltos.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.",
+                "orig": "Por o caminhão nao poder transitar na av marginal e devido aos assaltos.",
+                "cat": "horario"
+            }, {
+                "ok": false,
+                "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.",
+                "orig": "Por o caminhão não poder transitar na av marginal e devido aos assaltos.",
+                "cat": "horario"
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "02/10/2026 10:02"
+        }, {
+            "code": "0130",
+            "name": "S.Tiete",
+            "full": "0130 - SP-SPO-S.Tiete",
+            "resp": "Fabio Gama",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "A operação de carga e descarga do shopping é de segunda a sexta, exceto (sábados, domingos e feriados).",
+                "orig": "Operação do shopping de carga e descarga é de segunda a sexta exceto ( sábado, domingos e feriados )",
+                "cat": "shopping"
+            }],
+            "ts": "01/10/2026 14:35"
+        }, {
+            "code": "0138",
+            "name": "S.VilaOlimpia",
+            "full": "0138 - SP-SPO-S.VilaOlimpia",
+            "resp": "Fabia",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "Podemos receber, porém a dinâmica na doca é bem complicada. Doca extremamente pequena para atender mais de 300 lojas e o teatro; muitas vezes temos apenas um elevador funcionando. A demora é grande.",
+                "orig": "Podemos receber porém a dinâmica na doca é bem complicada. Doca extremamente pequena para atender mais de 300 lojas e o teatro, muitas vezes temos apenas um elevador funcionando.. A demora é grande.",
+                "cat": "doca"
+            }],
+            "ts": "01/10/2026 12:25"
+        }, {
+            "code": "0151",
+            "name": "AvDePinedo",
+            "full": "0151 - SP-SPO-AvDePinedo",
+            "resp": "Derlania",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "01/10/2026 13:43"
+        }, {
+            "code": "0162",
+            "name": "AvPaulista",
+            "full": "0162 - SP-SPO-AvPaulista",
+            "resp": "Adriano Pedreira / Lincoln Olinto",
+            "role": "Gerentes",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "Devido às folgas dos colaboradores.",
+                "orig": "Devido as folgas dos colaboradores",
+                "cat": "equipe"
+            }, {
+                "ok": false,
+                "why": "Devido às folgas dos colaboradores.",
+                "orig": "Devido as folgas dos colaboradores",
+                "cat": "equipe"
+            }, {
+                "ok": false,
+                "why": "Devido às folgas dos colaboradores, aproveitamos os finais de semana devido ao menor movimento em loja.",
+                "orig": "Devido as folgas dos colaboradores aproveitamos os finais de semana devido ao menor movimento em loja.",
+                "cat": "equipe"
+            }],
+            "ts": "01/10/2026 13:52"
+        }, {
+            "code": "0174",
+            "name": "S.Pamplona",
+            "full": "0174 - SP-SPO-S.Pamplona",
+            "resp": "Éder Lucas Gomes",
+            "role": "Gerente",
+            "days": [{
+                "ok": false,
+                "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.",
+                "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.",
+                "cat": "shopping"
+            }, {
+                "ok": false,
+                "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.",
+                "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.",
+                "cat": "shopping"
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.",
+                "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.",
+                "cat": "shopping"
+            }, {
+                "ok": false,
+                "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.",
+                "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.",
+                "cat": "shopping"
+            }, {
+                "ok": false,
+                "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.",
+                "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.",
+                "cat": "shopping"
+            }],
+            "ts": "01/10/2026 12:31"
+        }, {
+            "code": "0190",
+            "name": "W.Luis",
+            "full": "0190 - SP-SPO-W.Luis",
+            "resp": "Camila Gabriele da Silva",
+            "role": "Gerente administrativo",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 15:29"
+        }, {
+            "code": "0195",
+            "name": "F.Coutinho",
+            "full": "0195 - SP-SPO-F.Coutinho",
+            "resp": "Ana Sara",
+            "role": "Gerente administrativo",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": false,
+                "why": "Folga do colaborador.",
+                "orig": "FOLGA DO COLABORADOR",
+                "cat": "equipe"
+            }, {
+                "ok": false,
+                "why": "Folga do gerente.",
+                "orig": "FOLGA DO GERENTE",
+                "cat": "equipe"
+            }, {
+                "ok": false,
+                "why": "Não conseguimos receber por conta do horário de funcionamento da loja.\nNo período da manhã há restrição, pois onde o caminhão fica estacionado é Zona Azul.\nE, por ser um bairro residencial, há restrição por conta do barulho.",
+                "orig": "NÃO CONSEGUIMOS RECEBER POR CONTA DO HORARIO DE FUNCIONAMENTO DO LOJA.  \nNO PERIODO DA MANHÃ TEM RESTRIÇÃO, ONDE O CAMINHÃO FICA ESTACIONADO É ZONA AZUL.\nE POR SER UM BAIRRO RESIDENCIAL, TEM RESTRIÇÃO POR CONTA DO BARULHO.",
+                "cat": "horario"
+            }],
+            "ts": "01/10/2026 17:07"
+        }, {
+            "code": "0196",
+            "name": "RicardoJafet",
+            "full": "0196 - SP-SPO-RicardoJafet",
+            "resp": "Marília",
+            "role": "Gerente de loja",
+            "days": [{
+                "ok": false,
+                "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.",
+                "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã",
+                "cat": "shopping"
+            }, {
+                "ok": false,
+                "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.",
+                "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã",
+                "cat": "shopping"
+            }, {
+                "ok": false,
+                "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.",
+                "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã",
+                "cat": "shopping"
+            }, {
+                "ok": false,
+                "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.",
+                "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã",
+                "cat": "shopping"
+            }, {
+                "ok": false,
+                "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.",
+                "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã",
+                "cat": "shopping"
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 17:47"
+        }, {
+            "code": "0199",
+            "name": "JabaquaraBra",
+            "full": "0199 - SP-SPO-JabaquaraBra",
+            "resp": "Aparecida Cristina Silva Gomes",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 15:11"
+        }, {
+            "code": "0200",
+            "name": "RadialMooca",
+            "full": "0200 - SP-SPO-RadialMooca",
+            "resp": "Leandro Teixeira de Araujo",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã"]
+            }],
+            "ts": "01/10/2026 15:02"
+        }, {
+            "code": "0203",
+            "name": "Av.Rudge",
+            "full": "0203 - SP-SPO-Av.Rudge",
+            "resp": "Flávio Luiz de Moraes",
+            "role": "Gerente operacional",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde"]
+            }],
+            "ts": "01/10/2026 13:37"
+        }, {
+            "code": "0243",
+            "name": "MateoBei",
+            "full": "0243 - SP-SPO-MateoBei",
+            "resp": "Makeila Cristina",
+            "role": "Gerente",
+            "days": [{
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }, {
+                "ok": true,
+                "p": ["Manhã", "Tarde", "Noite"]
+            }],
+            "ts": "01/10/2026 15:59"
+        }];
+        const DAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+        const DAYS_SHORT = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        const TURNS = [
+            ['Manhã', 'm', '--manha'],
+            ['Tarde', 't', '--tarde'],
+            ['Noite', 'n', '--noite']
+        ];
+        const CATS = {
+            horario: {
+                t: 'Horário noturno, trânsito e segurança'
+            },
+            shopping: {
+                t: 'Regras do shopping ou do complexo'
+            },
+            equipe: {
+                t: 'Folgas e escala da equipe'
+            },
+            rotina: {
+                t: 'Rotina de recebimento já definida pela loja'
+            },
+            doca: {
+                t: 'Doca e espaço de descarga'
+            }
+        };
+        const $ = s => document.querySelector(s);
+        const esc = s => String(s).replace(/[&<>"]/g, c => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;'
+        }[c]));
+        const N = DATA.length,
+            TOTAL = N * 6;
+        const pct = (a, b) => Math.round(a / b * 100);
+        DATA.forEach(s => {
+            s.score = s.days.filter(d => d.ok).length;
+        });
+
+        /* ---------- Resumo ---------- */
+        const okAll = DATA.reduce((a, s) => a + s.score, 0);
+        const fullWeek = DATA.filter(s => s.score === 6).length;
+        const weekdays = DATA.filter(s => s.days.slice(0, 5).every(d => d.ok)).length;
+        const onlySat = DATA.filter(s => s.days.slice(0, 5).every(d => !d.ok) && s.days[5].ok);
+        const satMorning = DATA.filter(s => s.days[5].ok && s.days[5].p.includes('Manhã')).length;
+        const satOk = DATA.filter(s => s.days[5].ok).length;
+        const satNight = DATA.filter(s => s.days[5].ok && s.days[5].p.includes('Noite')).length;
+        const wkNight = Math.round(DATA.filter(s => s.days.slice(0, 5).some(d => d.ok && d.p.includes('Noite'))).length);
+
+        $('#metaLine').textContent = `Pesquisa com ${N} lojas de São Paulo, respondida em 1 e 2 de outubro de 2026`;
+        $('#headline').textContent = `${weekdays} das ${N} lojas recebem caminhão todos os dias, de segunda a sexta.`;
+        $('#subline').textContent = `No sábado, a janela se desloca para a manhã: ${satMorning} das ${satOk} lojas que recebem nesse dia aceitam a manhã, e só ${satNight} aceitam a noite. ${onlySat.length} lojas só conseguem receber no sábado.`;
+        $('#kpis').innerHTML = [
+            [`${pct(okAll,TOTAL)}%`, `dos dias aceitam caminhão (${okAll} de ${TOTAL} combinações de loja e dia)`, 'var(--sim)'],
+            [fullWeek, 'lojas recebem de segunda a sábado, sem nenhuma restrição', 'var(--sim)'],
+            [N - fullWeek, 'lojas têm ao menos um dia sem recebimento', 'var(--nao)'],
+            [onlySat.length, 'lojas recebem apenas no sábado', 'var(--nao)']
+        ].map(([v, l, c]) => `<div class="kpi"><b>${v}</b><small><span class="dot" style="background:${c}"></span>${l}</small></div>`).join('');
+
+        /* ---------- Dias ---------- */
+        let selDay = 0;
+
+        function renderDays() {
+            $('#days').innerHTML = DAYS.map((d, i) => {
+                const ok = DATA.filter(s => s.days[i].ok).length;
+                return `<button class="day" data-i="${i}" aria-pressed="${i===selDay}" aria-label="${d}: ${ok} de ${N} lojas recebem">
+      <span class="val">${ok}<small>${pct(ok,N)}%</small></span>
+      <span class="bar"><span class="yes" style="height:${ok/N*100}%"></span></span>
+      <span class="lbl">${d}</span></button>`;
+            }).join('');
+            const no = DATA.filter(s => !s.days[selDay].ok);
+            $('#dayDetail').innerHTML = no.length ?
+                `<p><strong>${DAYS[selDay]}:</strong> ${no.length} ${no.length>1?'lojas não recebem':'loja não recebe'}.</p><div class="chips">${no.map(s=>`<button class="chip" data-code="${s.code}"><span class="c">${s.code}</span>${esc(s.name)}</button>`).join('')}</div>`
+    : `<p><strong>${DAYS[selDay]}:</strong> todas as lojas recebem.</p>`;
+}
+$('#days').addEventListener('click', e => { const b = e.target.closest('.day'); if(!b) return; selDay = +b.dataset.i; renderDays(); });
+$('#dayDetail').addEventListener('click', e => { const c = e.target.closest('[data-code]'); if(c) openStore(c.dataset.code); });
+renderDays();
+
+const tg = ['<span></span>', ...DAYS_SHORT.map(d => `<span class="h">${d}</span>`)];
+TURNS.forEach(([t,,v]) => {
+  tg.push(`<span class="r"><i class="sw" style="background:var(${v})"></i>${t}</span>`);
+  DAYS.forEach((_,i) => {
+    const c = DATA.filter(s => s.days[i].ok && s.days[i].p.includes(t)).length;
+    const a = Math.round(12 + c / N * 78);
+    tg.push(`<span class="tcell" style="background:color-mix(in srgb,var(${v}) ${a}%,var(--surface))" title="${t}, ${DAYS[i]}: ${c} lojas">${c}</span>`);
+  });
+});
+$('#tgrid').innerHTML = tg.join('');
+const wkM = DATA.filter(s=>s.days[0].ok&&s.days[0].p.includes('Manhã')).length;
+$('#tnote').innerHTML = `De segunda a sexta, manhã e noite têm adesão parecida, perto de <strong>${wkM} lojas</strong> cada. No sábado a noite praticamente some: <strong>${satNight} lojas</strong>.`;
+
+/* ---------- Quadro semanal ---------- */
+const st = { q:'', profile:'all', turn:'', sort:'code' };
+function segBind(id, key, after){
+  $(id).addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b) return;
+    $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x===b));
+    st[key] = b.dataset.v; after();
+  });
+}
+function cellHTML(s, i){
+  const d = s.days[i];
+  if(!d.ok){
+    const dim = st.turn ? ' dim' : '';
+    return `<div class="cell no${dim}" data-c="${s.code}" data-i="${i}">Não</div>`;
+  }
+  const dim = st.turn && !d.p.includes(st.turn) ? ' dim' : '';
+  return `<div class="cell${dim}" data-c="${s.code}" data-i="${i}">${TURNS.map(([t,k]) => `<i class="${d.p.includes(t)?k:''}"></i>`).join('')}</div>`;
+}
+function renderWeek(){
+  const q = st.q.trim().toLowerCase();
+  let rows = DATA.filter(s =>
+    (!q || s.name.toLowerCase().includes(q) || s.code.includes(q)) &&
+    (st.profile==='all' || (st.profile==='full' ? s.score===6 : s.score<6)) &&
+    (!st.turn || s.days.some(d => d.ok && d.p.includes(st.turn))));
+  rows = rows.slice().sort(st.sort==='code' ? (a,b)=>a.code.localeCompare(b.code) : (a,b)=>b.score-a.score || a.code.localeCompare(b.code));
+  $('#count').textContent = `${rows.length} de ${N} lojas`;
+  $('#week').innerHTML = `<thead><tr><th>Loja</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th style="text-align:right;padding-right:18px">Dias</th></tr></thead>
+  <tbody>${rows.length ? rows.map(s => `<tr data-code="${s.code}">
+    <td class="store"><button aria-label="Abrir ficha da loja ${esc(s.name)}"><span class="code">${s.code}</span><span class="nm">${esc(s.name)}</span></button></td>
+    ${DAYS.map((_,i)=>`<td>${cellHTML(s,i)}</td>`).join('')}
+    <td class="score">${s.score} de 6</td></tr>`).join('')
+    : `<tr><td colspan="8" class="empty">Nenhuma loja corresponde aos filtros. Limpe a busca ou escolha "Todas".</td></tr>`}</tbody>`;
+}
+$('#q').addEventListener('input', e => { st.q = e.target.value; renderWeek(); });
+segBind('#fProfile','profile',renderWeek); segBind('#fTurn','turn',renderWeek); segBind('#fSort','sort',renderWeek);
+$('#week').addEventListener('click', e => { const tr = e.target.closest('tr[data-code]'); if(tr) openStore(tr.dataset.code); });
+renderWeek();
+
+/* Tooltip */
+const tip = $('#tip');
+const byCode = Object.fromEntries(DATA.map(s => [s.code, s]));
+document.addEventListener('pointermove', e => {
+  const c = e.target.closest('.cell');
+  if(!c){ tip.classList.remove('on'); return; }
+  const s = byCode[c.dataset.c], i = +c.dataset.i, d = s.days[i];
+  const body = d.ok ? `Recebe: ${d.p.join(', ').toLowerCase()}` : `Não recebe. ${esc(d.why.split('\n')[0].slice(0,160))}${d.why.length>160?'…':''}`;
+  tip.innerHTML = `<b>${esc(s.name)}, ${DAYS[i].toLowerCase()}</b><br>${body}`;
+  tip.classList.add('on');
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if(x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if(y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+});
+
+/* ---------- Motivos ---------- */
+let selCat = '';
+const groups = [];
+DATA.forEach(s => {
+  const m = new Map();
+  s.days.forEach((d,i) => { if(!d.ok){ const k = d.cat + '|' + d.why; if(!m.has(k)) m.set(k,{s,cat:d.cat,why:d.why,days:[]}); m.get(k).days.push(i); } });
+  groups.push(...m.values());
+});
+groups.sort((a,b) => b.days.length - a.days.length || a.s.code.localeCompare(b.s.code));
+const catCount = {}, catStores = {};
+groups.forEach(g => { catCount[g.cat] = (catCount[g.cat]||0) + g.days.length; (catStores[g.cat] ||= new Set()).add(g.s.code); });
+const noTotal = TOTAL - okAll;
+$('#catHint').textContent = `${noTotal} dias sem recebimento no total, somando todas as lojas.`;
+function renderCats(){
+  const order = Object.keys(CATS).filter(k=>catCount[k]).sort((a,b) => catCount[b] - catCount[a]);
+  const max = Math.max(...Object.values(catCount));
+  $('#cats').innerHTML = order.map(k => `<button class="cat" data-k="${k}" aria-pressed="${selCat===k}">
+    <b>${catCount[k]}<small>dias</small></b>
+    <span class="t">${CATS[k].t}</span>
+    <span class="n">${catStores[k].size} ${catStores[k].size>1?'lojas':'loja'}, ${pct(catCount[k],noTotal)}% dos casos</span>
+    <span class="track"><span class="fill" style="width:${catCount[k]/max*100}%"></span></span></button>`).join('');
+  const list = groups.filter(g => !selCat || g.cat===selCat);
+  $('#rTitle').textContent = selCat ? `${CATS[selCat].t} (${list.length})` : `Todas as justificativas (${list.length})`;
+  $('#clearCat').hidden = !selCat;
+  $('#reasons').innerHTML = list.map(g => `<button class="reason" data-g="${groups.indexOf(g)}">
+    <span class="who"><span>${g.s.code}</span>${esc(g.s.name)}</span>
+    ${selCat?'':`<span class="cname">${CATS[g.cat].t}</span>`}
+    <span class="dd">${g.days.map(i=>`<span>${DAYS_SHORT[i]}</span>`).join('')}</span>
+    <p>${esc(g.why.replace(/\n+/g,' '))}</p>
+    <span class="more">Ler justificativa completa</span></button>`).join('');
+}
+$('#cats').addEventListener('click', e => { const b = e.target.closest('.cat'); if(!b) return; selCat = selCat===b.dataset.k ? '' : b.dataset.k; renderCats(); });
+$('#clearCat').addEventListener('click', () => { selCat=''; renderCats(); });
+$('#reasons').addEventListener('click', e => { const b = e.target.closest('.reason'); if(b) openReason(groups[+b.dataset.g]); });
+renderCats();
+
+/* ---------- Ficha da loja ---------- */
+const dr = $('#drawer');
+function mergeDays(days){
+  const key = d => d.ok ? 'ok:'+d.p.join(',') : 'no:'+d.why;
+  const out = [];
+  days.forEach((d,i) => { const l = out[out.length-1]; if(l && key(l.d)===key(d) && l.b===i-1) l.b = i; else out.push({d,a:i,b:i}); });
+  return out;
+}
+function openStore(code){
+  const s = byCode[code];
+  $('#drIn').innerHTML = `
+    <div class="dr-head"><div><h2 id="drTitle">${esc(s.name)}</h2><p>Loja ${s.code}, recebe em ${s.score} de 6 dias</p></div>
+      ${closeBtn('drClose')}</div>
+    <dl class="facts"><dt>Respondido por</dt><dd>${esc(s.resp)}</dd><dt>Cargo</dt><dd>${esc(s.role)}</dd><dt>Data da resposta</dt><dd>${s.ts}</dd></dl>
+    <div class="dlist">${mergeDays(s.days).map(({d,a,b}) => `<div class="drow"><span class="dn">${a===b?DAYS[a]:(b-a===1?DAYS_SHORT[a]+' e '+DAYS_SHORT[b]:DAYS_SHORT[a]+' a '+DAYS_SHORT[b])}</span><div>${
+      d.ok ? TURNS.filter(([t])=>d.p.includes(t)).map(([t,k])=>`<span class="pill ${k}">${t}</span>`).join('')
+           : `<span class="pill x">Não recebe</span><span class="pill" style="background:var(--bg)">${CATS[d.cat].t}</span><p>${esc(d.why)}</p>
+              ${d.orig.trim()!==d.why.trim()?`<details class="orig"><summary>Ver texto original</summary><div>${esc(d.orig)}</div></details>`:''}`
+    }</div></div>`).join('')}</div>`;
+  $('#drClose').onclick = () => dr.close();
+  tip.classList.remove('on');
+  if(!dr.open) dr.showModal();
+  dr.scrollTop = 0;
+}
+dr.addEventListener('click', e => { if(e.target === dr) dr.close(); });
+const closeBtn = id => `<button class="btn icon-btn" id="${id}" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+function openReason(g){
+  const d = g.s.days[g.days[0]];
+  $('#drIn').innerHTML = `
+    <div class="dr-head"><div><h2 id="drTitle">${esc(g.s.name)}</h2><p>Loja ${g.s.code}, ${esc(g.s.resp)} (${esc(g.s.role)})</p></div>${closeBtn('drClose')}</div>
+    <div><span class="pill x">Não recebe</span><span class="pill" style="background:var(--bg)">${CATS[g.cat].t}</span></div>
+    <dl class="facts"><dt>Dias afetados</dt><dd><span class="dd">${g.days.map(i=>`<span>${DAYS[i]}</span>`).join('')}</span></dd></dl>
+    <p class="dr-text">${esc(g.why)}</p>
+    ${d.orig.trim()!==g.why.trim()?`<details class="orig"><summary>Ver texto original</summary><div>${esc(d.orig)}</div></details>`:''}
+    <div class="dr-foot"><button class="btn" id="toStore">Ver ficha completa da loja</button></div>`;
+  $('#drClose').onclick = () => dr.close();
+  $('#toStore').onclick = () => openStore(g.s.code);
+  tip.classList.remove('on');
+  if(!dr.open) dr.showModal();
+  dr.scrollTop = 0;
+}
+
+/* ---------- Tema ---------- */
+$('#themeBtn').addEventListener('click', () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try{ localStorage.setItem('theme', root.dataset.theme); }catch(e){}
+});
+try{ const t = localStorage.getItem('theme'); if(t) document.documentElement.dataset.theme = t; }catch(e){}
+
+/* ---------- Páginas ---------- */
+const PAGES = [
+  {id:'resumo', t:'Resumo'},
+  {id:'dias', t:'Dias e turnos', d:'Quantas lojas recebem em cada dia e em quais janelas de horário.', k:()=>`Dia com mais lojas: ${DAYS[[0,1,2,3,4,5].sort((a,b)=>DATA.filter(s=>s.days[b].ok).length-DATA.filter(s=>s.days[a].ok).length)[0]].toLowerCase()}`},
+  {id:'quadro', t:'Quadro semanal', d:'A semana de cada uma das lojas, com filtros por perfil e turno.', k:()=>`${fullWeek} lojas sem nenhuma restrição`},
+  {id:'motivos', t:'Motivos', d:'Por que algumas lojas não recebem, agrupado por tema.', k:()=>`${noTotal} dias sem recebimento no total`}
+];
+const secs = PAGES.map(p => document.getElementById(p.id));
+$('#explore').innerHTML = PAGES.slice(1).map(p => `<a href="#${p.id}"><b>${p.t}</b><span>${p.d}</span><span>${p.k()}</span><em>Abrir página</em></a>`).join('');
+secs.forEach((sec,i) => {
+  if(i===0) return;
+  const pv = PAGES[i-1], nx = PAGES[i+1];
+  sec.insertAdjacentHTML('beforeend', `<nav class="pagenav" aria-label="Navegação entre páginas">
+    <a href="#${pv.id}"><small>Anterior</small><b>${pv.t}</b></a>
+    ${nx?`<a class="next" href="#${nx.id}"><small>Próxima</small><b>${nx.t}</b></a>`:''}</nav>`);
+});
+let cur = 0;
+function show(id, push){
+  const i = Math.max(0, PAGES.findIndex(p => p.id===id));
+  cur = i;
+  secs.forEach((s,k) => s.classList.toggle('active', k===i));
+  document.querySelectorAll('.nav a, .mnav a').forEach(a => a.getAttribute('href')==='#'+PAGES[i].id ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'));
+  document.title = `${PAGES[i].t}: Recebimento de carga nas lojas`;
+  $('#pos').textContent = `${i+1} de ${PAGES.length}`;
+  if(push && location.hash !== '#'+PAGES[i].id) history.pushState(null,'','#'+PAGES[i].id);
+  tip.classList.remove('on');
+  window.scrollTo({top:0, behavior:'instant'});
+  if(PAGES[i].id==='dias') renderDays();
+  document.querySelector('.mnav a[aria-current]')?.scrollIntoView({block:'nearest',inline:'center'});
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]'); if(!a) return;
+  const id = a.getAttribute('href').slice(1);
+  if(PAGES.some(p=>p.id===id)){ e.preventDefault(); show(id, true); }
+});
+addEventListener('popstate', () => show(location.hash.slice(1)));
+if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+show(location.hash.slice(1) || 'resumo');
+addEventListener('load', () => setTimeout(() => window.scrollTo(0,0), 0));
+function go(d){ const i = Math.min(PAGES.length-1, Math.max(0, cur+d)); if(i!==cur) show(PAGES[i].id, true); }
+
+/* ---------- Apresentação ---------- */
+function setPresent(on){
+  document.body.classList.toggle('present', on);
+  $('#presentBtn span').textContent = on ? 'Sair da apresentação' : 'Apresentar';
+}
+$('#presentBtn').addEventListener('click', async () => {
+  const on = !document.body.classList.contains('present');
+  setPresent(on);
+  try{
+    if(on && document.documentElement.requestFullscreen && !document.fullscreenElement) await document.documentElement.requestFullscreen();
+    if(!on && document.fullscreenElement) await document.exitFullscreen();
+  }catch(e){}
+  if(on) show('resumo', true);
+});
+document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) setPresent(false); });
+$('#prevS').onclick = () => go(-1); $('#nextS').onclick = () => go(1);
+document.addEventListener('keydown', e => {
+  if(!document.body.classList.contains('present') || dr.open || e.target.matches('input')) return;
+  if(['ArrowRight','PageDown'].includes(e.key)){ e.preventDefault(); go(1); }
+  if(['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); go(-1); }
+});
+
+$('#foot').textContent = `Fonte: Pesquisa de Recebimento de Caminhão nas Lojas (${N} respostas). Textos das justificativas com ortografia revisada; o original fica disponível nos detalhes de cada justificativa. Os temas dos motivos são um agrupamento feito a partir das respostas.`;
+    </script>
+</body>
+
+</html>
