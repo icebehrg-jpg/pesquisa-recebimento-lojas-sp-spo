@@ -54,7 +54,7 @@
             }
         }
         
-         :root[data-theme="dark"] {
+        :root[data-theme="dark"] {
             --bg: #121820;
             --surface: #19212B;
             --ink: #E4EAF0;
@@ -114,7 +114,7 @@
             color: inherit
         }
         
-         :focus-visible {
+        :focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 2px;
             border-radius: 4px
@@ -1231,6 +1231,303 @@
                 grid-template-columns: 1fr
             }
         }
+        /* Destaque dos motivos */
+        
+        .why-box {
+            border: 1px solid color-mix(in srgb, var(--nao) 45%, transparent);
+            border-left: 5px solid var(--nao);
+            background: color-mix(in srgb, var(--nao-soft) 70%, var(--surface));
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px
+        }
+        
+        .why-h {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--nao-ink);
+            font-weight: 600;
+            font-size: 16px
+        }
+        
+        .why-h svg {
+            flex: none
+        }
+        
+        .why-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+        
+        .why-item+.why-item {
+            border-top: 1px solid color-mix(in srgb, var(--nao) 30%, transparent);
+            padding-top: 14px
+        }
+        
+        .why-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center
+        }
+        
+        .why-meta .catp {
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--ink);
+            border: 1px solid color-mix(in srgb, var(--nao) 40%, transparent)
+        }
+        
+        .why-text {
+            margin: 0;
+            font-size: 15.5px;
+            line-height: 1.6;
+            color: var(--ink);
+            white-space: pre-line;
+            max-width: 68ch
+        }
+        
+        .why-ok {
+            border-left: 5px solid var(--sim);
+            background: var(--sim-soft);
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 14.5px
+        }
+        
+        .block-box {
+            margin-top: 14px;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--nao);
+            border-radius: 10px;
+            padding: 14px 16px;
+            background: var(--surface)
+        }
+        
+        .block-box h5 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--nao-ink)
+        }
+        
+        .block-box ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+        
+        .block-box li {
+            display: flex;
+            flex-direction: column;
+            gap: 5px
+        }
+        
+        .block-box .bl1 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            align-items: center
+        }
+        
+        .block-box .bstore {
+            all: unset;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px
+        }
+        
+        .block-box .bstore:hover {
+            text-decoration: underline
+        }
+        
+        .block-box .bstore:focus-visible {
+            outline: 2px solid var(--accent)
+        }
+        
+        .block-box .bstore small {
+            color: var(--muted);
+            font-weight: 400;
+            margin-right: 5px
+        }
+        
+        .block-box .me {
+            font-size: 12px;
+            color: var(--muted)
+        }
+        
+        .block-box .catp {
+            font-size: 12px;
+            color: var(--muted)
+        }
+        
+        .block-box p {
+            margin: 0;
+            font-size: 13.5px;
+            color: var(--ink);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            max-width: 80ch
+        }
+        
+        .block-box li.turns p {
+            color: var(--muted);
+            -webkit-line-clamp: unset
+        }
+        
+        .dn-why {
+            font-size: 13px;
+            color: var(--muted);
+            margin-left: 4px
+        }
+        /* Barra de filtros */
+        
+        .fbar {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 4px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--bg);
+            margin-bottom: 16px;
+            scrollbar-width: none
+        }
+        
+        .fbar::-webkit-scrollbar {
+            display: none
+        }
+        
+        .fsearch {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 10px;
+            color: var(--muted);
+            flex: 1 1 170px;
+            min-width: 140px;
+            max-width: 240px
+        }
+        
+        .fsearch input {
+            border: 0;
+            background: transparent;
+            font: inherit;
+            font-size: 13.5px;
+            color: var(--ink);
+            width: 100%;
+            padding: 7px 0;
+            outline: none
+        }
+        
+        .fsearch:focus-within {
+            color: var(--ink)
+        }
+        
+        .fsep {
+            width: 1px;
+            height: 18px;
+            background: var(--line);
+            flex: none;
+            margin: 0 4px
+        }
+        
+        .fchip {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 24px 6px 10px;
+            border-radius: 7px;
+            font-size: 13px;
+            white-space: nowrap;
+            flex: none;
+            cursor: pointer
+        }
+        
+        .fchip:hover {
+            background: var(--surface)
+        }
+        
+        .fchip .fl {
+            color: var(--muted)
+        }
+        
+        .fchip .fv {
+            font-weight: 600;
+            color: var(--ink);
+            max-width: 170px;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+        
+        .fchip::after {
+            content: "";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            width: 5px;
+            height: 5px;
+            border-right: 1.5px solid var(--muted);
+            border-bottom: 1.5px solid var(--muted);
+            transform: translateY(-75%) rotate(45deg);
+            pointer-events: none
+        }
+        
+        .fchip select {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            opacity: 0;
+            cursor: pointer;
+            font-size: 14px
+        }
+        
+        .fchip:focus-within {
+            outline: 2px solid var(--accent);
+            outline-offset: -2px
+        }
+        
+        .fchip.on {
+            background: color-mix(in srgb, var(--accent) 13%, var(--surface))
+        }
+        
+        .fchip.on .fv {
+            color: var(--accent)
+        }
+        
+        .fclear {
+            flex: none;
+            border: 0;
+            background: transparent;
+            font-size: 13px;
+            color: var(--muted);
+            padding: 6px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-left: auto;
+            text-decoration: underline;
+            text-underline-offset: 3px
+        }
+        
+        .fclear:hover {
+            color: var(--ink);
+            background: var(--surface)
+        }
         /* Tooltip */
         
         .tip {
@@ -1654,33 +1951,21 @@
     <header class="top">
         <div class="wrap">
             <div class="brand">
-                <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="7" width="15"
-                            height="11" rx="2" fill="var(--accent)" /><path
-                            d="M16 10h4.5l3.5 4v4h-8z"
-                            fill="var(--sim)" /><circle cx="6" cy="20" r="2.6"
-                            fill="var(--ink)" /><circle cx="19.5" cy="20"
-                            r="2.6" fill="var(--ink)" /></svg>
+                <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="7" width="15" height="11" rx="2" fill="var(--accent)"/><path d="M16 10h4.5l3.5 4v4h-8z" fill="var(--sim)"/><circle cx="6" cy="20" r="2.6" fill="var(--ink)"/><circle cx="19.5" cy="20" r="2.6" fill="var(--ink)"/></svg>
                 <span>Recebimento de carga nas lojas</span>
             </div>
             <nav class="nav" aria-label="Seções">
-                <a href="#resumo"><span class="num">1</span>Resumo</a><a href="#dias"><span class="num">2</span>Dias e
-                        turnos</a><a href="#quadro"><span
-                            class="num">3</span>Quadro semanal</a><a href="#grupos"><span
-                            class="num">4</span>Agrupamentos</a>
-                <a href="#motivos"><span class="num">5</span>Motivos</a>
+                <a href="#resumo"><span class="num">1</span>Resumo</a><a href="#dias"><span class="num">2</span>Dias e turnos</a><a href="#quadro"><span class="num">3</span>Quadro semanal</a><a href="#grupos"><span class="num">4</span>Agrupamentos</a>
+                <a
+                    href="#motivos"><span class="num">5</span>Motivos</a>
             </nav>
             <button class="btn icon-btn" id="themeBtn" aria-label="Alternar tema claro ou escuro" title="Tema">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2"><path
-                            d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
-                </button>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
             <button class="btn" id="presentBtn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2"><rect x="2" y="4"
-                            width="20" height="13" rx="2" /><path
-                            d="M8 21h8M12 17v4" /></svg>
-                    <span>Apresentar</span>
-                </button>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <span>Apresentar</span>
+    </button>
         </div>
         <nav class="mnav" aria-label="Páginas"><a href="#resumo">Resumo</a><a href="#dias">Dias e turnos</a><a href="#quadro">Quadro semanal</a><a href="#grupos">Agrupamentos</a><a href="#motivos">Motivos</a></nav>
     </header>
@@ -1717,65 +2002,31 @@
 
         <section id="quadro" class="wrap">
             <h2>Quadro semanal por loja</h2>
-            <p class="lead">Cada célula mostra as janelas da loja naquele dia, na ordem manhã, tarde e noite. Abaixo do nome aparecem o agrupamento, o caminhão e o ativo. Passe o mouse para ver o detalhe e clique em uma linha para abrir a ficha da loja.
-            </p>
+            <p class="lead">Cada célula mostra as janelas da loja naquele dia, na ordem manhã, tarde e noite. Abaixo do nome aparecem o agrupamento, o caminhão e o ativo. Passe o mouse para ver o detalhe e clique em uma linha para abrir a ficha da loja.</p>
             <div class="panel">
-                <div class="toolbar">
-                    <label class="search">
-                            <svg width="15" height="15" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor"
-                                stroke-width="2"><circle cx="11" cy="11"
-                                    r="7" /><path d="m20 20-3.5-3.5" /></svg>
-                            <input id="q" type="search"
-                                placeholder="Buscar loja ou código"
-                                aria-label="Buscar loja ou código">
-                        </label>
-                    <div class="seg" id="fProfile" role="group" aria-label="Perfil">
-                        <button data-v="all" aria-pressed="true">Todas</button>
-                        <button data-v="full" aria-pressed="false">Semana
-                                completa</button>
-                        <button data-v="restr" aria-pressed="false">Com
-                                restrição</button>
-                        <button data-v="pend" aria-pressed="false">Sem
-                                resposta</button>
-                    </div>
-                    <div class="seg" id="fTurn" role="group" aria-label="Destacar turno">
-                        <button data-v aria-pressed="true">Todos os
-                                turnos</button>
-                        <button data-v="Manhã" aria-pressed="false">Manhã</button>
-                        <button data-v="Tarde" aria-pressed="false">Tarde</button>
-                        <button data-v="Noite" aria-pressed="false">Noite</button>
-                    </div>
-                    <div class="seg" id="fSort" role="group" aria-label="Ordenar">
-                        <button data-v="code" aria-pressed="true">Por
-                                código</button>
-                        <button data-v="score" aria-pressed="false">Por
-                                disponibilidade</button>
-                    </div>
-                    <div class="selects">
-                        <label>Agrupamento <select
-                                    id="fGrp"></select></label>
-                        <label>Caminhão <select
-                                    id="fTruck"></select></label>
-                        <label>Ativo <select id="fAtivo"></select></label>
-                    </div>
+                <div class="fbar" role="search" aria-label="Filtros do quadro">
+                    <label class="fsearch"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Buscar loja" aria-label="Buscar loja ou código"></label>
+                    <span class="fsep"></span>
+                    <label class="fchip"><span class="fl">Perfil</span><b class="fv"></b><select id="fProfile" aria-label="Perfil">
+        <option value="all">Todas</option><option value="full">Semana completa</option><option value="restr">Com restrição</option><option value="pend">Sem resposta</option></select></label>
+                    <label class="fchip"><span class="fl">Turno</span><b class="fv"></b><select id="fTurn" aria-label="Turno">
+        <option value="">Todos</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></label>
+                    <label class="fchip"><span class="fl">Agrupamento</span><b class="fv"></b><select id="fGrp" aria-label="Agrupamento"></select></label>
+                    <label class="fchip"><span class="fl">Caminhão</span><b class="fv"></b><select id="fTruck" aria-label="Caminhão"></select></label>
+                    <label class="fchip"><span class="fl">Ativo</span><b class="fv"></b><select id="fAtivo" aria-label="Ativo"></select></label>
+                    <span class="fsep"></span>
+                    <label class="fchip" data-neutral="1"><span class="fl">Ordenar</span><b class="fv"></b><select id="fSort" aria-label="Ordenar">
+        <option value="code">Código</option><option value="score">Disponibilidade</option></select></label>
+                    <button class="fclear" id="fClear" hidden>Limpar</button>
                 </div>
                 <div class="legend" style="margin-bottom:18px">
-                    <span><i class="sw"
-                                style="background:var(--manha)"></i>Manhã</span>
-                    <span><i class="sw"
-                                style="background:var(--tarde)"></i>Tarde</span>
-                    <span><i class="sw"
-                                style="background:var(--noite)"></i>Noite</span>
-                    <span><i class="sw"
-                                style="background:var(--empty);outline:1px solid var(--line)"></i>Turno
-                            não disponível</span>
-                    <span><i class="sw"
-                                style="background:var(--nao-soft);outline:1px solid var(--nao)"></i>Não
-                            recebe</span>
-                    <span><i class="sw"
-                                style="outline:1px dashed var(--muted)"></i>Sem
-                            resposta</span>
+                    <span><i class="sw" style="background:var(--manha)"></i>Manhã</span>
+                    <span><i class="sw" style="background:var(--tarde)"></i>Tarde</span>
+                    <span><i class="sw" style="background:var(--noite)"></i>Noite</span>
+                    <span><i class="sw" style="background:var(--empty);outline:1px solid var(--line)"></i>Turno não disponível</span>
+                    <span><i class="sw" style="background:var(--nao-soft);outline:1px solid var(--nao)"></i>Não recebe</span>
+                    <span><i class="sw" style="outline:1px dashed var(--muted)"></i>Sem resposta</span>
                     <span class="count" id="count"></span>
                 </div>
                 <div class="board">
@@ -1788,23 +2039,18 @@
             <h2>Agrupamentos: quem vai junto com quem</h2>
             <p class="lead">Lojas do mesmo agrupamento, com o caminhão, o ativo e a grade de cada uma. A linha "Janela em comum" mostra os turnos que todas as lojas que responderam aceitam no mesmo dia. Clique em uma loja para abrir a ficha.</p>
             <div class="gsum" id="gsum"></div>
-            <div class="toolbar" style="border:0;padding:0">
-                <div class="selects" style="width:auto"><label>Agrupamento
-                            <select id="gSel"></select></label></div>
-                <div class="seg" id="gSort" role="group" aria-label="Ordenar agrupamentos">
-                    <button data-v="name" aria-pressed="true">Por
-                            nome</button>
-                    <button data-v="conf" aria-pressed="false">Menos janelas
-                            em comum primeiro</button>
-                </div>
+            <div class="fbar" style="width:max-content;max-width:100%" aria-label="Filtros dos agrupamentos">
+                <label class="fchip"><span class="fl">Agrupamento</span><b class="fv"></b><select id="gSel" aria-label="Agrupamento"></select></label>
+                <span class="fsep"></span>
+                <label class="fchip" data-neutral="1"><span class="fl">Ordenar</span><b class="fv"></b><select id="gSort" aria-label="Ordenar">
+        <option value="name">Nome</option><option value="conf">Menos janelas em comum</option></select></label>
             </div>
             <div class="gcards" id="gcards"></div>
         </section>
 
         <section id="motivos" class="wrap">
             <h2>Por que algumas lojas não recebem</h2>
-            <p class="lead">Justificativas informadas pelas lojas, com a ortografia revisada. Os motivos foram agrupados em temas para facilitar a leitura; clique em um tema para filtrar.
-            </p>
+            <p class="lead">Justificativas informadas pelas lojas, com a ortografia revisada. Os motivos foram agrupados em temas para facilitar a leitura; clique em um tema para filtrar.</p>
             <div class="panel" style="margin-bottom:20px">
                 <h3>Temas das justificativas</h3>
                 <p class="hint" id="catHint"></p>
@@ -1814,11 +2060,9 @@
                 <div class="rhead">
                     <div>
                         <h3 id="rTitle">Todas as justificativas</h3>
-                        <p class="hint">Textos iguais em dias diferentes aparecem uma vez, com os dias marcados. Clique em um cartão para ler a justificativa completa.
-                        </p>
+                        <p class="hint">Textos iguais em dias diferentes aparecem uma vez, com os dias marcados. Clique em um cartão para ler a justificativa completa.</p>
                     </div>
-                    <button class="btn" id="clearCat" hidden>Mostrar todos
-                            os temas</button></div>
+                    <button class="btn" id="clearCat" hidden>Mostrar todos os temas</button></div>
                 <div class="reasons" id="reasons"></div>
             </div>
         </section>
@@ -1828,12 +2072,8 @@
 
     <div class="pager">
         <span class="pos" id="pos"></span>
-        <button class="btn icon-btn" id="prevS" aria-label="Página anterior"><svg width="16" height="16"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2"><path d="m15 18-6-6 6-6" /></svg></button>
-        <button class="btn icon-btn" id="nextS" aria-label="Próxima página"><svg width="16" height="16"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2"><path d="m9 18 6-6-6-6" /></svg></button>
+        <button class="btn icon-btn" id="prevS" aria-label="Página anterior"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+        <button class="btn icon-btn" id="nextS" aria-label="Próxima página"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
 
     <div class="tip" id="tip" role="tooltip"></div>
@@ -3457,7 +3697,18 @@ const st = { q:'', profile:'all', turn:'', sort:'code', grp:'', truck:'', ativo:
 const uniq = k => [...new Set(ALL.map(s => s[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt'));
 const fillSel = (id, k, label) => { $(id).innerHTML = `<option value="">${label}</option>` + uniq(k).map(v=>`<option>${esc(v)}</option>`).join(''); };
 fillSel('#fGrp','grp','Todos'); fillSel('#fTruck','truck','Todos'); fillSel('#fAtivo','ativo','Todos');
-[['#fGrp','grp'],['#fTruck','truck'],['#fAtivo','ativo']].forEach(([id,k]) => $(id).addEventListener('change', e => { st[k] = e.target.value; renderWeek(); }));
+function syncChip(sel){
+  const c = sel.closest('.fchip');
+  c.querySelector('.fv').textContent = sel.selectedOptions[0] ? sel.selectedOptions[0].text : '';
+  c.classList.toggle('on', sel.selectedIndex > 0 && !c.dataset.neutral);
+}
+const FMAP = {fProfile:'profile', fTurn:'turn', fSort:'sort', fGrp:'grp', fTruck:'truck', fAtivo:'ativo'};
+function syncClear(){ $('#fClear').hidden = !(st.q || ['profile','turn','grp','truck','ativo'].some(k => $('#'+Object.keys(FMAP).find(i=>FMAP[i]===k)).selectedIndex > 0)); }
+Object.entries(FMAP).forEach(([id,k]) => { const el = $('#'+id); syncChip(el); el.addEventListener('change', () => { st[k] = el.value; syncChip(el); syncClear(); renderWeek(); }); });
+$('#fClear').addEventListener('click', () => {
+  Object.entries(FMAP).forEach(([id,k]) => { if(k==='sort') return; const el=$('#'+id); el.selectedIndex = 0; st[k] = el.value; syncChip(el); });
+  $('#q').value = ''; st.q = ''; syncClear(); renderWeek();
+});
 function segBind(id, key, after){
   $(id).addEventListener('click', e => {
     const b = e.target.closest('button'); if(!b) return;
@@ -3494,10 +3745,10 @@ function renderWeek(){
     <td class="store"><button aria-label="Abrir ficha da loja ${esc(s.name)}"><span class="l1"><span class="code">${s.code}</span><span class="nm">${esc(s.name)}</span></span><span class="sub">${esc(s.grp)}, ${esc(s.truck)}, ${esc(s.ativo)}</span></button></td>
     ${DAYS.map((_,i)=>`<td>${cellHTML(s,i)}</td>`).join('')}
     <td class="score">${s.responded?`${s.score} de 6`:'Pendente'}</td></tr>`).join('')
-    : `<tr><td colspan="8" class="empty">Nenhuma loja corresponde aos filtros. Limpe a busca ou volte os filtros para "Todas" e "Todos".</td></tr>`}</tbody>`;
+    : `<tr><td colspan="8" class="empty">Nenhuma loja corresponde aos filtros. Use "Limpar" na barra de filtros para ver todas as lojas.</td></tr>`}</tbody>`;
 }
-$('#q').addEventListener('input', e => { st.q = e.target.value; renderWeek(); });
-segBind('#fProfile','profile',renderWeek); segBind('#fTurn','turn',renderWeek); segBind('#fSort','sort',renderWeek);
+$('#q').addEventListener('input', e => { st.q = e.target.value; syncClear(); renderWeek(); });
+
 $('#week').addEventListener('click', e => { const tr = e.target.closest('tr[data-code]'); if(tr) openStore(tr.dataset.code); });
 renderWeek();
 
@@ -3575,6 +3826,38 @@ function groupInfo(g){
   return {g, ss, com, resp, pend, days};
 }
 const GI = GROUPS.map(groupInfo);
+const reasonsOf = st => groups.filter(g => g.s === st);
+const dayLabel = ds => ds.length===6 ? 'Seg a Sáb' : (ds.length>1 && ds[ds.length-1]-ds[0]===ds.length-1) ? `${DAYS_SHORT[ds[0]]} a ${DAYS_SHORT[ds[ds.length-1]]}` : ds.map(i=>DAYS_SHORT[i]).join(', ');
+const ALERT = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 17h.01"/></svg>';
+function whyBox(st){
+  if(!st.responded) return '';
+  const rs = reasonsOf(st);
+  if(!rs.length) return `<div class="why-ok">Esta loja recebe todos os dias, de segunda a sábado. Não há motivo de restrição.</div>`;
+  return `<div class="why-box" role="note"><div class="why-h">${ALERT}Por que a loja não recebe${rs.length>1?` (${rs.length} motivos)`:''}</div>
+    ${rs.map(g => `<div class="why-item"><div class="why-meta"><span class="dd">${g.days.map(i=>`<span>${DAYS[i]}</span>`).join('')}</span><span class="catp">${CATS[g.cat].t}</span></div>
+      <p class="why-text">${esc(g.why)}</p>
+      ${g.s.days[g.days[0]].orig.trim()!==g.why.trim()?`<details class="orig"><summary>Ver texto original</summary><div>${esc(g.s.days[g.days[0]].orig)}</div></details>`:''}</div>`).join('')}</div>`;
+}
+function blockers(info, me){
+  const {ss, com} = info;
+  const bad = com.map((c,i)=> c && !c.length ? i : -1).filter(i=>i>=0);
+  if(!bad.length) return '';
+  const items = [];
+  ss.filter(x => x.responded).forEach(x => {
+    reasonsOf(x).forEach(g => {
+      const ds = g.days.filter(i => bad.includes(i));
+      if(ds.length) items.push({x, g, ds});
+    });
+  });
+  const turnDays = bad.filter(i => ss.filter(x=>x.responded).every(x => x.days[i].ok));
+  return `<div class="block-box"><h5>O que impede a janela em comum (${dayLabel(bad)})</h5><ul>
+    ${items.map(({x,g,ds}) => `<li><div class="bl1"><button class="bstore" data-code="${x.code}"><small>${x.code}</small>${esc(x.name)}</button>${x.code===me?'<span class="me">esta loja</span>':''}
+      <span class="dd">${ds.map(i=>`<span>${DAYS_SHORT[i]}</span>`).join('')}</span><span class="catp">${CATS[g.cat].t}</span></div>
+      <p>${esc(g.why.replace(/\n+/g,' '))}</p></li>`).join('')}
+    ${turnDays.length?`<li class="turns"><div class="bl1"><b style="font-size:14px">Turnos diferentes</b><span class="dd">${turnDays.map(i=>`<span style="background:var(--hover);color:var(--ink)">${DAYS_SHORT[i]}</span>`).join('')}</span></div>
+      <p>Nesses dias todas as lojas que responderam recebem, mas em turnos que não coincidem.</p></li>`:''}
+  </ul></div>`;
+}
 function groupTable(info, hl){
   const {ss, com} = info;
   return `<div class="gwrap"><table class="gt"><thead><tr><th>Loja</th><th>Caminhão</th><th>Ativo</th>${DAYS_SHORT.map(d=>`<th>${d}</th>`).join('')}</tr></thead>
@@ -3605,12 +3888,9 @@ $('#gsum').innerHTML = [
 ].map(([v,l,c]) => `<div class="kpi"><b>${v}</b><small><span class="dot" style="background:${c}"></span>${l}</small></div>`).join('');
 const gst = { sel:'', sort:'name' };
 $('#gSel').innerHTML = '<option value="">Todos</option>' + GROUPS.map(g=>`<option>${esc(g)}</option>`).join('');
-$('#gSel').addEventListener('change', e => { gst.sel = e.target.value; renderGroups(); });
-$('#gSort').addEventListener('click', e => {
-  const b = e.target.closest('button'); if(!b) return;
-  $('#gSort').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x===b));
-  gst.sort = b.dataset.v; renderGroups();
-});
+$('#gSel').addEventListener('change', e => { gst.sel = e.target.value; syncChip(e.target); renderGroups(); });
+$('#gSort').addEventListener('change', e => { gst.sort = e.target.value; syncChip(e.target); renderGroups(); });
+syncChip($('#gSel')); syncChip($('#gSort'));
 function renderGroups(){
   let list = GI.filter(x => !gst.sel || x.g===gst.sel);
   if(gst.sort==='conf') list = list.slice().sort((a,b) => a.days-b.days || a.g.localeCompare(b.g,'pt'));
@@ -3618,10 +3898,10 @@ function renderGroups(){
     <div><h3>${esc(x.g)}${x.pend?`<span class="tag warn">${x.pend} sem resposta</span>`:''}</h3></div>
     <div class="gmeta"><span>${x.ss.length} lojas</span><span>${mix(x.ss,'truck')}</span><span>${mix(x.ss,'ativo')}</span></div>
     ${groupTable(x)}
-    <p class="gnote">${groupNote(x)}</p></article>`).join('');
+    <p class="gnote">${groupNote(x)}</p>${blockers(x)}</article>`).join('');
 }
 renderGroups();
-$('#gcards').addEventListener('click', e => { const tr = e.target.closest('tr[data-code]'); if(tr) openStore(tr.dataset.code); });
+$('#gcards').addEventListener('click', e => { const t = e.target.closest('tr[data-code], .bstore'); if(t) openStore(t.dataset.code); });
 
 /* ---------- Ficha da loja ---------- */
 const dr = $('#drawer');
@@ -3638,24 +3918,25 @@ function openStore(code){
   $('#drIn').innerHTML = `
     <div class="dr-head"><div><h2 id="drTitle">${esc(s.name)}</h2><p>Loja ${s.code}, ${s.responded?`recebe em ${s.score} de 6 dias`:'ainda não respondeu à pesquisa'}</p></div>
       ${closeBtn('drClose')}</div>
+    ${whyBox(s)}
     <dl class="facts"><dt>Agrupamento</dt><dd>${esc(s.grpFull)}</dd><dt>Caminhão</dt><dd>${esc(s.truck)}</dd><dt>Ativo</dt><dd>${esc(s.ativo)}</dd>
       ${s.responded?`<dt>Respondido por</dt><dd>${esc(s.resp)}</dd><dt>Cargo</dt><dd>${esc(s.role)}</dd><dt>Data da resposta</dt><dd>${s.ts}</dd>`:''}</dl>
     <div class="mod-sec"><h4>Vão junto no agrupamento ${esc(s.grp)}</h4>
       <p class="hint">${others ? `${others} ${others>1?'outras lojas':'outra loja'} no mesmo agrupamento: ${mix(info.ss,'truck')}; ${mix(info.ss,'ativo')}. Esta loja está destacada; clique em outra para abrir a ficha dela.` : 'Esta é a única loja do agrupamento.'}</p>
       ${groupTable(info, s.code)}
-      <p class="gnote" style="margin-top:12px">${groupNote(info)}</p></div>
+      <p class="gnote" style="margin-top:12px">${groupNote(info)}</p>
+      ${blockers(info, s.code)}</div>
     <div class="mod-sec"><h4>Detalhe por dia</h4>
     ${s.responded ? `<div class="dlist">${mergeDays(s.days).map(({d,a,b}) => `<div class="drow"><span class="dn">${a===b?DAYS[a]:(b-a===1?DAYS_SHORT[a]+' e '+DAYS_SHORT[b]:DAYS_SHORT[a]+' a '+DAYS_SHORT[b])}</span><div>${
       d.ok ? TURNS.filter(([t])=>d.p.includes(t)).map(([t,k])=>`<span class="pill ${k}">${t}</span>`).join('')
-           : `<span class="pill x">Não recebe</span><span class="pill" style="background:var(--bg)">${CATS[d.cat].t}</span><p>${esc(d.why)}</p>
-              ${d.orig.trim()!==d.why.trim()?`<details class="orig"><summary>Ver texto original</summary><div>${esc(d.orig)}</div></details>`:''}`
+           : `<span class="pill x">Não recebe</span><span class="dn-why">${CATS[d.cat].t}, motivo em destaque no topo</span>`
     }</div></div>`).join('')}</div>` : `<div class="notice">A loja ainda não respondeu. Os dias e turnos aparecem aqui assim que a resposta entrar na planilha.</div>`}</div>`;
   $('#drClose').onclick = () => dr.close();
   tip.classList.remove('on');
   if(!dr.open) dr.showModal();
   dr.scrollTop = 0;
 }
-$('#drIn').addEventListener('click', e => { const tr = e.target.closest('.gt tr[data-code]'); if(tr && tr.dataset.code) openStore(tr.dataset.code); });
+$('#drIn').addEventListener('click', e => { const t = e.target.closest('.gt tr[data-code], .bstore'); if(t && t.dataset.code) openStore(t.dataset.code); });
 dr.addEventListener('click', e => { if(e.target === dr) dr.close(); });
 const closeBtn = id => `<button class="btn icon-btn" id="${id}" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 function openReason(g){
@@ -3664,7 +3945,7 @@ function openReason(g){
     <div class="dr-head"><div><h2 id="drTitle">${esc(g.s.name)}</h2><p>Loja ${g.s.code}, ${esc(g.s.resp)} (${esc(g.s.role)})</p></div>${closeBtn('drClose')}</div>
     <div><span class="pill x">Não recebe</span><span class="pill" style="background:var(--bg)">${CATS[g.cat].t}</span></div>
     <dl class="facts"><dt>Dias afetados</dt><dd><span class="dd">${g.days.map(i=>`<span>${DAYS[i]}</span>`).join('')}</span></dd></dl>
-    <p class="dr-text">${esc(g.why)}</p>
+    <div class="why-box"><div class="why-h">${ALERT}Motivo informado pela loja</div><p class="why-text">${esc(g.why)}</p></div>
     ${d.orig.trim()!==g.why.trim()?`<details class="orig"><summary>Ver texto original</summary><div>${esc(d.orig)}</div></details>`:''}
     <div class="dr-foot"><button class="btn" id="toStore">Ver ficha completa da loja</button></div>`;
   $('#drClose').onclick = () => dr.close();
