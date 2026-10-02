@@ -299,42 +299,43 @@
         .pagenav {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 12px;
-            margin-top: 36px;
-            padding-top: 24px;
+            margin-top: 40px;
+            padding-top: 20px;
             border-top: 1px solid var(--line)
         }
         
         .pagenav a {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             text-decoration: none;
-            color: var(--ink);
-            padding: 12px 16px;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            background: var(--surface);
-            min-width: 200px
+            color: var(--accent);
+            font-size: 14.5px;
+            font-weight: 500;
+            padding: 6px 2px
         }
         
-        .pagenav a:hover {
-            background: var(--hover)
+        .pagenav a:hover span {
+            text-decoration: underline;
+            text-underline-offset: 4px
         }
         
-        .pagenav a small {
-            color: var(--muted);
-            font-size: 12.5px
+        .pagenav a svg {
+            transition: translate .15s
         }
         
-        .pagenav a b {
-            font-weight: 600;
-            font-size: 15px
+        .pagenav a.prev:hover svg {
+            translate: -3px 0
+        }
+        
+        .pagenav a.next:hover svg {
+            translate: 3px 0
         }
         
         .pagenav a.next {
-            margin-left: auto;
-            text-align: right
+            margin-left: auto
         }
         
         .explore {
@@ -383,10 +384,6 @@
         @media (max-width:860px) {
             .explore {
                 grid-template-columns: 1fr
-            }
-            .pagenav a {
-                min-width: 0;
-                flex: 1
             }
         }
         /* Seções */
@@ -1304,33 +1301,96 @@
         
         .block-box {
             margin-top: 14px;
-            border: 1px solid var(--line);
+            border: 1px solid color-mix(in srgb, var(--nao) 35%, var(--line));
             border-left: 4px solid var(--nao);
             border-radius: 10px;
-            padding: 14px 16px;
             background: var(--surface)
         }
         
-        .block-box h5 {
-            margin: 0 0 10px;
+        .block-box summary {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            cursor: pointer;
+            border-radius: 8px
+        }
+        
+        .block-box summary::-webkit-details-marker {
+            display: none
+        }
+        
+        .block-box summary:hover {
+            background: color-mix(in srgb, var(--nao-soft) 55%, transparent)
+        }
+        
+        .block-box summary:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: -2px
+        }
+        
+        .block-box .bt {
             font-size: 14px;
             font-weight: 600;
             color: var(--nao-ink)
         }
         
+        .block-box .bc {
+            font-size: 12.5px;
+            color: var(--muted)
+        }
+        
+        .block-box .btog {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: 999px;
+            padding: 4px 12px 4px 10px;
+            white-space: nowrap
+        }
+        
+        .block-box .btog svg {
+            transition: rotate .2s
+        }
+        
+        .block-box[open] .btog svg {
+            rotate: 180deg
+        }
+        
+        .block-box .btog .c {
+            display: none
+        }
+        
+        .block-box[open] .btog .o {
+            display: none
+        }
+        
+        .block-box[open] .btog .c {
+            display: inline
+        }
+        
         .block-box ul {
             list-style: none;
             margin: 0;
-            padding: 0;
+            padding: 4px 16px 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px
+            gap: 14px;
+            border-top: 1px solid color-mix(in srgb, var(--nao) 25%, var(--line));
+            padding-top: 14px
         }
         
         .block-box li {
             display: flex;
             flex-direction: column;
-            gap: 5px
+            gap: 6px
         }
         
         .block-box .bl1 {
@@ -1371,20 +1431,18 @@
             color: var(--muted)
         }
         
-        .block-box p {
+        .block-box li p {
             margin: 0;
-            font-size: 13.5px;
-            color: var(--ink);
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--nao-ink);
+            font-weight: 500;
             max-width: 80ch
         }
         
         .block-box li.turns p {
             color: var(--muted);
-            -webkit-line-clamp: unset
+            font-weight: 400
         }
         
         .dn-why {
@@ -1809,6 +1867,66 @@
         
         .dr-head .btn {
             margin-left: auto
+        }
+        
+        .dr-head {
+            padding-bottom: 12px;
+            border-bottom: 1px solid transparent
+        }
+        
+        .dr-close {
+            margin-left: auto;
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            height: 36px;
+            padding: 0 8px 0 12px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: var(--bg);
+            color: var(--ink);
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .15s, border-color .15s
+        }
+        
+        .dr-close:hover {
+            background: var(--nao-soft);
+            border-color: color-mix(in srgb, var(--nao) 50%, transparent);
+            color: var(--nao-ink)
+        }
+        
+        .dr-close:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px
+        }
+        
+        .dr-close kbd {
+            font: inherit;
+            font-size: 11px;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: 5px;
+            padding: 1px 6px
+        }
+        
+        @media (max-width:600px) {
+            .dr-close span,
+            .dr-close kbd {
+                display: none
+            }
+            .dr-close {
+                width: 36px;
+                padding: 0;
+                justify-content: center
+            }
+        }
+        
+        dialog.drawer h2:focus {
+            outline: none
         }
         
         .facts {
@@ -3850,13 +3968,16 @@ function blockers(info, me){
     });
   });
   const turnDays = bad.filter(i => ss.filter(x=>x.responded).every(x => x.days[i].ok));
-  return `<div class="block-box"><h5>O que impede a janela em comum (${dayLabel(bad)})</h5><ul>
+  const nst = new Set(items.map(it=>it.x.code)).size;
+  const cnt = [nst ? `${nst} ${nst>1?'lojas':'loja'} com restrição` : '', turnDays.length ? 'turnos que não coincidem' : ''].filter(Boolean).join(' e ');
+  return `<details class="block-box"><summary><span class="bt">O que impede a janela em comum (${dayLabel(bad)})</span><span class="bc">${cnt}</span>
+    <span class="btog"><span class="o">Expandir</span><span class="c">Fechar</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary><ul>
     ${items.map(({x,g,ds}) => `<li><div class="bl1"><button class="bstore" data-code="${x.code}"><small>${x.code}</small>${esc(x.name)}</button>${x.code===me?'<span class="me">esta loja</span>':''}
       <span class="dd">${ds.map(i=>`<span>${DAYS_SHORT[i]}</span>`).join('')}</span><span class="catp">${CATS[g.cat].t}</span></div>
       <p>${esc(g.why.replace(/\n+/g,' '))}</p></li>`).join('')}
     ${turnDays.length?`<li class="turns"><div class="bl1"><b style="font-size:14px">Turnos diferentes</b><span class="dd">${turnDays.map(i=>`<span style="background:var(--hover);color:var(--ink)">${DAYS_SHORT[i]}</span>`).join('')}</span></div>
       <p>Nesses dias todas as lojas que responderam recebem, mas em turnos que não coincidem.</p></li>`:''}
-  </ul></div>`;
+  </ul></details>`;
 }
 function groupTable(info, hl){
   const {ss, com} = info;
@@ -3935,10 +4056,11 @@ function openStore(code){
   tip.classList.remove('on');
   if(!dr.open) dr.showModal();
   dr.scrollTop = 0;
+  $('#drTitle').setAttribute('tabindex','-1'); $('#drTitle').focus({preventScroll:true});
 }
 $('#drIn').addEventListener('click', e => { const t = e.target.closest('.gt tr[data-code], .bstore'); if(t && t.dataset.code) openStore(t.dataset.code); });
 dr.addEventListener('click', e => { if(e.target === dr) dr.close(); });
-const closeBtn = id => `<button class="btn icon-btn" id="${id}" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+const closeBtn = id => `<button class="dr-close" id="${id}" aria-label="Fechar (Esc)" title="Fechar (Esc)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span>Fechar</span><kbd>Esc</kbd></button>`;
 function openReason(g){
   const d = g.s.days[g.days[0]];
   $('#drIn').innerHTML = `
@@ -3953,6 +4075,7 @@ function openReason(g){
   tip.classList.remove('on');
   if(!dr.open) dr.showModal();
   dr.scrollTop = 0;
+  $('#drTitle').setAttribute('tabindex','-1'); $('#drTitle').focus({preventScroll:true});
 }
 
 /* ---------- Tema ---------- */
@@ -3978,8 +4101,8 @@ secs.forEach((sec,i) => {
   if(i===0) return;
   const pv = PAGES[i-1], nx = PAGES[i+1];
   sec.insertAdjacentHTML('beforeend', `<nav class="pagenav" aria-label="Navegação entre páginas">
-    <a href="#${pv.id}"><small>Anterior</small><b>${pv.t}</b></a>
-    ${nx?`<a class="next" href="#${nx.id}"><small>Próxima</small><b>${nx.t}</b></a>`:''}</nav>`);
+    <a class="prev" href="#${pv.id}" aria-label="Página anterior: ${pv.t}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span>${pv.t}</span></a>
+    ${nx?`<a class="next" href="#${nx.id}" aria-label="Próxima página: ${nx.t}"><span>${nx.t}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`:''}</nav>`);
 });
 let cur = 0;
 function show(id, push){
@@ -4033,4 +4156,101 @@ $('#foot').textContent = `Fonte: Pesquisa de Recebimento de Caminhão nas Lojas 
     </script>
 </body>
 
+</html>n').addEventListener('click', e => { const t = e.target.closest('.gt tr[data-code], .bstore'); if(t && t.dataset.code) openStore(t.dataset.code); });
+dr.addEventListener('click', e => { if(e.target === dr) dr.close(); });
+const closeBtn = id => `<button class="dr-close" id="${id}" aria-label="Fechar (Esc)" title="Fechar (Esc)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span>Fechar</span><kbd>Esc</kbd></button>`;
+function openReason(g){
+  const d = g.s.days[g.days[0]];
+  $('#drIn').innerHTML = `
+    <div class="dr-head"><div><h2 id="drTitle">${esc(g.s.name)}</h2><p>Loja ${g.s.code}, ${esc(g.s.resp)} (${esc(g.s.role)})</p></div>${closeBtn('drClose')}</div>
+    <div><span class="pill x">Não recebe</span><span class="pill" style="background:var(--bg)">${CATS[g.cat].t}</span></div>
+    <dl class="facts"><dt>Dias afetados</dt><dd><span class="dd">${g.days.map(i=>`<span>${DAYS[i]}</span>`).join('')}</span></dd></dl>
+    <div class="why-box"><div class="why-h">${ALERT}Motivo informado pela loja</div><p class="why-text">${esc(g.why)}</p></div>
+    ${d.orig.trim()!==g.why.trim()?`<details class="orig"><summary>Ver texto original</summary><div>${esc(d.orig)}</div></details>`:''}
+    <div class="dr-foot"><button class="btn" id="toStore">Ver ficha completa da loja</button></div>`;
+  $('#drClose').onclick = () => dr.close();
+  $('#toStore').onclick = () => openStore(g.s.code);
+  tip.classList.remove('on');
+  if(!dr.open) dr.showModal();
+  dr.scrollTop = 0;
+  $('#drTitle').setAttribute('tabindex','-1'); $('#drTitle').focus({preventScroll:true});
+}
+
+/* ---------- Tema ---------- */
+$('#themeBtn').addEventListener('click', () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try{ localStorage.setItem('theme', root.dataset.theme); }catch(e){}
+});
+try{ const t = localStorage.getItem('theme'); if(t) document.documentElement.dataset.theme = t; }catch(e){}
+
+/* ---------- Páginas ---------- */
+const PAGES = [
+  {id:'resumo', t:'Resumo'},
+  {id:'dias', t:'Dias e turnos', d:'Quantas lojas recebem em cada dia e em quais janelas de horário.', k:()=>`Dia com mais lojas: ${DAYS[[0,1,2,3,4,5].sort((a,b)=>DATA.filter(s=>s.days[b].ok).length-DATA.filter(s=>s.days[a].ok).length)[0]].toLowerCase()}`},
+  {id:'quadro', t:'Quadro semanal', d:'A semana de cada uma das lojas, com filtros por perfil e turno.', k:()=>`${fullWeek} lojas sem nenhuma restrição${PEND.length?`, ${PEND.length} sem resposta`:''}`},
+  {id:'grupos', t:'Agrupamentos', d:'Quem vai junto com quem: caminhão, ativo e grade de cada loja do grupo.', k:()=>`${GROUPS.length} agrupamentos, ${gFull5} com janela em comum de segunda a sexta`},
+  {id:'motivos', t:'Motivos', d:'Por que algumas lojas não recebem, agrupado por tema.', k:()=>`${noTotal} dias sem recebimento no total`}
+];
+const secs = PAGES.map(p => document.getElementById(p.id));
+$('#explore').innerHTML = PAGES.slice(1).map(p => `<a href="#${p.id}"><b>${p.t}</b><span>${p.d}</span><span>${p.k()}</span><em>Abrir página</em></a>`).join('');
+secs.forEach((sec,i) => {
+  if(i===0) return;
+  const pv = PAGES[i-1], nx = PAGES[i+1];
+  sec.insertAdjacentHTML('beforeend', `<nav class="pagenav" aria-label="Navegação entre páginas">
+    <a class="prev" href="#${pv.id}" aria-label="Página anterior: ${pv.t}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span>${pv.t}</span></a>
+    ${nx?`<a class="next" href="#${nx.id}" aria-label="Próxima página: ${nx.t}"><span>${nx.t}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`:''}</nav>`);
+});
+let cur = 0;
+function show(id, push){
+  const i = Math.max(0, PAGES.findIndex(p => p.id===id));
+  cur = i;
+  secs.forEach((s,k) => s.classList.toggle('active', k===i));
+  document.querySelectorAll('.nav a, .mnav a').forEach(a => a.getAttribute('href')==='#'+PAGES[i].id ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'));
+  document.title = `${PAGES[i].t}: Recebimento de carga nas lojas`;
+  $('#pos').textContent = `${i+1} de ${PAGES.length}`;
+  if(push && location.hash !== '#'+PAGES[i].id) history.pushState(null,'','#'+PAGES[i].id);
+  tip.classList.remove('on');
+  window.scrollTo({top:0, behavior:'instant'});
+  if(PAGES[i].id==='dias') renderDays();
+  document.querySelector('.mnav a[aria-current]')?.scrollIntoView({block:'nearest',inline:'center'});
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]'); if(!a) return;
+  const id = a.getAttribute('href').slice(1);
+  if(PAGES.some(p=>p.id===id)){ e.preventDefault(); show(id, true); }
+});
+addEventListener('popstate', () => show(location.hash.slice(1)));
+addEventListener('hashchange', () => { const id=location.hash.slice(1); if(PAGES[cur].id!==id) show(id); });
+if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+show(location.hash.slice(1) || 'resumo');
+addEventListener('load', () => setTimeout(() => window.scrollTo(0,0), 0));
+function go(d){ const i = Math.min(PAGES.length-1, Math.max(0, cur+d)); if(i!==cur) show(PAGES[i].id, true); }
+
+/* ---------- Apresentação ---------- */
+function setPresent(on){
+  document.body.classList.toggle('present', on);
+  $('#presentBtn span').textContent = on ? 'Sair da apresentação' : 'Apresentar';
+}
+$('#presentBtn').addEventListener('click', async () => {
+  const on = !document.body.classList.contains('present');
+  setPresent(on);
+  try{
+    if(on && document.documentElement.requestFullscreen && !document.fullscreenElement) await document.documentElement.requestFullscreen();
+    if(!on && document.fullscreenElement) await document.exitFullscreen();
+  }catch(e){}
+  if(on) show('resumo', true);
+});
+document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) setPresent(false); });
+$('#prevS').onclick = () => go(-1); $('#nextS').onclick = () => go(1);
+document.addEventListener('keydown', e => {
+  if(!document.body.classList.contains('present') || dr.open || e.target.matches('input')) return;
+  if(['ArrowRight','PageDown'].includes(e.key)){ e.preventDefault(); go(1); }
+  if(['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); go(-1); }
+});
+
+$('#foot').textContent = `Fonte: Pesquisa de Recebimento de Caminhão nas Lojas (${N} respostas de ${ALL.length} lojas). Textos das justificativas com ortografia revisada; o original fica disponível nos detalhes de cada justificativa. Os temas dos motivos são um agrupamento feito a partir das respostas.`;
+</script>
+    </body>
 </html>
