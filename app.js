@@ -359,7 +359,6 @@ $('#themeBtn').addEventListener('click', () => {
 try{ const t = localStorage.getItem('theme'); if(t) document.documentElement.dataset.theme = t; }catch(e){}
 
 /* ---------- Formulário do gerente ---------- */
-const TIPOS = [...Object.values(CATS).map(c=>c.t), 'Outro motivo'];
 const ICON_OK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
 const ICON_NO = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
 let fs = null;
@@ -375,23 +374,6 @@ function openForm(raw){
   if(!fs || fs.code !== code) fs = newFormState(s, code);
   fs.token = token;
   renderForm();
-}
-// Estados de cada janela:
-//  locked 'ok'  → recebe, informado na 1ª pesquisa (fixo)
-//  locked 'no'  → não recebe, justificado na 1ª pesquisa (fixo)
-//  blocked      → não foi marcada como disponível: o gerente justifica (ou libera)
-function newFormState(s, code){
-  const st = {code, token:'', s, nome:s.resp||'', cargo:s.role||'', fixedWho:!!(s.responded && s.resp),
-    locked:new Map(), blocked:new Map(), origPend:new Set(), same:true, common:{tipo:'',txt:''}, sent:null};
-  if(s.responded){
-    s.days.forEach((d,i) => TURNS.forEach(([t]) => {
-      const k = slotKey(i,t);
-      if(!d.ok) st.locked.set(k, {state:'no', dia:i, turno:t, tipo:CATS[d.cat].t, txt:d.why});
-      else if(d.p.includes(t)) st.locked.set(k, {state:'ok', dia:i, turno:t});
-      else { st.blocked.set(k, {dia:i, turno:t, tipo:'', txt:''}); st.origPend.add(k); }
-    }));
-  }
-  return st;
 }
 function renderPicker(msg){
   const root = $('#formRoot');
@@ -421,22 +403,39 @@ function renderPicker(msg){
   $('#pickList').onclick = e => { const b = e.target.closest('.pstore'); if(b) location.hash = '#responder?loja=' + b.dataset.code; };
   if(matchMedia('(pointer:fine)').matches) $('#pickQ').focus();
 }
+// Janelas fixas (cadeado): o que a loja já respondeu na 1ª pesquisa.
+// Janelas pendentes: turnos não marcados na 1ª pesquisa. O gerente seleciona uma ou mais,
+// escreve um motivo livre e aplica; repete até responder 100%.
+function newFormState(s, code){
+  const st = {code, token:'', s, nome:s.resp||'', cargo:s.role||'', fixedWho:!!(s.responded && s.resp),
+    locked:new Map(), pend:[], ans:new Map(), groups:new Map(), nextG:1, sel:new Set(), draft:'', sent:null};
+  DAYS.forEach((_,i) => TURNS.forEach(([t]) => {
+    const k = slotKey(i,t), d = s.responded ? s.days[i] : null;
+    if(d && !d.ok) st.locked.set(k, {state:'no', dia:i, turno:t, txt:d.why});
+    else if(d && d.p.includes(t)) st.locked.set(k, {state:'ok', dia:i, turno:t});
+    else st.pend.push(k);
+  }));
+  return st;
+}
 const ICON_LOCK = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+const ICON_DOT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/></svg>';
+const kInfo = k => { const [i,t] = k.split('|'); return {dia:+i, turno:t}; };
 const byDayTurn = (a,b) => a.dia-b.dia || TURNS.findIndex(x=>x[0]===a.turno) - TURNS.findIndex(x=>x[0]===b.turno);
-function orderedBlocked(){ return [...fs.blocked.values()].sort(byDayTurn); }
+const sortKeys = ks => ks.map(kInfo).sort(byDayTurn).map(x => slotKey(x.dia,x.turno));
+const chipsOf = ks => sortKeys(ks).map(k => { const x = kInfo(k); return `<span>${DAYS_SHORT[x.dia]} ${x.turno.toLowerCase()}</span>`; }).join('');
 function lockedNo(){ return [...fs.locked.values()].filter(x=>x.state==='no').sort(byDayTurn); }
-function freed(){ return [...fs.origPend].filter(k => !fs.blocked.has(k)).map(k => { const [i,t]=k.split('|'); return {dia:+i, turno:t}; }).sort(byDayTurn); }
+const keysOf = g => fs.pend.filter(k => fs.ans.get(k) === g);
+const answeredCount = () => fs.pend.filter(k => fs.ans.has(k)).length;
+function gLabel(id){ return `Motivo ${[...fs.groups.keys()].indexOf(id) + 1}`; }
+
 function renderForm(){
   const {s} = fs, root = $('#formRoot');
   if(fs.sent){
-    const nv = fs.sent.bloqueios.filter(b=>b.origem==='gerente'), lib = fs.sent.liberadas;
     root.innerHTML = `<div class="fcard"><div class="fdone">
       <div class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
       <h2>Resposta enviada</h2>
       <p>Obrigado! As janelas da loja ${s.code} ${esc(s.name)} foram registradas. Protocolo <code>${esc(fs.sent.envio)}</code>.</p>
-      ${nv.length ? `<ul>${nv.map(b=>`<li><span class="pill x">Justificada</span> ${b.dia}, ${b.turno.toLowerCase()}</li>`).join('')}</ul>` : ''}
-      ${lib.length ? `<ul>${lib.map(b=>`<li><span class="pill" style="background:var(--sim-soft)">Liberada</span> ${b.dia}, ${b.turno.toLowerCase()}</li>`).join('')}</ul>` : ''}
-      ${!nv.length && !lib.length ? '<p>Não havia janelas pendentes; a resposta confirma a grade da primeira pesquisa.</p>' : ''}
+      ${fs.sent.resumo}
       <p style="font-size:13.5px">Se precisar corrigir, envie de novo. A resposta mais recente é a que vale.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="fbtn ghost" id="fAgain">Corrigir e enviar de novo</button>${fs.token?'':'<a class="fbtn ghost" href="#responder" style="text-decoration:none">Responder por outra loja</a>'}</div></div></div>`;
     $('#fAgain').onclick = () => { fs.sent = null; renderForm(); };
@@ -447,6 +446,7 @@ function renderForm(){
        <div class="ffixed"><div><small>Nome</small><b>${esc(fs.nome)}</b></div><div><small>Cargo</small><b>${esc(fs.cargo)}</b></div><span class="lk">${ICON_LOCK}Informado na 1ª pesquisa</span></div>`
     : `<div class="frow"><label class="ff">Nome<input id="fNome" autocomplete="name" maxlength="120" value="${esc(fs.nome)}"></label>
        <label class="ff">Cargo<input id="fCargo" maxlength="80" value="${esc(fs.cargo)}" placeholder="Ex.: Gerente de loja"></label></div>`;
+  const total = fs.pend.length;
   root.innerHTML = `<div class="fcard">
     <header class="fhead"><p class="meta">Pesquisa de recebimento de carga</p>
       <h1 class="ftitle">Janelas de recebimento da loja</h1>
@@ -454,17 +454,18 @@ function renderForm(){
         ${fs.token ? '' : `<a class="fswap" href="#responder">Não é a sua loja? Trocar</a>`}</div></header>
     <ol class="fsteps">
       <li class="fstep"><h3><span class="n">1</span>Quem está respondendo</h3>${who}</li>
-      <li class="fstep"><h3><span class="n">2</span>Grade de recebimento da loja</h3>
-        <p class="hint">${fs.locked.size
-          ? 'As janelas com cadeado vieram da primeira pesquisa e não podem ser alteradas. As janelas em rosa sem cadeado não foram marcadas como disponíveis: justifique no passo 3 ou, se a loja recebe nelas, toque para liberar.'
-          : 'Todas começam como "recebe". Toque nas janelas sem condição de recebimento; tocar no dia marca o dia inteiro.'} Domingo não tem recebimento.</p>
+      <li class="fstep"><h3><span class="n">2</span>Responda as janelas sem resposta</h3>
+        ${total ? `<p class="hint">Selecione uma ou mais janelas <b>sem resposta</b>, escreva o motivo e clique em "Aplicar motivo". Depois selecione as que sobraram e responda de novo, até completar 100%. As janelas com cadeado vieram da primeira pesquisa e não mudam.</p>
+        <div class="prog" id="fProg"></div>` : `<p class="hint">A loja não tem janelas sem resposta: tudo foi informado na primeira pesquisa. Confira a grade e envie para confirmar.</p>`}
         <div class="slots" id="fGrid" role="group" aria-label="Janelas de recebimento"></div>
         <div class="legend2">
+          ${total?`<span class="lg-i"><i class="lg-sw pd"></i>Sem resposta</span><span class="lg-i"><i class="lg-sw sl"></i>Selecionada</span><span class="lg-i"><i class="lg-sw no"></i>Respondida: não recebe</span>`:''}
           <span class="lg-i"><i class="lg-sw ok"></i>Recebe</span>
-          <span class="lg-i"><i class="lg-sw no"></i>Não recebe, precisa de justificativa</span>
-          ${fs.locked.size?`<span class="lg-i">${ICON_LOCK}Informado na 1ª pesquisa (fixo)</span>`:''}</div></li>
-      <li class="fstep"><h3><span class="n">3</span>Justificativa</h3><div id="fJust"></div></li>
+          <span class="lg-i">${ICON_LOCK}Informado na 1ª pesquisa</span></div>
+        ${total ? `<div class="apanel" id="fPanel"></div>` : ''}</li>
+      ${total ? `<li class="fstep"><h3><span class="n">3</span>Respostas dadas</h3><div id="fGroups"></div></li>` : ''}
     </ol>
+    ${prevBox() ? `<div class="fstep" style="border-bottom:0;padding-top:0">${prevBox()}</div>` : ''}
     <p class="ferr" id="fErr" role="alert"></p>
     <div class="fsubmit"><p id="fSum"></p><button class="fbtn" id="fSend">Enviar resposta</button></div></div>`;
   if(!fs.fixedWho){
@@ -472,26 +473,31 @@ function renderForm(){
     $('#fCargo').oninput = e => { fs.cargo = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
   }
   $('#fGrid').addEventListener('click', e => {
-    const b = e.target.closest('.slot, .daybtn'); if(!b || b.disabled) return;
+    const b = e.target.closest('.slot[data-k], .daybtn'); if(!b) return;
     if(b.classList.contains('daybtn')){
-      const i = +b.dataset.i, free = TURNS.map(([t])=>slotKey(i,t)).filter(k=>!fs.locked.has(k));
-      if(!free.length) return;
-      const all = free.every(k => fs.blocked.has(k));
-      free.forEach(k => { const [d,t]=k.split('|'); if(all) fs.blocked.delete(k); else if(!fs.blocked.has(k)) fs.blocked.set(k,{dia:+d,turno:t,tipo:'',txt:''}); });
+      const ks = fs.pend.filter(k => kInfo(k).dia === +b.dataset.i && !fs.ans.has(k));
+      const all = ks.length && ks.every(k => fs.sel.has(k));
+      ks.forEach(k => all ? fs.sel.delete(k) : fs.sel.add(k));
     } else {
-      const k = b.dataset.k, [i,t] = k.split('|');
-      if(fs.blocked.has(k)) fs.blocked.delete(k); else fs.blocked.set(k,{dia:+i,turno:t,tipo:'',txt:''});
+      const k = b.dataset.k; fs.sel.has(k) ? fs.sel.delete(k) : fs.sel.add(k);
     }
-    renderSlots(); renderJust();
+    refresh();
   });
   $('#fSend').onclick = submitForm;
   $('#formRoot').oninput = () => { const e = $('#fErr'); if(e) e.textContent=''; };
-  renderSlots(); renderJust();
+  refresh();
 }
+function prevBox(){
+  const ln = lockedNo(); if(!ln.length) return '';
+  const grp = new Map(); ln.forEach(x => { if(!grp.has(x.txt)) grp.set(x.txt, []); grp.get(x.txt).push(slotKey(x.dia,x.turno)); });
+  return `<details class="prevj"><summary>${ICON_LOCK}<span>Já justificadas na 1ª pesquisa (${ln.length} ${ln.length>1?'janelas':'janela'})</span><span class="pv-t"><span class="o">Ver</span><span class="c">Ocultar</span></span></summary>
+    ${[...grp.entries()].map(([txt,ks]) => `<div class="pv-i"><div class="jt">${chipsOf(ks)}</div><p>${esc(txt)}</p></div>`).join('')}</details>`;
+}
+function refresh(){ renderSlots(); renderPanel(); renderAnswers(); renderSum(); }
 function renderSlots(){
   const g = ['<span></span>', ...DAYS.map((d,i)=>{
-    const free = TURNS.some(([t]) => !fs.locked.has(slotKey(i,t)));
-    return free ? `<button type="button" class="daybtn" data-i="${i}" title="Marcar ou desmarcar as janelas livres do dia">${DAYS_SHORT[i]}</button>` : `<span class="sh">${DAYS_SHORT[i]}</span>`;
+    const open = fs.pend.some(k => kInfo(k).dia===i && !fs.ans.has(k));
+    return open ? `<button type="button" class="daybtn" data-i="${i}" title="Selecionar as janelas sem resposta do dia">${DAYS_SHORT[i]}</button>` : `<span class="sh">${DAYS_SHORT[i]}</span>`;
   })];
   TURNS.forEach(([t,,v]) => {
     g.push(`<span class="rh"><i class="sw" style="background:var(${v})"></i>${t}</span>`);
@@ -499,51 +505,75 @@ function renderSlots(){
       const k = slotKey(i,t), L = fs.locked.get(k);
       if(L){
         const ok = L.state==='ok';
-        g.push(`<button type="button" class="slot locked" disabled aria-pressed="${!ok}" aria-label="${d}, ${t}: ${ok?'recebe':'não recebe'}, informado na primeira pesquisa">${ok?ICON_OK:ICON_NO}${ok?'Recebe':'Não recebe'}<span class="lk">${ICON_LOCK}1ª pesquisa</span></button>`);
-      } else {
-        const on = fs.blocked.has(k);
-        g.push(`<button type="button" class="slot" data-k="${k}" aria-pressed="${on}" aria-label="${d}, ${t}: ${on?'não recebe, precisa de justificativa':'recebe'}">${on?ICON_NO:ICON_OK}${on?'Justificar':'Recebe'}</button>`);
+        g.push(`<div class="slot locked ${ok?'':'no'}" aria-label="${d}, ${t}: ${ok?'recebe':'não recebe'}, informado na primeira pesquisa">${ok?ICON_OK:ICON_NO}${ok?'Recebe':'Não recebe'}<span class="lk">${ICON_LOCK}1ª pesquisa</span></div>`);
+        return;
       }
+      const a = fs.ans.get(k), sel = fs.sel.has(k);
+      let cls = 'pd', body = `${ICON_DOT}Sem resposta`, lab = 'sem resposta';
+      if(a === 'free'){ cls = 'fr'; body = `${ICON_OK}Recebe<span class="lk">liberada</span>`; lab = 'recebe'; }
+      else if(a){ cls = 'an'; body = `${ICON_NO}Não recebe<span class="lk">${gLabel(a)}</span>`; lab = 'não recebe, '+gLabel(a); }
+      g.push(`<button type="button" class="slot ${cls}${sel?' sel':''}" data-k="${k}" aria-pressed="${sel}" aria-label="${d}, ${t}: ${lab}${sel?', selecionada':''}">${body}</button>`);
     });
   });
   $('#fGrid').innerHTML = g.join('');
-  const n = fs.blocked.size, lib = freed().length, ln = lockedNo().length;
-  $('#fSum').innerHTML = n
-    ? `<strong>${n} ${n>1?'janelas':'janela'}</strong> para justificar${lib?`, ${lib} ${lib>1?'liberadas':'liberada'}`:''}.`
-    : (lib ? `${lib} ${lib>1?'janelas liberadas':'janela liberada'}, nada para justificar.` : (ln ? 'Nenhuma janela pendente: as restrições já foram justificadas na 1ª pesquisa.' : 'A loja recebe em todas as janelas.'));
+  const p = $('#fProg');
+  if(p){
+    const n = answeredCount(), tot = fs.pend.length, pc = Math.round(n/tot*100);
+    p.innerHTML = `<div class="prog-h"><span><b>${n} de ${tot}</b> janelas respondidas</span><b>${pc}%</b></div><div class="prog-b"><i style="width:${pc}%"></i></div>`;
+    p.classList.toggle('done', n===tot);
+  }
 }
-const tipoSel = (val) => `<select class="jtipo"><option value="">Escolha</option>${TIPOS.map(o=>`<option ${o===val?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
-function renderJust(){
-  const bl = orderedBlocked(), box = $('#fJust'), ln = lockedNo();
-  const chips = list => list.map(b=>`<span>${DAYS_SHORT[b.dia]} ${b.turno.toLowerCase()}</span>`).join('');
-  let h = '';
-  if(!bl.length){
-    h += `<div class="fok">Nenhuma janela pendente de justificativa.</div>`;
-  } else {
-    h += `<p class="hint" style="margin:0 0 14px">Explique por que a loja não consegue receber nas janelas em rosa.</p>`;
-    if(bl.length > 1) h += `<label class="same"><input type="checkbox" id="fSame" ${fs.same?'checked':''}> Usar a mesma justificativa para todas as janelas pendentes</label>`;
-    if(bl.length === 1 || fs.same){
-      h += `<div class="jitem" data-k="*"><div class="jt">Janelas: ${chips(bl)}</div><div class="jgrid">
-        <label class="ff">Tipo de motivo${tipoSel(fs.common.tipo)}</label>
-        <label class="ff">Justificativa<textarea class="jtxt" maxlength="1500" placeholder="Explique por que a loja não consegue receber nessas janelas">${esc(fs.common.txt)}</textarea></label></div></div>`;
-    } else {
-      h += `<div class="jlist">${bl.map(b => `<div class="jitem" data-k="${slotKey(b.dia,b.turno)}"><div class="jt">${DAYS[b.dia]}, ${b.turno.toLowerCase()}</div><div class="jgrid">
-        <label class="ff">Tipo de motivo${tipoSel(b.tipo)}</label>
-        <label class="ff">Justificativa<textarea class="jtxt" maxlength="1500">${esc(b.txt)}</textarea></label></div></div>`).join('')}</div>`;
-    }
+function renderPanel(){
+  const box = $('#fPanel'); if(!box) return;
+  const sel = [...fs.sel], open = fs.pend.filter(k => !fs.ans.has(k));
+  const reassign = sel.some(k => fs.ans.has(k));
+  if(!sel.length){
+    box.innerHTML = open.length
+      ? `<div class="ap-empty"><span>Nenhuma janela selecionada. Toque nas janelas <b>sem resposta</b> na grade acima${open.length>1?' ou':''}</span>${open.length>1?`<button type="button" class="linkbtn" id="fSelAll">selecione todas as ${open.length} sem resposta</button>`:''}.</div>`
+      : `<div class="ap-done">${ICON_OK}<span>Todas as janelas foram respondidas. Confira as respostas abaixo e envie.</span></div>`;
+    const sa = $('#fSelAll'); if(sa) sa.onclick = () => { open.forEach(k => fs.sel.add(k)); refresh(); };
+    return;
   }
-  if(ln.length){
-    const grp = new Map(); ln.forEach(x => { const k = x.tipo+'|'+x.txt; if(!grp.has(k)) grp.set(k,{...x, list:[]}); grp.get(k).list.push(x); });
-    h += `<details class="prevj"><summary>${ICON_LOCK}<span>Já justificadas na 1ª pesquisa (${ln.length} ${ln.length>1?'janelas':'janela'})</span><span class="pv-t"><span class="o">Ver</span><span class="c">Ocultar</span></span></summary>
-      ${[...grp.values()].map(g => `<div class="pv-i"><div class="jt">${chips(g.list)}<em>${esc(g.tipo)}</em></div><p>${esc(g.txt)}</p></div>`).join('')}</details>`;
-  }
-  box.innerHTML = h;
-  const same = $('#fSame'); if(same) same.onchange = e => { fs.same = e.target.checked; renderJust(); };
-  box.querySelectorAll('.jitem').forEach(it => {
-    const k = it.dataset.k, tgt = k==='*' ? fs.common : fs.blocked.get(k);
-    it.querySelector('.jtipo').onchange = e => { tgt.tipo = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
-    it.querySelector('.jtxt').oninput = e => { tgt.txt = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
+  box.innerHTML = `<div class="ap-h"><b>${sel.length} ${sel.length>1?'janelas selecionadas':'janela selecionada'}</b><span class="ap-chips">${chipsOf(sel)}</span><button type="button" class="linkbtn" id="fClr">Limpar seleção</button></div>
+    ${reassign?'<p class="ap-note">Algumas já tinham resposta; o novo motivo vai substituir o anterior.</p>':''}
+    <label class="ff">Motivo de a loja não receber nessas janelas<textarea id="fDraft" maxlength="1500" placeholder="Escreva com as suas palavras o motivo">${esc(fs.draft)}</textarea></label>
+    <div class="ap-act"><button type="button" class="fbtn" id="fApply">Aplicar motivo às selecionadas</button><button type="button" class="fbtn ghost" id="fFree">A loja recebe nessas janelas</button></div>`;
+  const ta = $('#fDraft');
+  ta.oninput = e => { fs.draft = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
+  $('#fClr').onclick = () => { fs.sel.clear(); refresh(); };
+  $('#fApply').onclick = () => {
+    if(fs.draft.trim().length < 5){ ta.closest('.ff').classList.add('bad'); ta.focus(); $('#fErr').textContent = 'Escreva o motivo (pelo menos 5 caracteres) antes de aplicar.'; return; }
+    const id = 'g'+(fs.nextG++);
+    fs.groups.set(id, {txt: fs.draft.trim()});
+    fs.sel.forEach(k => fs.ans.set(k, id));
+    fs.sel.clear(); fs.draft = ''; cleanGroups(); $('#fErr').textContent = ''; refresh();
+  };
+  $('#fFree').onclick = () => { fs.sel.forEach(k => fs.ans.set(k, 'free')); fs.sel.clear(); cleanGroups(); refresh(); };
+  if(matchMedia('(pointer:fine)').matches) ta.focus({preventScroll:true});
+}
+function cleanGroups(){ [...fs.groups.keys()].forEach(id => { if(!keysOf(id).length) fs.groups.delete(id); }); }
+function renderAnswers(){
+  const box = $('#fGroups'); if(!box) return;
+  const free = keysOf('free');
+  if(!fs.groups.size && !free.length){ box.innerHTML = `<p class="hint" style="margin:0">As respostas aparecem aqui conforme você aplica os motivos.</p>`; return; }
+  box.innerHTML = `<div class="jlist">${[...fs.groups.entries()].map(([id,g]) => `<div class="jitem" data-g="${id}">
+      <div class="jt">${gLabel(id)} ${chipsOf(keysOf(id))}<button type="button" class="linkbtn undo" data-u="${id}">Desfazer</button></div>
+      <label class="ff">Motivo<textarea class="jtxt" maxlength="1500">${esc(g.txt)}</textarea></label></div>`).join('')}
+    ${free.length?`<div class="jitem okitem"><div class="jt">Recebe ${chipsOf(free)}<button type="button" class="linkbtn undo" data-u="free">Desfazer</button></div><p class="hint" style="margin:0">A loja informou que recebe nessas janelas.</p></div>`:''}</div>`;
+  box.querySelectorAll('.jitem[data-g]').forEach(it => {
+    it.querySelector('.jtxt').oninput = e => { fs.groups.get(it.dataset.g).txt = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
   });
+  box.querySelectorAll('.undo').forEach(b => b.onclick = () => {
+    const id = b.dataset.u; fs.pend.forEach(k => { if(fs.ans.get(k) === id) fs.ans.delete(k); });
+    if(id !== 'free') fs.groups.delete(id); refresh();
+  });
+}
+function renderSum(){
+  const tot = fs.pend.length, n = answeredCount(), btn = $('#fSend');
+  const ready = n === tot;
+  btn.disabled = !ready;
+  btn.title = ready ? '' : 'Responda todas as janelas para enviar';
+  $('#fSum').innerHTML = !tot ? 'Nenhuma janela pendente.' : ready ? `<strong>100% respondido.</strong> Pronto para enviar.` : `Faltam <strong>${tot-n} ${tot-n>1?'janelas':'janela'}</strong> para enviar.`;
 }
 async function submitForm(){
   const err = $('#fErr'); err.textContent = '';
@@ -553,26 +583,24 @@ async function submitForm(){
     if(fs.nome.trim().length < 3) mark($('#fNome'));
     if(fs.cargo.trim().length < 3) mark($('#fCargo'));
   }
-  const bl = orderedBlocked(), useCommon = bl.length===1 || fs.same;
-  $('#fJust').querySelectorAll('.jitem').forEach(it => {
-    const k = it.dataset.k, src = k==='*' ? fs.common : fs.blocked.get(k);
-    if(!src.tipo) mark(it.querySelector('.jtipo'));
-    if(src.txt.trim().length < 5) mark(it.querySelector('.jtxt'));
-  });
+  if(answeredCount() < fs.pend.length){ err.textContent = 'Ainda há janelas sem resposta.'; return; }
+  document.querySelectorAll('#fGroups .jitem[data-g]').forEach(it => { if(fs.groups.get(it.dataset.g).txt.trim().length < 5) mark(it.querySelector('.jtxt')); });
   if(bad){ err.textContent = 'Preencha os campos destacados para enviar.'; bad.focus(); return; }
   if(!FORM_ENDPOINT){ err.textContent = 'O envio ainda não foi configurado. Avise a equipe responsável pela pesquisa.'; return; }
-  const bloqueios = [
-    ...lockedNo().map(x => ({ dia:DAYS[x.dia], turno:x.turno, tipo:x.tipo, justificativa:x.txt, origem:'pesquisa' })),
-    ...bl.map(b => ({ dia:DAYS[b.dia], turno:b.turno, tipo: useCommon ? fs.common.tipo : b.tipo, justificativa: (useCommon ? fs.common.txt : b.txt).trim(), origem:'gerente' }))
-  ].sort((a,b) => DAYS.indexOf(a.dia)-DAYS.indexOf(b.dia) || TURNS.findIndex(x=>x[0]===a.turno)-TURNS.findIndex(x=>x[0]===b.turno));
-  const liberadas = freed().map(x => ({ dia:DAYS[x.dia], turno:x.turno }));
+  const rows = [];
+  lockedNo().forEach(x => rows.push({ dia:DAYS[x.dia], turno:x.turno, justificativa:x.txt, grupo:'', origem:'pesquisa' }));
+  fs.groups.forEach((g,id) => keysOf(id).forEach(k => { const x = kInfo(k); rows.push({ dia:DAYS[x.dia], turno:x.turno, justificativa:g.txt.trim(), grupo:gLabel(id), origem:'gerente' }); }));
+  const bloqueios = rows.sort((a,b) => DAYS.indexOf(a.dia)-DAYS.indexOf(b.dia) || TURNS.findIndex(x=>x[0]===a.turno)-TURNS.findIndex(x=>x[0]===b.turno));
+  const liberadas = sortKeys(keysOf('free')).map(k => { const x = kInfo(k); return { dia:DAYS[x.dia], turno:x.turno }; });
   const payload = { loja: fs.code, token: fs.token, nome: fs.nome.trim(), cargo: fs.cargo.trim(), bloqueios, liberadas };
+  const resumo = [...fs.groups.entries()].map(([id,g]) => `<li><b>${gLabel(id)}</b> (${keysOf(id).length} ${keysOf(id).length>1?'janelas':'janela'}): ${esc(g.txt.trim())}</li>`).join('')
+    + (liberadas.length ? `<li><b>Recebe</b> (${liberadas.length} ${liberadas.length>1?'janelas':'janela'})</li>` : '');
   const btn = $('#fSend'); btn.disabled = true; btn.textContent = 'Enviando…';
   try{
     const r = await fetch(FORM_ENDPOINT, { method:'POST', body: JSON.stringify(payload) });
     const j = await r.json();
     if(!j.ok) throw new Error(j.erro || 'Não foi possível registrar a resposta.');
-    fs.sent = { envio: j.envio, bloqueios, liberadas };
+    fs.sent = { envio: j.envio, resumo: resumo ? `<ul>${resumo}</ul>` : '<p>A resposta confirma a grade da primeira pesquisa.</p>' };
     renderForm(); window.scrollTo({top:0, behavior:'instant'});
   }catch(e){
     err.textContent = (e && e.message && !/fetch|network|json/i.test(e.message)) ? e.message : 'Não foi possível enviar agora. Verifique a internet e tente de novo.';

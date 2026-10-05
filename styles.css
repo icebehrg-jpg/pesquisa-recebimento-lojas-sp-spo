@@ -2236,6 +2236,205 @@ body.form-mode .pager {
 }
 
 
+/* Formulário: seleção e respostas livres */
+
+.slot.pd {
+    background: var(--surface);
+    border: 1.5px dashed color-mix(in srgb, var(--manha) 80%, var(--muted));
+    color: var(--muted)
+}
+
+.slot.an {
+    background: var(--nao-soft);
+    border-color: var(--nao);
+    color: var(--nao-ink)
+}
+
+.slot.fr {
+    background: var(--sim-soft)
+}
+
+.slot.sel {
+    outline: 3px solid var(--accent);
+    outline-offset: 1px;
+    border-style: solid;
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+    color: var(--accent)
+}
+
+.slot.locked.no {
+    background: var(--nao-soft);
+    border-color: color-mix(in srgb, var(--nao) 60%, transparent);
+    color: var(--nao-ink)
+}
+
+.lg-sw.pd {
+    background: var(--surface);
+    border-style: dashed;
+    border-color: color-mix(in srgb, var(--manha) 80%, var(--muted))
+}
+
+.lg-sw.sl {
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+    border-color: var(--accent)
+}
+
+.prog {
+    margin: 0 0 18px
+}
+
+.prog-h {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--muted)
+}
+
+.prog-h b {
+    color: var(--ink);
+    font-weight: 600
+}
+
+.prog-b {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--empty);
+    overflow: hidden
+}
+
+.prog-b i {
+    display: block;
+    height: 100%;
+    background: var(--manha);
+    border-radius: 4px;
+    transition: width .3s
+}
+
+.prog.done .prog-b i {
+    background: var(--sim)
+}
+
+.apanel {
+    margin-top: 18px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.ap-h {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px
+}
+
+.ap-h b {
+    font-size: 14.5px
+}
+
+.ap-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px
+}
+
+.ap-chips span,
+.jitem .jt span {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+    color: var(--accent);
+    font-weight: 600
+}
+
+.jitem .jt span {
+    background: var(--nao-soft);
+    color: var(--nao-ink)
+}
+
+.jitem.okitem {
+    border-color: color-mix(in srgb, var(--sim) 45%, var(--line));
+    border-left-color: var(--sim)
+}
+
+.jitem.okitem .jt span {
+    background: var(--sim-soft);
+    color: var(--ink)
+}
+
+.jitem.okitem .jt {
+    color: color-mix(in srgb, var(--sim) 70%, var(--ink))
+}
+
+.ap-note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.ap-act {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px
+}
+
+.ap-empty,
+.ap-done {
+    font-size: 14px;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center
+}
+
+.ap-done {
+    color: var(--ink)
+}
+
+.ap-done svg {
+    color: var(--sim)
+}
+
+.linkbtn {
+    all: unset;
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px
+}
+
+.linkbtn:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.ap-h .linkbtn,
+.jitem .undo {
+    margin-left: auto
+}
+
+.fbtn:disabled {
+    opacity: .45;
+    cursor: not-allowed
+}
+
+@media (max-width:700px) {
+    .ap-act .fbtn {
+        width: 100%;
+        justify-content: center
+    }
+}
+
+
 /* Formulário: itens fixos */
 
 .ffixed {
