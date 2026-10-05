@@ -1647,6 +1647,480 @@ table.gt {
 }
 
 
+/* Formulário do gerente */
+
+body.form-mode .top .nav,
+body.form-mode .mnav,
+body.form-mode #presentBtn,
+body.form-mode footer,
+body.form-mode .pager {
+    display: none!important
+}
+
+.fwrap {
+    max-width: 860px;
+    margin: 0 auto
+}
+
+.fcard {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden
+}
+
+.fhead {
+    padding: 28px 28px 22px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 7%, var(--surface)), var(--surface))
+}
+
+.fhead .meta {
+    margin: 0 0 6px
+}
+
+.ftitle {
+    font-size: clamp(24px, 3.4vw, 32px);
+    max-width: none;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    font-weight: 600;
+    margin: 0 0 14px
+}
+
+.fstore {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center
+}
+
+.fstore b {
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 4px
+}
+
+.fstore span {
+    font-size: 12.5px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--muted)
+}
+
+.fsteps {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+.fstep {
+    padding: 26px 28px;
+    border-bottom: 1px solid var(--line)
+}
+
+.fstep h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 6px
+}
+
+.fstep h3 .n {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--surface);
+    font-size: 12.5px;
+    flex: none
+}
+
+.fstep>.hint {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 18px 34px
+}
+
+.frow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px
+}
+
+.ff {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--muted);
+    font-weight: 500
+}
+
+.ff input,
+.ff select,
+.ff textarea {
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 10px 12px;
+    width: 100%
+}
+
+.ff textarea {
+    min-height: 92px;
+    resize: vertical;
+    line-height: 1.5
+}
+
+.ff input:focus,
+.ff select:focus,
+.ff textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-color: transparent
+}
+
+.ff.bad input,
+.ff.bad select,
+.ff.bad textarea {
+    border-color: var(--nao);
+    background: color-mix(in srgb, var(--nao-soft) 45%, var(--surface))
+}
+
+.ff small {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 12.5px
+}
+
+.slots {
+    display: grid;
+    grid-template-columns: 96px repeat(6, 1fr);
+    gap: 8px;
+    align-items: stretch
+}
+
+.slots .sh {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    padding: 4px 0
+}
+
+.slots .daybtn {
+    all: unset;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 7px
+}
+
+.slots .daybtn:hover {
+    background: var(--hover);
+    color: var(--ink)
+}
+
+.slots .daybtn:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.slots .rh {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500
+}
+
+.slot {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    min-height: 58px;
+    border-radius: 10px;
+    border: 1.5px solid color-mix(in srgb, var(--sim) 45%, transparent);
+    background: var(--sim-soft);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--sim) 70%, var(--ink));
+    transition: background .15s, border-color .15s, transform .1s;
+    text-align: center
+}
+
+.slot:hover {
+    transform: translateY(-1px)
+}
+
+.slot:active {
+    transform: none
+}
+
+.slot:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px
+}
+
+.slot[aria-pressed="true"] {
+    background: var(--nao-soft);
+    border-color: var(--nao);
+    color: var(--nao-ink)
+}
+
+.slot svg {
+    flex: none
+}
+
+.legend2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.jlist {
+    display: flex;
+    flex-direction: column;
+    gap: 16px
+}
+
+.jitem {
+    border: 1px solid color-mix(in srgb, var(--nao) 35%, var(--line));
+    border-left: 4px solid var(--nao);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.jitem .jt {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--nao-ink)
+}
+
+.jitem .jt span {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: var(--nao-soft);
+    color: var(--nao-ink)
+}
+
+.jgrid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 12px
+}
+
+.same {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    margin: 0 0 16px;
+    cursor: pointer
+}
+
+.same input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent)
+}
+
+.fok {
+    border-left: 4px solid var(--sim);
+    background: var(--sim-soft);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 14.5px
+}
+
+.fsubmit {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 22px 28px;
+    background: var(--bg);
+    flex-wrap: wrap
+}
+
+.fsubmit p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted)
+}
+
+.fsubmit p strong {
+    color: var(--ink)
+}
+
+.fbtn {
+    border: 0;
+    background: var(--accent);
+    color: var(--surface);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px
+}
+
+.fbtn:hover {
+    filter: brightness(1.08)
+}
+
+.fbtn:disabled {
+    opacity: .6;
+    cursor: progress
+}
+
+.fbtn.ghost {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--line)
+}
+
+.ferr {
+    margin: 0;
+    padding: 0 28px;
+    color: var(--nao-ink);
+    font-size: 14px;
+    font-weight: 500
+}
+
+.ferr:not(:empty) {
+    padding: 14px 28px;
+    background: var(--nao-soft)
+}
+
+.fdone {
+    padding: 44px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px
+}
+
+.fdone .ic {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--sim-soft);
+    color: var(--sim);
+    display: grid;
+    place-items: center
+}
+
+.fdone h2 {
+    font-size: 24px;
+    margin: 0
+}
+
+.fdone p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 52ch
+}
+
+.fdone code {
+    font-size: 14px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 3px 8px;
+    color: var(--ink)
+}
+
+.fdone ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+    text-align: left;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px
+}
+
+.fmsg {
+    padding: 44px 28px;
+    text-align: center;
+    color: var(--muted)
+}
+
+.fmsg h2 {
+    color: var(--ink);
+    font-size: 22px;
+    margin: 0 0 8px
+}
+
+@media (max-width:700px) {
+    .fhead,
+    .fstep,
+    .fsubmit {
+        padding-left: 18px;
+        padding-right: 18px
+    }
+    .fstep>.hint {
+        margin-left: 0
+    }
+    .frow,
+    .jgrid {
+        grid-template-columns: 1fr
+    }
+    .slots {
+        grid-template-columns: 62px repeat(6, 1fr);
+        gap: 5px
+    }
+    .slot {
+        min-height: 50px;
+        font-size: 0;
+        gap: 0
+    }
+    .slots .rh {
+        font-size: 12.5px;
+        gap: 5px
+    }
+    .fsubmit .fbtn {
+        width: 100%;
+        justify-content: center
+    }
+}
+
+
 /* Tooltip */
 
 .tip {
