@@ -320,7 +320,7 @@ function openStore(code) {
       ${blockers(info, s.code)}</div>
     <div class="mod-sec"><h4>Detalhe por dia</h4>
     ${s.responded ? `<div class="dlist">${mergeDays(s.days).map(({ d, a, b }) => `<div class="drow"><span class="dn">${a === b ? DAYS[a] : (b - a === 1 ? DAYS_SHORT[a] + ' e ' + DAYS_SHORT[b] : DAYS_SHORT[a] + ' a ' + DAYS_SHORT[b])}</span><div>${d.ok ? TURNS.filter(([t]) => d.p.includes(t)).map(([t, k]) => `<span class="pill ${k}">${t}</span>`).join('')
-        : `<span class="pill x">Não recebe</span><span class="dn-why">${CATS[d.cat].t}, motivo em destaque no topo</span>`
+            : `<span class="pill x">Não recebe</span><span class="dn-why">${CATS[d.cat].t}, motivo em destaque no topo</span>`
         }</div></div>`).join('')}</div>` : `<div class="notice">A loja ainda não respondeu. Os dias e turnos aparecem aqui assim que a resposta entrar na planilha.</div>`}</div>`;
     $('#drClose').onclick = () => dr.close();
     tip.classList.remove('on');
@@ -363,19 +363,44 @@ const ICON_OK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" str
 const ICON_NO = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
 let fs = null;
 const slotKey = (i, t) => i + '|' + t;
+let pickQ = '';
 function openForm(raw) {
     const params = new URLSearchParams(raw.split('?')[1] || '');
-    const code = (params.get('loja') || '').replace(/\D/g, '').padStart(4, '0');
+    const rawCode = (params.get('loja') || '').replace(/\D/g, '');
+    const code = rawCode ? rawCode.padStart(4, '0') : '';
     const token = (params.get('t') || '').trim();
-    const s = byCode[code];
-    const root = $('#formRoot');
-    if (!s || !token) {
-        root.innerHTML = `<div class="fcard"><div class="fmsg"><h2>Link incompleto</h2><p>Abra o formulário pelo link enviado para a sua loja. Ele já traz o código da loja e a chave de acesso.</p></div></div>`;
-        return;
-    }
-    if (!fs || fs.code !== code) fs = { code, token, s, nome: '', cargo: '', blocked: new Map(), same: true, common: { tipo: '', txt: '' }, sent: null, sending: false };
+    const s = code ? byCode[code] : null;
+    if (!s) { renderPicker(code ? `Não encontramos a loja ${code}. Escolha na lista abaixo.` : ''); return; }
+    if (!fs || fs.code !== code) fs = { code, token, s, nome: s.resp || '', cargo: s.role || '', prefilled: !!s.resp, blocked: new Map(), same: true, common: { tipo: '', txt: '' }, sent: null };
     fs.token = token;
     renderForm();
+}
+function renderPicker(msg) {
+    const root = $('#formRoot');
+    root.innerHTML = `<div class="fcard">
+    <header class="fhead"><p class="meta">Pesquisa de recebimento de carga</p>
+      <h1 class="ftitle">Janelas de recebimento da loja</h1>
+      <p class="fintro">Escolha a sua loja para começar. Em seguida, confirme quem está respondendo e marque as janelas em que a loja não pode receber o caminhão.</p></header>
+    <div class="fstep">
+      <h3>Qual é a sua loja?</h3>
+      ${msg ? `<p class="ferr" style="padding:10px 14px;border-radius:8px;margin:12px 0 0">${esc(msg)}</p>` : ''}
+      <label class="psearch"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="pickQ" type="search" placeholder="Digite o código ou o nome da loja" aria-label="Buscar loja" value="${esc(pickQ)}" autocomplete="off"></label>
+      <div id="pickList" class="plist"></div>
+    </div></div>`;
+    const draw = () => {
+        const q = pickQ.trim().toLowerCase();
+        const list = ALL.filter(s => !q || s.code.includes(q) || s.name.toLowerCase().includes(q) || s.grp.toLowerCase().includes(q));
+        if (!list.length) { $('#pickList').innerHTML = `<p class="pempty">Nenhuma loja encontrada para "${esc(pickQ)}".</p>`; return; }
+        const gs = [...new Set(list.map(s => s.grp))].sort((a, b) => a.localeCompare(b, 'pt'));
+        $('#pickList').innerHTML = gs.map(g => `<div class="pgroup"><h4>${esc(g)}</h4><div class="pgrid">${list.filter(s => s.grp === g).sort(byCodeSort).map(s => `<button type="button" class="pstore" data-code="${s.code}"><small>${s.code}</small><b>${esc(s.name)}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`).join('')
+            }</div></div>`).join('');
+    };
+    draw();
+    $('#pickQ').oninput = e => { pickQ = e.target.value; draw(); };
+    $('#pickQ').onkeydown = e => { if (e.key === 'Enter') { const b = $('#pickList .pstore'); if (b) b.click(); } };
+    $('#pickList').onclick = e => { const b = e.target.closest('.pstore'); if (b) location.hash = '#responder?loja=' + b.dataset.code; };
+    if (matchMedia('(pointer:fine)').matches) $('#pickQ').focus();
 }
 function orderedBlocked() {
     return [...fs.blocked.values()].sort((a, b) => a.dia - b.dia || TURNS.findIndex(x => x[0] === a.turno) - TURNS.findIndex(x => x[0] === b.turno));
@@ -390,16 +415,18 @@ function renderForm() {
       <p>Obrigado! As janelas da loja ${s.code} ${esc(s.name)} foram registradas. Protocolo <code>${esc(fs.sent.envio)}</code>.</p>
       ${bl.length ? `<ul>${bl.map(b => `<li><span class="pill x">Não recebe</span> ${b.dia}, ${b.turno.toLowerCase()}</li>`).join('')}</ul>` : '<p>A loja informou que recebe em todas as janelas.</p>'}
       <p style="font-size:13.5px">Se precisar corrigir, envie de novo. A resposta mais recente é a que vale.</p>
-      <button class="fbtn ghost" id="fAgain">Corrigir e enviar de novo</button></div></div>`;
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="fbtn ghost" id="fAgain">Corrigir e enviar de novo</button>${fs.token ? '' : '<a class="fbtn ghost" href="#responder" style="text-decoration:none">Responder por outra loja</a>'}</div></div></div>`;
         $('#fAgain').onclick = () => { fs.sent = null; renderForm(); };
         return;
     }
     root.innerHTML = `<div class="fcard">
     <header class="fhead"><p class="meta">Pesquisa de recebimento de carga</p>
       <h1 class="ftitle">Janelas de recebimento da loja</h1>
-      <div class="fstore"><b>${s.code} ${esc(s.name)}</b><span>${esc(s.grp)}</span><span>${esc(s.truck)}</span><span>${esc(s.ativo)}</span></div></header>
+      <div class="fstore"><b>${s.code} ${esc(s.name)}</b><span>${esc(s.grp)}</span><span>${esc(s.truck)}</span><span>${esc(s.ativo)}</span>
+        ${fs.token ? '' : `<a class="fswap" href="#responder">Não é a sua loja? Trocar</a>`}</div></header>
     <ol class="fsteps">
       <li class="fstep"><h3><span class="n">1</span>Quem está respondendo</h3>
+        ${fs.prefilled ? `<p class="hint">Preenchemos com quem respondeu a primeira pesquisa. Se outra pessoa estiver respondendo agora, é só alterar.</p>` : ''}
         <div class="frow"><label class="ff" id="ffNome">Nome<input id="fNome" autocomplete="name" maxlength="120" value="${esc(fs.nome)}"></label>
         <label class="ff" id="ffCargo">Cargo<input id="fCargo" maxlength="80" value="${esc(fs.cargo)}" placeholder="Ex.: Gerente de loja"></label></div></li>
       <li class="fstep"><h3><span class="n">2</span>Marque as janelas em que a loja não pode receber</h3>

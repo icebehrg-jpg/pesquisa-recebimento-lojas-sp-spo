@@ -2120,6 +2120,121 @@ body.form-mode .pager {
     }
 }
 
+.fintro {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 60ch
+}
+
+.fswap {
+    font-size: 13px;
+    color: var(--accent);
+    margin-left: auto;
+    text-underline-offset: 3px
+}
+
+.psearch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0 14px;
+    margin: 16px 0 20px;
+    color: var(--muted);
+    background: var(--surface)
+}
+
+.psearch:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-color: transparent;
+    color: var(--ink)
+}
+
+.psearch input {
+    border: 0;
+    outline: none;
+    background: transparent;
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    padding: 13px 0;
+    width: 100%
+}
+
+.plist {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: min(60vh, 560px);
+    overflow: auto;
+    padding-right: 4px
+}
+
+.pgroup h4 {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0 0 8px;
+    text-transform: none
+}
+
+.pgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px
+}
+
+.pstore {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    font-size: 14.5px
+}
+
+.pstore:hover {
+    background: var(--hover);
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--line))
+}
+
+.pstore:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px
+}
+
+.pstore small {
+    color: var(--muted);
+    font-size: 12.5px;
+    width: 34px;
+    flex: none
+}
+
+.pstore b {
+    font-weight: 500;
+    flex: 1
+}
+
+.pstore svg {
+    color: var(--muted);
+    flex: none
+}
+
+.pempty {
+    color: var(--muted);
+    text-align: center;
+    padding: 24px 0;
+    margin: 0
+}
+
 
 /* Tooltip */
 
