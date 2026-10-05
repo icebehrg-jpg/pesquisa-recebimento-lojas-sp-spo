@@ -2236,6 +2236,176 @@ body.form-mode .pager {
 }
 
 
+/* Formulário: itens fixos */
+
+.ffixed {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 28px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 4px
+}
+
+.ffixed div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px
+}
+
+.ffixed small {
+    font-size: 12.5px;
+    color: var(--muted)
+}
+
+.ffixed b {
+    font-size: 15.5px;
+    font-weight: 600
+}
+
+.ffixed .lk,
+.slot .lk {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 500
+}
+
+.ffixed .lk {
+    margin-left: auto
+}
+
+.slot.locked {
+    cursor: default;
+    opacity: .62;
+    border-style: solid;
+    filter: saturate(.6)
+}
+
+.slot.locked:hover {
+    transform: none
+}
+
+.slot .lk {
+    font-size: 10.5px;
+    margin-top: 1px
+}
+
+.lg-i {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px
+}
+
+.lg-sw {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    border: 1.5px solid
+}
+
+.lg-sw.ok {
+    background: var(--sim-soft);
+    border-color: color-mix(in srgb, var(--sim) 45%, transparent)
+}
+
+.lg-sw.no {
+    background: var(--nao-soft);
+    border-color: var(--nao)
+}
+
+.prevj {
+    margin-top: 18px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg)
+}
+
+.prevj summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted)
+}
+
+.prevj summary::-webkit-details-marker {
+    display: none
+}
+
+.prevj .pv-t {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--accent)
+}
+
+.prevj .pv-t .c {
+    display: none
+}
+
+.prevj[open] .pv-t .o {
+    display: none
+}
+
+.prevj[open] .pv-t .c {
+    display: inline
+}
+
+.pv-i {
+    padding: 12px 14px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 6px
+}
+
+.pv-i .jt {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center
+}
+
+.pv-i .jt span {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: var(--nao-soft);
+    color: var(--nao-ink);
+    font-weight: 600
+}
+
+.pv-i .jt em {
+    font-style: normal;
+    font-size: 12.5px;
+    color: var(--muted)
+}
+
+.pv-i p {
+    margin: 0;
+    font-size: 14px;
+    white-space: pre-line
+}
+
+@media (max-width:700px) {
+    .slot .lk {
+        display: none
+    }
+    .ffixed .lk {
+        margin-left: 0
+    }
+}
+
+
 /* Tooltip */
 
 .tip {
