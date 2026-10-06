@@ -3,762 +3,636 @@
 /* ===== CONFIGURAÇÃO: cole aqui a URL do Apps Script (termina em /exec) ===== */
 const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxE3hKLXwcSvDKvZekwUg7BKlC7wxgUnz5GKd35obDb1XehH5SReuCUy-MwNPfuUQe_/exec';
 /* ============================================================================ */
-const ALL = [{ "code": "0003", "name": "Ipiranga", "full": "0003 - SP-SPO-Ipiranga", "grp": "Capital Sul 1", "grpFull": "São Paulo / Capital Sul 1", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Michele Aparecida do Carmo", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 12:37" }, { "code": "0007", "name": "Lapa", "full": "0007 - SP-SPO-Lapa", "grp": "Capital Norte Oeste", "grpFull": "São Paulo / Capital Norte Oeste", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Josimar Cavalcante", "role": "Gerente I", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "01/10/2026 12:07" }, { "code": "0008", "name": "Tuiuti", "full": "0008 - SP-SPO-Tuiuti", "grp": "Capital Leste 1", "grpFull": "São Paulo / Capital Leste 1", "truck": "Toco", "ativo": "PQ 3 ALTO", "responded": true, "resp": "Juliana Mendes de Oliveira", "role": "Gerente de loja", "days": [{ "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã"] }], "ts": "02/10/2026 09:50" }, { "code": "0009", "name": "R.Iguatemi", "full": "0009 - SP-SPO-R.Iguatemi", "grp": "Capital Oeste", "grpFull": "São Paulo / Capital Oeste", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Fabiana Odilia da Costa Ciriaco", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 13:47" }, { "code": "0010", "name": "Pompeia", "full": "0010 - SP-SPO-Pompeia", "grp": "Capital Norte Oeste", "grpFull": "São Paulo / Capital Norte Oeste", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Marcos de Toledo", "role": "Gerente", "days": [{ "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }], "ts": "01/10/2026 12:14" }, { "code": "0011", "name": "S.Trimais", "full": "0011 - SP-SPO-S.Trimais", "grp": "Capital Norte 1", "grpFull": "São Paulo / Capital Norte 1", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Cintia Franchi da Silva", "role": "Gerente III", "days": [{ "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }], "ts": "02/10/2026 10:47" }, { "code": "0013", "name": "V.Mariana", "full": "0013 - SP-SPO-V.Mariana", "grp": "Capital Sul 1", "grpFull": "São Paulo / Capital Sul 1", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Márcio Mathias", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 14:59" }, { "code": "0022", "name": "Moema", "full": "0022 - SP-SPO-Moema", "grp": "Capital Sul 2", "grpFull": "São Paulo / Capital Sul 2", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Marco Antonio Almeida Monteiro", "role": "Gerente administrativo", "days": [{ "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "02/10/2026 10:47" }, { "code": "0023", "name": "Vergueiro", "full": "0023 - SP-SPO-Vergueiro", "grp": "Capital Sul 1", "grpFull": "São Paulo / Capital Sul 1", "truck": "Toco", "ativo": "GD 3 ALTO", "responded": true, "resp": "Guilherme", "role": "Gerente operacional", "days": [{ "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 16:40" }, { "code": "0025", "name": "ItaAvJPessego", "full": "0025 - SP-SPO-ItaAvJPessego", "grp": "Capital Leste 2", "grpFull": "São Paulo / Capital Leste 2", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Patrícia de Jesus", "role": "Gerente trainee", "days": [{ "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 14:55" }, { "code": "0026", "name": "Santana", "full": "0026 - SP-SPO-Santana", "grp": "Capital Norte 1", "grpFull": "São Paulo / Capital Norte 1", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Adriana Marangoni", "role": "Gerente operacional", "days": [{ "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }], "ts": "01/10/2026 16:23" }, { "code": "0030", "name": "S.Aricanduva", "full": "0030 - SP-SPO-S.Aricanduva", "grp": "Capital Leste 2", "grpFull": "São Paulo / Capital Leste 2", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Jackson Lima", "role": "Gerente de loja", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "Existe uma restrição do shopping devido à alta circulação de pessoas.", "orig": "Existe uma restrição do shopping devido a alta circulação de pessoas.", "cat": "shopping" }], "ts": "02/10/2026 10:00" }, { "code": "0031", "name": "AvPaulistaTri", "full": "0031 - SP-SPO-AvPaulistaTri", "grp": "Capital Central Paulista", "grpFull": "São Paulo / Capital Central Paulista", "truck": "Toco", "ativo": "ROLL GRANDE", "responded": true, "resp": "Victor Marco Salgado", "role": "Gerente administrativo", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "Aos domingos estamos fechados; seria um dia a menos para realizar a conferência da mercadoria.", "orig": "Domingos estamos fechados , seria 1 dia a menos para realizar a conferencia da mercadoria .", "cat": "rotina" }], "ts": "01/10/2026 12:28" }, { "code": "0032", "name": "S.MarketPlace", "full": "0032 - SP-SPO-S.MarketPlace", "grp": "Capital Sul 2", "grpFull": "São Paulo / Capital Sul 2", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Jaciel Braz", "role": "Gerente operacional", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "Junto à doca há uma operação do iFood, onde os entregadores retiram pedidos; por ser sexta-feira, a doca fica cheia de entregadores com as motos, dificultando o recebimento de carga.", "orig": "JUNTO A DOCA TEM UMA OPERAÇÃO DO IFOOD, ONDE OS ENTREGADORES RETIRAM PEDIDOS, POR SER SEXTA FEIRA A DOCA FICA CHEIO DE ENTREGADORES COM AS MOTOS, DIFICULTANDO O RECEBIMENTO DE CARGA.", "cat": "doca" }, { "ok": false, "why": "A doca não funciona aos finais de semana.", "orig": "DOCA NÃO FUNCIONA AOS FINAIS DE SEMANA", "cat": "shopping" }], "ts": "01/10/2026 13:04" }, { "code": "0033", "name": "Fco.Morato", "full": "0033 - SP-SPO-Fco.Morato", "grp": "Capital Oeste", "grpFull": "São Paulo / Capital Oeste", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Fernanda", "role": "Gerente operacional", "days": [{ "ok": false, "why": "Dia em que os gerentes que trabalham no domingo folgam. Como o caminhão sempre vem por volta das 21h/22h, quem for receber entra mais tarde; sendo assim, a loja ficaria muito tempo sem a presença da gerência.", "orig": "Dia em que os gerente que trabalha domingo folga. Como o caminhão sempre vem por volta de 21/22hs quem for receber entra mais tarde, sendo assim a loja ficaria muito tempo sem a presença da gerencia.", "cat": "equipe" }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde", "Noite"] }, { "ok": true, "p": ["Tarde"] }], "ts": "01/10/2026 12:11" }, { "code": "0038", "name": "S.Interlagos", "full": "0038 - SP-SPO-S.Interlagos", "grp": "Capital Sul 4", "grpFull": "São Paulo / Capital Sul 4", "truck": "Toco", "ativo": "GD 2 ALTO", "responded": true, "resp": "Vitória Wendy Almeida Maia", "role": "Gerente", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "O shopping realiza uma feira de produtos artesanais; os corredores ficam com a passagem obstruída, pois são montadas barraquinhas pelos corredores do shopping.", "orig": "O shopping realiza uma feira de produtos artesanais, os corredores ficam com a passagem obstruída, pois é montada barraquinhas peles corredores do shopping.", "cat": "shopping" }], "ts": "01/10/2026 16:12" }, { "code": "0043", "name": "S.Cantareira", "full": "0043 - SP-SPO-S.Cantareira", "grp": "Capital Norte Oeste", "grpFull": "São Paulo / Capital Norte Oeste", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Fernanda Alves da Silva", "role": "Gerente administrativo de loja", "days": [{ "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": false, "why": "A administração do shopping tem como regra: no sábado, somente em ocasiões muito críticas.", "orig": "Administração do shopping tem como regra, sábado, somente em ocasiões muito críticas.", "cat": "shopping" }], "ts": "01/10/2026 12:18" }, { "code": "0045", "name": "S.Penha", "full": "0045 - SP-SPO-S.Penha", "grp": "Capital Leste 1", "grpFull": "São Paulo / Capital Leste 1", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Ricardo Gabriel", "role": "Gerente de loja", "days": [{ "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã", "Noite"] }, { "ok": true, "p": ["Manhã"] }], "ts": "02/10/2026 09:59" }, { "code": "0047", "name": "Leopoldina", "full": "0047 - SP-SPO-Leopoldina", "grp": "Capital Oeste", "grpFull": "São Paulo / Capital Oeste", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Gabriel Alcantara", "role": "Assistente administrativo", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "01/10/2026 12:48" }, { "code": "0056", "name": "A.Pinheiro", "full": "0056 - SP-SPO-A.Pinheiro", "grp": "Capital Sul 3", "grpFull": "São Paulo / Capital Sul 3", "truck": "Truck", "ativo": "PQ 3 ALTO", "responded": true, "resp": "Ronaldo Dutra da Silva", "role": "Gerente operacional", "days": [{ "ok": false, "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.", "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações", "cat": "horario" }, { "ok": false, "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.", "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações", "cat": "horario" }, { "ok": false, "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.", "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações", "cat": "horario" }, { "ok": false, "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.", "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações", "cat": "horario" }, { "ok": false, "why": "Devido às restrições de horário, o caminhão só poderia descarregar após as 22h e, como estamos em um bairro residencial, há reclamações.", "orig": "Devido as restrições de horário, o caminhão só poderia descarregar após as 22:00h e como estamos em um bairro residencial há reclamações", "cat": "horario" }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 15:18" }, { "code": "0057", "name": "V.Maria", "full": "0057 - SP-SPO-V.Maria", "grp": "Capital Norte 1", "grpFull": "São Paulo / Capital Norte 1", "truck": "Truck", "ativo": "GD 2 ALTO", "responded": true, "resp": "Carlos Tomaz", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "01/10/2026 15:25" }, { "code": "0060", "name": "Freguesia", "full": "0060 - SP-SPO-Freguesia", "grp": "Capital Norte Oeste", "grpFull": "São Paulo / Capital Norte Oeste", "truck": "Truck", "ativo": "PQ 3 ALTO", "responded": true, "resp": "Elaine Cristina Lobo de Araújo", "role": "Gerente de loja", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "01/10/2026 12:02" }, { "code": "0061", "name": "V.Guilherme", "full": "0061 - SP-SPO-V.Guilherme", "grp": "Capital Norte 1", "grpFull": "São Paulo / Capital Norte 1", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Sandro Gamarra", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "02/10/2026 09:39" }, { "code": "0064", "name": "LiberoBadaro", "full": "0064 - SP-SPO-LiberoBadaro", "grp": "Capital Central", "grpFull": "São Paulo / Capital Central", "truck": "Toco", "ativo": "ROLL PEQ", "responded": true, "resp": "Leandro", "role": "Gerente", "days": [{ "ok": false, "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "cat": "horario" }, { "ok": false, "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "cat": "horario" }, { "ok": false, "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "cat": "horario" }, { "ok": false, "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos, onde o caminhão descarrega.", "cat": "horario" }, { "ok": false, "why": "Devido ao horário do caminhão, entre 22h30 e 23h00, gerando custo com transporte adicional para os funcionários (Uber), região de risco no período da noite e avenida com muita movimentação de veículos durante a semana, onde o caminhão descarrega.", "orig": "Devido ao horário do caminhão entre 22h30 / 23h00,  gerando custo com transporte adicional para os funcionários ( UBER ), região de risco no periodo da noite e avenida com muita movimentação de veículos durante a semana, onde o caminhão descarrega.", "cat": "horario" }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 15:36" }, { "code": "0068", "name": "SantaCatarina", "full": "0068 - SP-SPO-SantaCatarina", "grp": "Capital Sul 4", "grpFull": "São Paulo / Capital Sul 4", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Uilson da Costa Aguiar", "role": "Gerente operacional", "days": [{ "ok": false, "why": "Porque nosso horário é de madrugada.", "orig": "Porque nosso horário é de madrugada.", "cat": "rotina" }, { "ok": false, "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.", "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.", "cat": "rotina" }, { "ok": false, "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.", "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.", "cat": "rotina" }, { "ok": false, "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.", "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.", "cat": "rotina" }, { "ok": false, "why": "Nosso melhor dia de recebimento é aos sábados, pois nesse dia a carga horária da loja é menor, temos todos os colaboradores e temos menos movimento; com isso, conseguimos receber e conferir toda a carga e ainda abastecer. Recebemos às 5h da manhã.", "orig": "Nosso melhor dia de recebimento é aos sábados pois, nesse dia a carga horaria da loja é menor, temos todos os colaboradores e temos menos movimento, com isso, conseguimos receber e conferi toda a carga ainda abastecer. Recebemos as 5:00 horas da manha.", "cat": "rotina" }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 15:08" }, { "code": "0076", "name": "Sao Miguel", "full": "0076 - SP-SPO-Sao Miguel", "grp": "Capital Leste 2", "grpFull": "São Paulo / Capital Leste 2", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Rivania Bayma Oliveira", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 14:15" }, { "code": "0079", "name": "N.Cantareira", "full": "0079 - SP-SPO-N.Cantareira", "grp": "Capital Norte 1", "grpFull": "São Paulo / Capital Norte 1", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Edvanilson de Andrade Almeida", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "01/10/2026 14:20" }, { "code": "0084", "name": "S.Eldorado", "full": "0084 - SP-SPO-S.Eldorado", "grp": "Capital Oeste", "grpFull": "São Paulo / Capital Oeste", "truck": "Toco", "ativo": "GD 2 ALTO", "responded": true, "resp": "Pedro Camargo Girardi", "role": "Gerente de loja", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }], "ts": "01/10/2026 13:25" }, { "code": "0085", "name": "S.Mooca", "full": "0085 - SP-SPO-S.Mooca", "grp": "Capital Leste 1", "grpFull": "São Paulo / Capital Leste 1", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Janilson Elias da Silva", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }], "ts": "02/10/2026 10:47" }, { "code": "0091", "name": "Alvarenga", "full": "0091 - SP-SPO-Alvarenga", "grp": "Capital Oeste", "grpFull": "São Paulo / Capital Oeste", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Lucia Petulia da Silva", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 12:36" }, { "code": "0093", "name": "V.Formosa", "full": "0093 - SP-SPO-V.Formosa", "grp": "Capital Leste 1", "grpFull": "São Paulo / Capital Leste 1", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Rodolpho Stephano", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 14:18" }, { "code": "0111", "name": "S.Itaquera", "full": "0111 - SP-SPO-S.Itaquera", "grp": "Capital Leste 2", "grpFull": "São Paulo / Capital Leste 2", "truck": "Truck", "ativo": "ROLL GRANDE", "responded": true, "resp": "Flavio de Jesus Santos", "role": "Gerente de loja", "days": [{ "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 16:03" }, { "code": "0112", "name": "MariaAntônia", "full": "0112 - SP-SPO-MariaAntônia", "grp": "Capital Central", "grpFull": "São Paulo / Capital Central", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Rodrigo Ribeiro", "role": "Gerente de loja", "days": [{ "ok": false, "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.", "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.", "cat": "horario" }, { "ok": false, "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.", "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento", "cat": "horario" }, { "ok": false, "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.", "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento", "cat": "horario" }, { "ok": false, "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.", "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento", "cat": "horario" }, { "ok": false, "why": "Dificuldade logística\n\nDurante os dias úteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente à loja. Temos dificuldade para encontrar vaga e estacionar o caminhão; esse cenário aumenta o risco para a equipe e para os pedestres.\n\nDificuldade operacional\n\nO caminhão, recebemos conjugado com outra loja; o veículo tem chegado próximo das 23h, tendo impacto na jornada da equipe e gerando intervalo insuficiente entre as jornadas.\nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento.", "orig": "Dificuldade logística\n\nDurante os dias uteis, a região apresenta elevado fluxo de pessoas e veículos, especialmente em razão da movimentação da faculdade localizada em frente a loja. Temos dificuldade para encontrar vaga e estacionar o caminhão, esse cenário aumenta risco para equipe e aos pedestres .\n\nDificuldade operacional\n\nO caminhão recebemos conjugado com outra loja, o veiculo tem chegado próximo das 23:00 hrs, tendo impacto na jornada da equipe, gerando intervalo insuficiente entre as jornadas.   \nA loja atualmente trabalha com quadro de funcionários enxuto, com disponibilidade limitada de colaboradores para realizar a descarga, o que aumenta o tempo do descarregamento", "cat": "horario" }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 13:16" }, { "code": "0124", "name": "Giov.Gronchi", "full": "0124 - SP-SPO-Giov.Gronchi", "grp": "Capital Sul 3", "grpFull": "São Paulo / Capital Sul 3", "truck": "Truck", "ativo": "GD 3 ALTO", "responded": true, "resp": "Erika Rodrigues Moreira", "role": "Gerente de loja I", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Manhã"] }], "ts": "02/10/2026 10:47" }, { "code": "0128", "name": "Morumbi", "full": "0128 - SP-SPO-Morumbi", "grp": "Capital Sul 2", "grpFull": "São Paulo / Capital Sul 2", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Fernanda Faria dos Santos", "role": "Gerente trainee", "days": [{ "ok": false, "why": "Os caminhões só podem transitar na Av. Marginal após as 21h, e devido aos assaltos.", "orig": "Os caminhões só pode transitar na av marginal após as 21:00 e devido aos assaltos.", "cat": "horario" }, { "ok": false, "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.", "orig": "Por o caminhão não poder transitar na av marginal e devido aos assaltos.", "cat": "horario" }, { "ok": false, "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.", "orig": "Por o caminhão não poder transitar na av marginal e devido aos assaltos.", "cat": "horario" }, { "ok": false, "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.", "orig": "Por o caminhão nao poder transitar na av marginal e devido aos assaltos.", "cat": "horario" }, { "ok": false, "why": "Por o caminhão não poder transitar na Av. Marginal e devido aos assaltos.", "orig": "Por o caminhão não poder transitar na av marginal e devido aos assaltos.", "cat": "horario" }, { "ok": true, "p": ["Manhã"] }], "ts": "02/10/2026 10:02" }, { "code": "0130", "name": "S.Tiete", "full": "0130 - SP-SPO-S.Tiete", "grp": "Capital Norte Oeste", "grpFull": "São Paulo / Capital Norte Oeste", "truck": "Truck", "ativo": "ROLL GRANDE", "responded": true, "resp": "Fabio Gama", "role": "Gerente de loja", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "A operação de carga e descarga do shopping é de segunda a sexta, exceto (sábados, domingos e feriados).", "orig": "Operação do shopping de carga e descarga é de segunda a sexta exceto ( sábado, domingos e feriados )", "cat": "shopping" }], "ts": "01/10/2026 14:35" }, { "code": "0138", "name": "S.VilaOlimpia", "full": "0138 - SP-SPO-S.VilaOlimpia", "grp": "Capital Sul 2", "grpFull": "São Paulo / Capital Sul 2", "truck": "Truck", "ativo": "GD 2 ALTO", "responded": true, "resp": "Fabia", "role": "Gerente operacional", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "Podemos receber, porém a dinâmica na doca é bem complicada. Doca extremamente pequena para atender mais de 300 lojas e o teatro; muitas vezes temos apenas um elevador funcionando. A demora é grande.", "orig": "Podemos receber porém a dinâmica na doca é bem complicada. Doca extremamente pequena para atender mais de 300 lojas e o teatro, muitas vezes temos apenas um elevador funcionando.. A demora é grande.", "cat": "doca" }], "ts": "01/10/2026 12:25" }, { "code": "0151", "name": "AvDePinedo", "full": "0151 - SP-SPO-AvDePinedo", "grp": "Capital Sul 3", "grpFull": "São Paulo / Capital Sul 3", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Derlania", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "01/10/2026 13:43" }, { "code": "0162", "name": "AvPaulista", "full": "0162 - SP-SPO-AvPaulista", "grp": "Capital Central Paulista", "grpFull": "São Paulo / Capital Central Paulista", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Adriano Pedreira / Lincoln Olinto", "role": "Gerentes", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "Devido às folgas dos colaboradores.", "orig": "Devido as folgas dos colaboradores", "cat": "equipe" }, { "ok": false, "why": "Devido às folgas dos colaboradores.", "orig": "Devido as folgas dos colaboradores", "cat": "equipe" }, { "ok": false, "why": "Devido às folgas dos colaboradores, aproveitamos os finais de semana devido ao menor movimento em loja.", "orig": "Devido as folgas dos colaboradores aproveitamos os finais de semana devido ao menor movimento em loja.", "cat": "equipe" }], "ts": "01/10/2026 13:52" }, { "code": "0174", "name": "S.Pamplona", "full": "0174 - SP-SPO-S.Pamplona", "grp": "Capital Central Paulista", "grpFull": "São Paulo / Capital Central Paulista", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Éder Lucas Gomes", "role": "Gerente", "days": [{ "ok": false, "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.", "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.", "cat": "shopping" }, { "ok": false, "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.", "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.", "cat": "shopping" }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.", "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.", "cat": "shopping" }, { "ok": false, "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.", "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.", "cat": "shopping" }, { "ok": false, "why": "Teríamos que solicitar a mudança do dia de recebimento junto ao shopping, pois temos a programação de recebimento das outras lojas.", "orig": "TERIAMOS QUE SOLICITAR A MUDANÇA DO DIA DE RECEBIMENTO JUNTO AO SHOPPING, POIS TEMOS A PROGRAMAÇÃO DE RECEBIMENTO DAS OUTRAS LOJAS.", "cat": "shopping" }], "ts": "01/10/2026 12:31" }, { "code": "0190", "name": "W.Luis", "full": "0190 - SP-SPO-W.Luis", "grp": "Capital Sul 4", "grpFull": "São Paulo / Capital Sul 4", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Camila Gabriele da Silva", "role": "Gerente administrativo", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 15:29" }, { "code": "0195", "name": "F.Coutinho", "full": "0195 - SP-SPO-F.Coutinho", "grp": "Capital Oeste", "grpFull": "São Paulo / Capital Oeste", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Ana Sara", "role": "Gerente administrativo", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": false, "why": "Folga do colaborador.", "orig": "FOLGA DO COLABORADOR", "cat": "equipe" }, { "ok": false, "why": "Folga do gerente.", "orig": "FOLGA DO GERENTE", "cat": "equipe" }, { "ok": false, "why": "Não conseguimos receber por conta do horário de funcionamento da loja.\nNo período da manhã há restrição, pois onde o caminhão fica estacionado é Zona Azul.\nE, por ser um bairro residencial, há restrição por conta do barulho.", "orig": "NÃO CONSEGUIMOS RECEBER POR CONTA DO HORARIO DE FUNCIONAMENTO DO LOJA.  \nNO PERIODO DA MANHÃ TEM RESTRIÇÃO, ONDE O CAMINHÃO FICA ESTACIONADO É ZONA AZUL.\nE POR SER UM BAIRRO RESIDENCIAL, TEM RESTRIÇÃO POR CONTA DO BARULHO.", "cat": "horario" }], "ts": "01/10/2026 17:07" }, { "code": "0196", "name": "RicardoJafet", "full": "0196 - SP-SPO-RicardoJafet", "grp": "Capital Sul 1", "grpFull": "São Paulo / Capital Sul 1", "truck": "Truck", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Marília", "role": "Gerente de loja", "days": [{ "ok": false, "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.", "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã", "cat": "shopping" }, { "ok": false, "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.", "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã", "cat": "shopping" }, { "ok": false, "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.", "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã", "cat": "shopping" }, { "ok": false, "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.", "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã", "cat": "shopping" }, { "ok": false, "why": "A logística do complexo não permite. Autorizado só no sábado pela manhã.", "orig": "A logistica do complexo não permite - Autorizado só no sábado pela manhã", "cat": "shopping" }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 17:47" }, { "code": "0199", "name": "JabaquaraBra", "full": "0199 - SP-SPO-JabaquaraBra", "grp": "Capital Sul 1", "grpFull": "São Paulo / Capital Sul 1", "truck": "Toco", "ativo": "GD 3 ALTO", "responded": true, "resp": "Aparecida Cristina Silva Gomes", "role": "Gerente", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 15:11" }, { "code": "0200", "name": "RadialMooca", "full": "0200 - SP-SPO-RadialMooca", "grp": "Capital Leste 1", "grpFull": "São Paulo / Capital Leste 1", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Leandro Teixeira de Araujo", "role": "Gerente", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Manhã"] }], "ts": "01/10/2026 15:02" }, { "code": "0203", "name": "Av.Rudge", "full": "0203 - SP-SPO-Av.Rudge", "grp": "Capital Central", "grpFull": "São Paulo / Capital Central", "truck": "Toco", "ativo": "PQ 3 ALTO", "responded": true, "resp": "Flávio Luiz de Moraes", "role": "Gerente operacional", "days": [{ "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }, { "ok": true, "p": ["Manhã", "Tarde"] }], "ts": "01/10/2026 13:37" }, { "code": "0212", "name": "S.FCaneca", "full": "0212 - SP-SPO-S.FCaneca", "grp": "Capital Central Paulista", "grpFull": "São Paulo / Capital Central Paulista", "truck": "Toco", "ativo": "PQ 2 ALTO", "responded": true, "resp": "Omir Hermelino Raymundo", "role": "Gerente operacional", "days": [{ "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }, { "ok": true, "p": ["Noite"] }], "ts": "02/10/2026 10:47" }, { "code": "0243", "name": "MateoBei", "full": "0243 - SP-SPO-MateoBei", "grp": "Capital Leste 2", "grpFull": "São Paulo / Capital Leste 2", "truck": "Truck", "ativo": "PQ 3 ALTO", "responded": true, "resp": "Makeila Cristina", "role": "Gerente", "days": [{ "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }, { "ok": true, "p": ["Manhã", "Tarde", "Noite"] }], "ts": "01/10/2026 15:59" }];
-const DATA = ALL.filter(s => s.responded);
-const PEND = ALL.filter(s => !s.responded);
-const CLOSED = [{ code: '0173', name: 'S.SPMarket' }];
-const closedTxt = CLOSED.length ? `A loja ${CLOSED.map(c => c.code + ' ' + c.name).join(', ')} está fechada e não entra na análise.` : '';
+const STORES = [{ "code": "0003", "name": "Ipiranga", "full": "0003 - SP-SPO-Ipiranga", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Bom Pastor, 2.912", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0007", "name": "Lapa", "full": "0007 - SP-SPO-Lapa", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Luiz Gatti, 50", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0008", "name": "Tuiuti", "full": "0008 - SP-SPO-Tuiuti", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Tuiuti, 2.516 - Tatuapé", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0009", "name": "R.Iguatemi", "full": "0009 - SP-SPO-R.Iguatemi", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Iguatemi, 321", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0010", "name": "Pompeia", "full": "0010 - SP-SPO-Pompeia", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Francisco Matarazzo, 2.000", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0011", "name": "S.Trimais", "full": "0011 - SP-SPO-S.Trimais", "uf": "SP", "city": "Sao Paulo", "addr": "Avenida Tucuruvi, 220 - 2o. piso", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0013", "name": "V.Mariana", "full": "0013 - SP-SPO-V.Mariana", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Domingos de Morais, 1.118", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0015", "name": "Jurubatuba", "full": "0015 - SP-SBC-Jurubatuba", "uf": "SP", "city": "Sao Bernardo do Campo", "addr": "Rua Jurubatuba, 646 - SÃO BERNARDO - 09725-220", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0016", "name": "A.Neves", "full": "0016 - SP-CAM-A.Neves", "uf": "SP", "city": "Campinas", "addr": "Av. Andrade Neves, 533 e 555", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0019", "name": "AnieloPratici", "full": "0019 - SP-GRU-AnieloPratici", "uf": "SP", "city": "Guarulhos", "addr": "Av. Aniello Pratici, 520", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0020", "name": "Av.Industrial", "full": "0020 - SP-STA-Av.Industrial", "uf": "SP", "city": "Santo Andre", "addr": "Av. Industrial, 681", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0021", "name": "Centro", "full": "0021 - SP-RIB-Centro", "uf": "SP", "city": "Ribeirao Preto", "addr": "Rua Américo Brasiliense, 711", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0022", "name": "Moema", "full": "0022 - SP-SPO-Moema", "uf": "SP", "city": "Sao Paulo", "addr": "Av. dos Imarés, 266", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0023", "name": "Vergueiro", "full": "0023 - SP-SPO-Vergueiro", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Vergueiro, 3.305", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0024", "name": "S.NovaAmerica", "full": "0024 - RJ-RIO-S.NovaAmerica", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. Pastor Martin Luther King Jr, 126", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0025", "name": "ItaAvJPessego", "full": "0025 - SP-SPO-ItaAvJPessego", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Sabbado DAngelo, 1980", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0026", "name": "Santana", "full": "0026 - SP-SPO-Santana", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Voluntários da Pátria, 1.483", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0027", "name": "Centro", "full": "0027 - RJ-RIO-Centro", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. Passos, 42, 44 e 46 - Centro", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0028", "name": "GoianiaJdGoias", "full": "0028 - GO-GO-GoianiaJdGoias", "uf": "GO", "city": "Goiania", "addr": "Av. I, 208, Quadra B-37, Lote 02 - Jardim Goiás", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0029", "name": "S.Bauru", "full": "0029 - SP-BAU-S.Bauru", "uf": "SP", "city": "Bauru", "addr": "Rua Henrique Savi, 55 - quadra 15", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0030", "name": "S.Aricanduva", "full": "0030 - SP-SPO-S.Aricanduva", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Aricanduva, 5.555", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0031", "name": "AvPaulistaTri", "full": "0031 - SP-SPO-AvPaulistaTri", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Paulista, 1.439 - Loja L01", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0032", "name": "S.MarketPlace", "full": "0032 - SP-SPO-S.MarketPlace", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Doutor Chucri Zaidan, 902 -Subsolo", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0033", "name": "Fco.Morato", "full": "0033 - SP-SPO-Fco.Morato", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Professor Francisco Morato, 1,092", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0034", "name": "Savassi", "full": "0034 - MG-BHZ-Savassi", "uf": "MG", "city": "Belo Horizonte", "addr": "Av. do Contorno, 5.873 - Savassi", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0035", "name": "EzequielRamos", "full": "0035 - SP-BAU-EzequielRamos", "uf": "SP", "city": "Bauru", "addr": "Rua Ezequiel Ramos, 5-25", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0036", "name": "Mal.Deodoro", "full": "0036 - SP-SBC-Mal.Deodoro", "uf": "SP", "city": "Sao Bernardo do Campo", "addr": "Rua Marechal Deodoro, 2.177", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0037", "name": "Taboao", "full": "0037 - SP-TAB-Taboao", "uf": "SP", "city": "Taboao da Serra", "addr": "Praça Nicola Vivilechio, 3", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0038", "name": "S.Interlagos", "full": "0038 - SP-SPO-S.Interlagos", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Interlagos, 2.255", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0040", "name": "Araguaia", "full": "0040 - SP-BAR-Araguaia", "uf": "SP", "city": "Barueri", "addr": "Alameda Araguaia, 2.179", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0041", "name": "Centro", "full": "0041 - SP-SJR-Centro", "uf": "SP", "city": "Sao Jose do Rio Preto", "addr": "Rua General Glicério, 3.112 - Centro", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0043", "name": "S.Cantareira", "full": "0043 - SP-SPO-S.Cantareira", "uf": "SP", "city": "Sao Paulo", "addr": "Av Raimundo Pereira de Magalhães, 11001", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0045", "name": "S.Penha", "full": "0045 - SP-SPO-S.Penha", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Dr. João Ribeiro, 304 - Térreo", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0046", "name": "S.Piracicaba", "full": "0046 - SP-PIR-S.Piracicaba", "uf": "SP", "city": "Piracicaba", "addr": "Av. Limeira, 722", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0047", "name": "Leopoldina", "full": "0047 - SP-SPO-Leopoldina", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Imperatriz Leopoldina, 1.170", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0049", "name": "N.DÁvila", "full": "0049 - SP-SJC-N.DÁvila", "uf": "SP", "city": "Sao Jose dos Campos", "addr": "Av. Nelson D Ávila, 1.005 - Jd. São Dimas", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0050", "name": "S.Estação", "full": "0050 - PR-CTB-S.Estação", "uf": "PR", "city": "Curitiba", "addr": "Av. 7 de Setembro, 2.775 - Lj 1151", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0051", "name": "GalCarneiro", "full": "0051 - SP-SOR-GalCarneiro", "uf": "SP", "city": "Sorocaba", "addr": "Av. General Carneiro, 875/877", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0052", "name": "Centro", "full": "0052 - SP-MAR-Centro", "uf": "SP", "city": "Marilia", "addr": "R. São Luiz, 1.085 - Alto Cafezal", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0053", "name": "Seminário", "full": "0053 - PR-CTB-Seminário", "uf": "PR", "city": "Curitiba", "addr": "Av. Nossa Senhora Aparecida, 582", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0054", "name": "NiloPeçanha", "full": "0054 - RJ-NIG-NiloPeçanha", "uf": "RJ", "city": "Nova Iguaçu", "addr": "Av. Nilo Peçanha, 639 - Centro", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0055", "name": "S.Iguatemi", "full": "0055 - SP-CAM-S.Iguatemi", "uf": "SP", "city": "Campinas", "addr": "Av. Iguatemi, 777 - Primeiro Piso - Loja 1", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0056", "name": "A.Pinheiro", "full": "0056 - SP-SPO-A.Pinheiro", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Adolfo Pinheiro, 886", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0057", "name": "V.Maria", "full": "0057 - SP-SPO-V.Maria", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Guilherme Cotching, 563", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0058", "name": "S.Bangu", "full": "0058 - RJ-RIO-S.Bangu", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Rua Fonseca, 240 - Loja 154", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0059", "name": "Com.Norte", "full": "0059 - DF-BRA-Com.Norte", "uf": "DF", "city": "Brasilia", "addr": "SCN Quadra 01, Bloco B, Setor Comercial Norte - Ce", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0060", "name": "Freguesia", "full": "0060 - SP-SPO-Freguesia", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Otaviano Alves de Lima, 4.694", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0061", "name": "V.Guilherme", "full": "0061 - SP-SPO-V.Guilherme", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Morvan Dias de Figueiredo, 2.305", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0062", "name": "S.MauaPlaza", "full": "0062 - SP-MAU-S.MauaPlaza", "uf": "SP", "city": "Maua", "addr": "Av. Gov. Mario Covas Jr, 1 - Lj 181", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0063", "name": "S.Jacareí", "full": "0063 - SP-JAC-S.Jacareí", "uf": "SP", "city": "Jacarei", "addr": "Rua Olimpio Catão, 500 - Centro", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0064", "name": "LiberoBadaro", "full": "0064 - SP-SPO-LiberoBadaro", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Líbero Badaró, 309", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0065", "name": "Mogi", "full": "0065 - SP-MOG-Mogi", "uf": "SP", "city": "Mogi das Cruzes", "addr": "R. Manuel de Oliveira, 310", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0066", "name": "DiademaCentro", "full": "0066 - SP-DIA-DiademaCentro", "uf": "SP", "city": "Diadema", "addr": "Av. Fabio Eduardo Ramos Esquivel, 50", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0067", "name": "S.União", "full": "0067 - SP-OSA-S.União", "uf": "SP", "city": "Osasco", "addr": "Av. dos Autonomistas, 1400", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0068", "name": "SantaCatarina", "full": "0068 - SP-SPO-SantaCatarina", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Santa Catarina, 1.850", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0069", "name": "GranjaViana", "full": "0069 - SP-COT-GranjaViana", "uf": "SP", "city": "Cotia", "addr": "R.Ushima Kira, 87 - Km 23,5 R.Tavares", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0070", "name": "S.Polo", "full": "0070 - SP-IND-S.Polo", "uf": "SP", "city": "Indaiatuba", "addr": "Av. Filtros Mann, 670 - Jd. Tropical", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0071", "name": "Sao Caetano", "full": "0071 - SP-SCS-Sao Caetano", "uf": "SP", "city": "Sao Caetano do Sul", "addr": "Av. Goiás, 101 - Santo Antònio", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0073", "name": "S.NovoShop", "full": "0073 - SP-RIB-S.NovoShop", "uf": "SP", "city": "Ribeirao Preto", "addr": "Av. Presidente Kennedy, 1.500", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0074", "name": "Guanab.Barra", "full": "0074 - RJ-RIO-Guanab.Barra", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. das Américas, 3.501 - Box 1", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0075", "name": "S.GrandeRio", "full": "0075 - RJ-SJM-S.GrandeRio", "uf": "RJ", "city": "Sao Joao de Meriti", "addr": "R. Maria Soares Sendas, 111 - Piso 01", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0076", "name": "Sao Miguel", "full": "0076 - SP-SPO-Sao Miguel", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Marechal Tito, 1.823", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0077", "name": "S.Suzano", "full": "0077 - SP-SUZ-S.Suzano", "uf": "SP", "city": "Suzano", "addr": "Rua Sete de Setembro, 555 - Lj QE-01", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0078", "name": "DomAguirre", "full": "0078 - SP-SOR-DomAguirre", "uf": "SP", "city": "Sorocaba", "addr": "Av. Dom Aguirre, 2.121", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0079", "name": "N.Cantareira", "full": "0079 - SP-SPO-N.Cantareira", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Nova Cantareira, 1.776 - Tucuruvi", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0081", "name": "S.Boulevard", "full": "0081 - RJ-RIO-S.Boulevard", "uf": "RJ", "city": "Rio de Janeiro", "addr": "R. Barão de São Francisco, 236 - Piso 2", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0082", "name": "S.PraiaBelas", "full": "0082 - RS-POA-S.PraiaBelas", "uf": "RS", "city": "Porto Alegre", "addr": "Av. Praia de Belas, 1181 - Andar 03", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0083", "name": "S.Litoral", "full": "0083 - SP-PGR-S.Litoral", "uf": "SP", "city": "Praia Grande", "addr": "Av. Ayrton Senna da Silva, 1.511", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0084", "name": "S.Eldorado", "full": "0084 - SP-SPO-S.Eldorado", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Rebouças, 3.970 - Loja 2024", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0085", "name": "S.Mooca", "full": "0085 - SP-SPO-S.Mooca", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Cap. Pacheco Chaves, 313 - piso L1", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0086", "name": "S.Niteroi", "full": "0086 - RJ-NIT-S.Niteroi", "uf": "RJ", "city": "Niteroi", "addr": "R. Quinze de Novembro, 8 - Centro", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0087", "name": "Adhem.Barros", "full": "0087 - SP-GUA-Adhem.Barros", "uf": "SP", "city": "Guaruja", "addr": "Av. Adhemar de Barros, 1.255", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0088", "name": "S.PátioLimeir", "full": "0088 - SP-LIM-S.PátioLimeir", "uf": "SP", "city": "Limeira", "addr": "Rua Carlos Gomes, 1.321- Lj.336 - Centro", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0090", "name": "S.Garten", "full": "0090 - SC-JOI-S.Garten", "uf": "SC", "city": "Joinville", "addr": "Av. Rolf Wiest, 333 - Bom Retiro", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0091", "name": "Alvarenga", "full": "0091 - SP-SPO-Alvarenga", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Alvarenga, 1040", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0092", "name": "S.Boulevard", "full": "0092 - MG-BHZ-S.Boulevard", "uf": "MG", "city": "Belo Horizonte", "addr": "Av. dos Andradas, 3000 - Loja 03/04", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0093", "name": "V.Formosa", "full": "0093 - SP-SPO-V.Formosa", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Doutor Eduardo Cotching, 841", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0094", "name": "S.ParkBarueri", "full": "0094 - SP-BAR-S.ParkBarueri", "uf": "SP", "city": "Barueri", "addr": "R Gal Div Pedro Rodrigues da Silva, 400, 06440-180", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0095", "name": "S.JardimNorte", "full": "0095 - MG-JDF-S.JardimNorte", "uf": "MG", "city": "Juiz de Fora", "addr": "Av. Brasil, 6.345", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0096", "name": "S.Iguatemi", "full": "0096 - SP-BAR-S.Iguatemi", "uf": "SP", "city": "Barueri", "addr": "Alameda Rio Negro, 110 - Barueri", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0098", "name": "S.Tivoli", "full": "0098 - SP-STB-S.Tivoli", "uf": "SP", "city": "Santa Bárbara D'Oeste", "addr": "R. do Ósmio, 699", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0099", "name": "Jundiaí", "full": "0099 - SP-JUN-Jundiaí", "uf": "SP", "city": "Jundiai", "addr": "Av. Jundiai, 1.465 - Jardim Ana Maria", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0100", "name": "Sao Carlos", "full": "0100 - SP-SCA-Sao Carlos", "uf": "SP", "city": "Sao Carlos", "addr": "R. Belarmino Indalécio de Souza, 79", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0102", "name": "S.Boulevard", "full": "0102 - RJ-SGO-S.Boulevard", "uf": "RJ", "city": "São Gonçalo", "addr": "Av. Presidente Kennedy, 425", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0103", "name": "S.Carioca", "full": "0103 - RJ-RIO-S.Carioca", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. Vicente de Carvalho, 909 - Loja 102", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0105", "name": "S.Riomar", "full": "0105 - PE-REC-S.Riomar", "uf": "PE", "city": "Recife", "addr": "Av Republica do Libano, S/N - Pina", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0106", "name": "S.Palladium", "full": "0106 - PR-PTG-S.Palladium", "uf": "PR", "city": "Ponta Grossa", "addr": "R. Ermelino Leão, 703 - Olarias", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0107", "name": "S.Center", "full": "0107 - MG-UBL-S.Center", "uf": "MG", "city": "Uberlandia", "addr": "Av. João Naves de Avila, 1.331 - Loja 1.270", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0108", "name": "S.ParkLagos", "full": "0108 - RJ-CBF-S.ParkLagos", "uf": "RJ", "city": "Cabo Frio", "addr": "R. Henrique Terra, 1.700 - Mega Loja 04 - Piso 01", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0109", "name": "S.BelaVista", "full": "0109 - BA-SAL-S.BelaVista", "uf": "BA", "city": "Salvador", "addr": "Al. Euvaldo Luz, 92 - L04.1 - Horto B.Vista", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0110", "name": "S.Londrina", "full": "0110 - PR-LON-S.Londrina", "uf": "PR", "city": "Londrina", "addr": "Av. Theodoro Victorelli, 150 - Piso Térreo", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0111", "name": "S.Itaquera", "full": "0111 - SP-SPO-S.Itaquera", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Jose Pinheiro Borges, S/N", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0112", "name": "MariaAntônia", "full": "0112 - SP-SPO-MariaAntônia", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Maria Antonia, 108 - Vila Buarque", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0113", "name": "S.Uberaba", "full": "0113 - MG-UBE-S.Uberaba", "uf": "MG", "city": "Uberaba", "addr": "Av. Santa Beatriz da Silva, 1570/1576/1582", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0114", "name": "S.Iguatemi", "full": "0114 - SP-RIB-S.Iguatemi", "uf": "SP", "city": "Ribeirao Preto", "addr": "R. Luiz Eduardo Toledo Prado, 900", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0115", "name": "S.DCaxias", "full": "0115 - RJ-DCX-S.DCaxias", "uf": "RJ", "city": "Duque de Caxias", "addr": "Rod. Washington Luiz, 2895 - Loja 201I", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0116", "name": "Copacabana", "full": "0116 - RJ-RIO-Copacabana", "uf": "RJ", "city": "Rio de Janeiro", "addr": "R. Barata Ribeiro, 181", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0117", "name": "S.Sulacap", "full": "0117 - RJ-RIO-S.Sulacap", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. Marechal Fontenele, 3.545", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0118", "name": "S.Esplanada", "full": "0118 - SP-SOR-S.Esplanada", "uf": "SP", "city": "Votorantim", "addr": "Av. Gisele Constantino, 1.850 - Lj 229A", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0119", "name": "S.ABC", "full": "0119 - SP-STA-S.ABC", "uf": "SP", "city": "Santo Andre", "addr": "Av. Pereira Barreto, 42 - Piso Loft", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0120", "name": "S.Taguat", "full": "0120 - DF-TAG-S.Taguat", "uf": "DF", "city": "Brasilia", "addr": "QS 01 Rua 210, Lote 40", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0121", "name": "S.Goytacazes", "full": "0121 - RJ-GOY-S.Goytacazes", "uf": "RJ", "city": "Campos dos Goytacazes", "addr": "Av. Dr. Silvio Bastos Tavares, 316/338 - Lj. B/C/D", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0122", "name": "S.Metrop.Barr", "full": "0122 - RJ-RIO-S.Metrop.Barr", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. Abelardo Bueno, 1300 - Loja 1", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0123", "name": "BarroPreto", "full": "0123 - MG-BHZ-BarroPreto", "uf": "MG", "city": "Belo Horizonte", "addr": "Av. do Contorno, 10.623 - Barro Preto", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0124", "name": "Giov.Gronchi", "full": "0124 - SP-SPO-Giov.Gronchi", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Giovanni Gronchi, 6333 - V.Andrade", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0125", "name": "P.Faccini", "full": "0125 - SP-GRU-P.Faccini", "uf": "SP", "city": "Guarulhos", "addr": "Av. Paulo Faccini, 1107 - Macedo", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0126", "name": "S.CampoGrande", "full": "0126 - RJ-RIO-S.CampoGrande", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Estrada do Monteiro, 1200 - Loja 203P", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0127", "name": "FashionMall", "full": "0127 - RJ-RIO-FashionMall", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Estrada da Gavea , 899 - LOJA 110", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0128", "name": "Morumbi", "full": "0128 - SP-SPO-Morumbi", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Morumbi, 6.843", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0130", "name": "S.Tiete", "full": "0130 - SP-SPO-S.Tiete", "uf": "SP", "city": "Sao Paulo", "addr": "Av Raimundo Pereira de Magalhaes, 1465", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0131", "name": "S.Iguatemi", "full": "0131 - SP-SJR-S.Iguatemi", "uf": "SP", "city": "Sao Jose do Rio Preto", "addr": "Av. Pres. Juscelino Kubitschek de Oliveira, 5.000", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0132", "name": "S.Contagem", "full": "0132 - MG-CON-S.Contagem", "uf": "MG", "city": "Contagem", "addr": "Av. Severino Ballesteros Rodrigues, 850", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0133", "name": "S.Americas", "full": "0133 - RJ-RIO-S.Americas", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. das Américas, 15.500 - Loja 170 B", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0134", "name": "S.Independ", "full": "0134 - MG-JDF-S.Independ", "uf": "MG", "city": "Juiz de Fora", "addr": "Av. Pres. Itamar Franco, 3.600 - São Mateus", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0136", "name": "PedroFioreti", "full": "0136 - SP-OSA-PedroFioreti", "uf": "SP", "city": "Osasco", "addr": "Rua Pedro Fioretti, 479 - Centro", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0137", "name": "S.Vila Velha", "full": "0137 - ES-VIV-S.Vila Velha", "uf": "ES", "city": "Vila Velha", "addr": "Av. Luciano da Neves, 2.418", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0138", "name": "S.VilaOlimpia", "full": "0138 - SP-SPO-S.VilaOlimpia", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Olimpíadas, 360 - 3º piso", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0139", "name": "Araraquara", "full": "0139 - SP-ARA-Araraquara", "uf": "SP", "city": "Araraquara", "addr": "Av. Duque de Caxias, 515 - Centro", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0140", "name": "S.Continente", "full": "0140 - SC-FLO-S.Continente", "uf": "SC", "city": "Sao Jose", "addr": "Rodovia BR 101 - KM211 - Mega Loja 05", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0141", "name": "S.Neumarkt", "full": "0141 - SC-BLU-S.Neumarkt", "uf": "SC", "city": "Blumenau", "addr": "Rua Sete de Setembro, 1.213", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0142", "name": "S.Norte", "full": "0142 - RJ-RIO-S.Norte", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Av. Dom Helder Camara, 5.474", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0143", "name": "Camboriú", "full": "0143 - SC-BCA-Camboriú", "uf": "SC", "city": "Balneario Camboriu", "addr": "Av. do Estado Dalmo Vieira, 898", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0145", "name": "S.Taubaté", "full": "0145 - SP-TAU-S.Taubaté", "uf": "SP", "city": "Taubate", "addr": "Av. Charles Scnneider, 1700 - Loja P1 / P2", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0146", "name": "S.ID", "full": "0146 - DF-BRA-S.ID", "uf": "DF", "city": "Brasilia", "addr": "ST SCN QD 06 Conjunto A - Edif. Venancio 3000 Asa", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0147", "name": "S.Riomar", "full": "0147 - CE-FOR-S.Riomar", "uf": "CE", "city": "Fortaleza", "addr": "R. Desembargador Lauro Nogueira, 1500", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0148", "name": "S.PraçaNova", "full": "0148 - SP-ARA-S.PraçaNova", "uf": "SP", "city": "Araçatuba", "addr": "Rod Marechal Rondon, Km 534,5 Lj 227", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0149", "name": "S.Del Rey", "full": "0149 - MG-BHZ-S.Del Rey", "uf": "MG", "city": "Belo Horizonte", "addr": "Av. Presidente Carlos Luz, 3001", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0150", "name": "S.VRedonda", "full": "0150 - RJ-VRD-S.VRedonda", "uf": "RJ", "city": "Volta Redonda", "addr": "Rod. dos Metalúrgicos 1.189 - Mega loja 02", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0151", "name": "AvDePinedo", "full": "0151 - SP-SPO-AvDePinedo", "uf": "SP", "city": "Sao Paulo", "addr": "Av. de Pinedo, 215", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0152", "name": "S.Iguatemi", "full": "0152 - CE-FOR-S.Iguatemi", "uf": "CE", "city": "Fortaleza", "addr": "Av. Washington Soares, 85 - Loja 797", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0153", "name": "S.Piratas", "full": "0153 - RJ-ANG-S.Piratas", "uf": "RJ", "city": "Angra dos Reis", "addr": "Estrada dos Marinas 91 - Ljs. 248 a 252", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0155", "name": "Pres.Prudente", "full": "0155 - SP-PRU-Pres.Prudente", "uf": "SP", "city": "Presidente Prudente", "addr": "R. Comendador João Pereti, 540 - Lj. 5", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0156", "name": "BarraShopping", "full": "0156 - RJ-RIO-BarraShopping", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Avenida das Américas, 4.666", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0157", "name": "S.Iguatemi", "full": "0157 - RS-POA-S.Iguatemi", "uf": "RS", "city": "Porto Alegre", "addr": "Av. João Wallig, 1.800", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0158", "name": "S.Recife", "full": "0158 - PE-REC-S.Recife", "uf": "PE", "city": "Recife", "addr": "Rua Padre Carapuceiro, 777", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0159", "name": "S.BarraSul", "full": "0159 - RS-POA-S.BarraSul", "uf": "RS", "city": "Porto Alegre", "addr": "Av. Diário de Notícias, 300", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0161", "name": "S.NovaIguaçu", "full": "0161 - RJ-NIG-S.NovaIguaçu", "uf": "RJ", "city": "Nova Iguaçu", "addr": "Av. Abilio Augusto Távora, 1.111", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0162", "name": "AvPaulista", "full": "0162 - SP-SPO-AvPaulista", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Paulista, 2421", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0163", "name": "S.West", "full": "0163 - RJ-RIO-S.West", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Estrada do Mendanha, 555 - Loja 102A", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0164", "name": "S.Bahia", "full": "0164 - BA-SAL-S.Bahia", "uf": "BA", "city": "Salvador", "addr": "Av. Tancredo Neves, 148 - Loja 001/W1", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0165", "name": "S.Golden", "full": "0165 - SP-SBC-S.Golden", "uf": "SP", "city": "Sao Bernardo do Campo", "addr": "Av. Kennedy, 700 - 2o. Piso", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0166", "name": "S.Kennedy", "full": "0166 - CE-FOR-S.Kennedy", "uf": "CE", "city": "Fortaleza", "addr": "Av. Sargento Hermínio Sampaio, 3000", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0167", "name": "S.Buritis", "full": "0167 - GO-GOI-S.Buritis", "uf": "GO", "city": "Aparecida de Goiania", "addr": "Av. Rio Verde, 102/104 - Loja 385", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0168", "name": "S.Caruaru", "full": "0168 - PE-CAR-S.Caruaru", "uf": "PE", "city": "Caruaru", "addr": "Av. Adjar da Silva Casé, 800", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0169", "name": "S.CaxiasSul", "full": "0169 - RS-CXS-S.CaxiasSul", "uf": "RS", "city": "Caxias do Sul", "addr": "Rod. RSC 453, 2780, Km 3,5", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0170", "name": "S.Venancio", "full": "0170 - DF-BRA-S.Venancio", "uf": "DF", "city": "Brasilia", "addr": "SCS Quadra 8, S/N - Asa Sul", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0171", "name": "S.Via Brasil", "full": "0171 - RJ-RIO-S.Via Brasil", "uf": "RJ", "city": "Rio de Janeiro", "addr": "R. Itapera, 500 - Irajá", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0172", "name": "S.CenterValle", "full": "0172 - SP-SJC-S.CenterValle", "uf": "SP", "city": "Sao Jose dos Campos", "addr": "Av. Dep. Benedito Matarazzo, 9403", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0174", "name": "S.Pamplona", "full": "0174 - SP-SPO-S.Pamplona", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Pamplona, 1704 - Jd Paulista", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0175", "name": "S.Itu", "full": "0175 - SP-ITU-S.Itu", "uf": "SP", "city": "Itu", "addr": "Av. Dr. Ermelino Maffei, 1199", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0176", "name": "S.Pantanal", "full": "0176 - MT-CGB-S.Pantanal", "uf": "MT", "city": "Cuiaba", "addr": "Av. Historiador Rubens de Mendonça, 3.300 - Piso 2", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0178", "name": "S.Moxuara", "full": "0178 - ES-CAR-S.Moxuara", "uf": "ES", "city": "Cariacica", "addr": "Av. Mário Gurgel, 5353 - São Francisco", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0179", "name": "S.Salvador", "full": "0179 - BA-SAL-S.Salvador", "uf": "BA", "city": "Salvador", "addr": "Av. Tancredo Neves, 3133", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0181", "name": "S.Natal", "full": "0181 - RN-NAT-S.Natal", "uf": "RN", "city": "Natal", "addr": "Av. Sen. Salgado Filho, 2234 - Loja 232", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0182", "name": "S.Midway", "full": "0182 - RN-NAT-S.Midway", "uf": "RN", "city": "Natal", "addr": "Av. Bernardo Vieira, 3775 - Loja 153", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0183", "name": "S.Aracaju", "full": "0183 - SE-ARA-S.Aracaju", "uf": "SE", "city": "Aracaju", "addr": "Av. Delmiro Gouveia, 400", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0184", "name": "S.MogiBuriti", "full": "0184 - SP-MOG-S.MogiBuriti", "uf": "SP", "city": "Mogi Guaçu", "addr": "R. Francisco Franco de Godoy Bueno, 801", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0185", "name": "S.Tacaruna", "full": "0185 - PE-REC-S.Tacaruna", "uf": "PE", "city": "Recife", "addr": "Av. Gov. Agamenon Magalhães, 153", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0186", "name": "S.Vitória", "full": "0186 - ES-VIT-S.Vitória", "uf": "ES", "city": "Vitoria", "addr": "Av. Americo Buaiz, 200 - Loja 247", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0187", "name": "S.Canoas", "full": "0187 - RS-CAN-S.Canoas", "uf": "RS", "city": "Canoas", "addr": "Av. Farroupilha, 4545", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0188", "name": "S.Catuai", "full": "0188 - PR-LON-S.Catuai", "uf": "PR", "city": "Londrina", "addr": "Rod. Celso Garcia CID KM 377, 5.600", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0189", "name": "S.Maia", "full": "0189 - SP-GRU-S.Maia", "uf": "SP", "city": "Guarulhos", "addr": "Av. Bartolomeu de Carlos, 230", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0190", "name": "W.Luis", "full": "0190 - SP-SPO-W.Luis", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Washington Luís, 4937 - Sto Amaro", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0191", "name": "S.Catuai", "full": "0191 - PR-MAR-S.Catuai", "uf": "PR", "city": "Maringa", "addr": "Av. Colombo, 9161 - Pq Ind Bandeirante", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0192", "name": "S.Olinda", "full": "0192 - PE-OLI-S.Olinda", "uf": "PE", "city": "Olinda", "addr": "Rua Eduardo de Moraes, s/n - Piso L1", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0193", "name": "S.PatioMaceio", "full": "0193 - AL-MAC-S.PatioMaceio", "uf": "AL", "city": "Maceio", "addr": "Av. Menino Marcelo, 3800 - Cidade Universitaria", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0194", "name": "C.Grande", "full": "0194 - PB-CGR-C.Grande", "uf": "PB", "city": "Campina Grande", "addr": "Av. Prefeito Severino Cabral, 1.050", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0195", "name": "F.Coutinho", "full": "0195 - SP-SPO-F.Coutinho", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Fradique Coutinho, 496", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0196", "name": "RicardoJafet", "full": "0196 - SP-SPO-RicardoJafet", "uf": "SP", "city": "Sao Paulo", "addr": "Av Dr. Ricardo Jafet, 1.501", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0197", "name": "Mangabeira", "full": "0197 - PB-JPA-Mangabeira", "uf": "PB", "city": "Joao Pessoa", "addr": "Av. Hílton Souto Maior, S/N - Mangabeira", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0198", "name": "Manaira", "full": "0198 - PB-JPA-Manaira", "uf": "PB", "city": "Joao Pessoa", "addr": "Rua Manoel Arruda Cavalcanti, 805", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0199", "name": "JabaquaraBra", "full": "0199 - SP-SPO-JabaquaraBra", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Jabaquara, 1.182", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0200", "name": "RadialMooca", "full": "0200 - SP-SPO-RadialMooca", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Alcântara Machado, 400", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0201", "name": "S.Cuiaba", "full": "0201 - MT-CGB-S.Cuiaba", "uf": "MT", "city": "Cuiaba", "addr": "Av. Miguel Sutil, 9300 - Duque de Caxias", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0202", "name": "S.PortoVelho", "full": "0202 - RO-PVH-S.PortoVelho", "uf": "RO", "city": "Porto Velho", "addr": "Av. Rio Madeira, 3288 - Flodoaldo Pontes Pinto", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0203", "name": "Av.Rudge", "full": "0203 - SP-SPO-Av.Rudge", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Rudge, 1.001 - Bom Retiro", "reg": "Aloisio Miranda", "slug": "aloisio-miranda" }, { "code": "0204", "name": "S.JoqueiNorth", "full": "0204 - CE-FOR-S.JoqueiNorth", "uf": "CE", "city": "Fortaleza", "addr": "Av. Lineu Machado, 419 - Jóquei Clube", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0206", "name": "S.Palladium", "full": "0206 - PR-CTB-S.Palladium", "uf": "PR", "city": "Curitiba", "addr": "Av. Pres. Kennedy, 4121 - Portão", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0207", "name": "GoianiaBueno", "full": "0207 - GO-GOI-GoianiaBueno", "uf": "GO", "city": "Goiania", "addr": "Av. T63, 841 - Quadra 148 - Lote 01 e 02", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0208", "name": "S.Ilha", "full": "0208 - MA-SLZ-S.Ilha", "uf": "MA", "city": "Sao Luis", "addr": "Av. Daniel de La Touche , 987 - loja 313", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0209", "name": "S.PFundo", "full": "0209 - RS-PFD-S.PFundo", "uf": "RS", "city": "Passo Fundo", "addr": "Av. Presidente Vargas, 1610", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0210", "name": "S.V.Conquista", "full": "0210 - BA-VDC-S.V.Conquista", "uf": "BA", "city": "Vitoria da Conquista", "addr": "Av. Olivia Flores, 2.500 - Loja 1083", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0211", "name": "S.Paralela", "full": "0211 - BA-SAL-S.Paralela", "uf": "BA", "city": "Salvador", "addr": "Av. Luis Viana Filho, 8.544", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0212", "name": "S.FCaneca", "full": "0212 - SP-SPO-S.FCaneca", "uf": "SP", "city": "Sao Paulo", "addr": "Rua Frei Caneca, 569 - Consolação", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0213", "name": "S.PrudenShop", "full": "0213 - SP-PRU-S.PrudenShop", "uf": "SP", "city": "Presidente Prudente", "addr": "Av. Manoel Goulart, 2.400", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0214", "name": "Pq.ShopMaceio", "full": "0214 - AL-MAC-Pq.ShopMaceio", "uf": "AL", "city": "Maceio", "addr": "Av. Comendador Gustavo Paiva, 5.945", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0215", "name": "Tirol", "full": "0215 - RN-NAT-Tirol", "uf": "RN", "city": "Natal", "addr": "Av. Senador Salgado Filho, 1760", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0216", "name": "S.Pelotas", "full": "0216 - RS-PLT-S.Pelotas", "uf": "RS", "city": "Pelotas", "addr": "Av. Ferreira Viana, 1.526 - Loja 27B", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0217", "name": "TijucaExtra", "full": "0217 - RJ-RIO-TijucaExtra", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Rua José Higino, 115", "reg": "Cosme Cravo", "slug": "cosme-cravo" }, { "code": "0218", "name": "S.Jacarepagua", "full": "0218 - RJ-RIO-S.Jacarepagua", "uf": "RJ", "city": "Rio de Janeiro", "addr": "Estrada de Jacarepaguá 6069 - loja 104 B / 105 A", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0219", "name": "S.Jockey", "full": "0219 - PR-CTB-S.Jockey", "uf": "PR", "city": "Curitiba", "addr": "Av. Victor Ferreira do Amaral, 2633 - Loja L1074", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0220", "name": "S.Mogi", "full": "0220 - SP-MOG-S.Mogi", "uf": "SP", "city": "Mogi das Cruzes", "addr": "Av Ver. Narciso Yague Guimarães, 1001", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0221", "name": "S.GrãoPará", "full": "0221 - PA-BEL-S.GrãoPará", "uf": "PA", "city": "Belem", "addr": "Rod. dos trabalhadores, s/n - Parque Verde", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0222", "name": "S.MacaePlaza", "full": "0222 - RJ-MAC-S.MacaePlaza", "uf": "RJ", "city": "Macae", "addr": "Av. Aluízio da Silva Gomes, 800", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0223", "name": "S.RioPoty", "full": "0223 - PI-TER-S.RioPoty", "uf": "PI", "city": "Teresina", "addr": "Av. Marechal Castelo Branco, 911", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0224", "name": "S.Sumare", "full": "0224 - SP-SUM-S.Sumare", "uf": "SP", "city": "Sumare", "addr": "Av. Rebouças, 3.400 - Loja L34", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0225", "name": "S.Ananindeua", "full": "0225 - PA-ANA-S.Ananindeua", "uf": "PA", "city": "Ananindeua", "addr": "Rod. BR-316, Km 4, 4500 - Coqueiro", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0226", "name": "S.Jequitiba", "full": "0226 - BA-ITA-S.Jequitiba", "uf": "BA", "city": "Itabuna", "addr": "Av. Aziz Maron, s/n", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0227", "name": "Gal.Campinas", "full": "0227 - SP-CAM-Gal.Campinas", "uf": "SP", "city": "Campinas", "addr": "Av. Bailarina Selma Parada, 505", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0228", "name": "S.Anapolis", "full": "0228 - GO-ANA-S.Anapolis", "uf": "GO", "city": "Anapolis", "addr": "Av. Brasil, 505 - Loja 08A", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0230", "name": "JundiaíCentro", "full": "0230 - SP-JUN-JundiaíCentro", "uf": "SP", "city": "Jundiai", "addr": "Av. Antonio Frederico Ozanan, 2601", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0231", "name": "S.Iguatemi", "full": "0231 - DF-BRA-S.Iguatemi", "uf": "DF", "city": "Brasilia", "addr": "ST SHIN CA 04 Bloco A Loja, 183", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0232", "name": "S.JdAracaju", "full": "0232 - SE-ARA-S.JdAracaju", "uf": "SE", "city": "Aracaju", "addr": "Av. Ministro Geraldo Barreto Sobral, 215", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0234", "name": "S.RioAnil", "full": "0234 - MA-SLZ-S.RioAnil", "uf": "MA", "city": "Sao Luis", "addr": "Av.São Luis Rei de Franca, 8 - Turu", "reg": "Francisco Cruz", "slug": "francisco-cruz" }, { "code": "0236", "name": "AvAnaCosta", "full": "0236 - SP-SAN-AvAnaCosta", "uf": "SP", "city": "Santos", "addr": "Av. Ana Costa, 64 - Loja: 66 e 68", "reg": "Helio Shimba", "slug": "helio-shimba" }, { "code": "0238", "name": "Pq.ShopBahia", "full": "0238 - BA-LFR-Pq.ShopBahia", "uf": "BA", "city": "Lauro de Freitas", "addr": "Av Santos Dumont, 4360 - Piso L1 Loja 1010", "reg": "Adriano Lazarini", "slug": "adriano-lazarini" }, { "code": "0239", "name": "S.Itaguaçu", "full": "0239 - SC-SJO-S.Itaguaçu", "uf": "SC", "city": "Sao Jose", "addr": "Rua Gerôncio Thives,1.079", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0241", "name": "S.Chapeco", "full": "0241 - SC-CHA-S.Chapeco", "uf": "SC", "city": "Chapeco", "addr": "Av. Fernando Machado, 4000 D - Líder", "reg": "Anderson Luiz", "slug": "anderson-luiz" }, { "code": "0242", "name": "Assis", "full": "0242 - SP-ASS-Assis", "uf": "SP", "city": "Assis", "addr": "Rua Floriano Peixoto, 145, Centro", "reg": "Roberto Znidarsis", "slug": "roberto-znidarsis" }, { "code": "0243", "name": "MateoBei", "full": "0243 - SP-SPO-MateoBei", "uf": "SP", "city": "Sao Paulo", "addr": "Av. Mateo Bei, 1600 - São Mateus", "reg": "Daniel Rossi", "slug": "daniel-rossi" }, { "code": "0244", "name": "S.Estação", "full": "0244 - MG-BHZ-S.Estação", "uf": "MG", "city": "Belo Horizonte", "addr": "Av. Cristiano Machado, 11.833 - Loja 1007", "reg": "Silvano Cesar", "slug": "silvano-cesar" }, { "code": "0245", "name": "S.Campinas", "full": "0245 - SP-CAM-S.Campinas", "uf": "SP", "city": "Campinas", "addr": "Rua Jacy Teixeira Camargo, 940", "reg": "Agnaldo Costa", "slug": "agnaldo-costa" }, { "code": "0246", "name": "Botafogo", "full": "0246 - RJ-RIO-Botafogo", "uf": "RJ", "city": "Rio de Janeiro", "addr": "R. Voluntários da Pátria, 264", "reg": "Cosme Cravo", "slug": "cosme-cravo" }];
 const DAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-const DAYS_SHORT = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-const TURNS = [
-    ['Manhã', 'm', '--manha'],
-    ['Tarde', 't', '--tarde'],
-    ['Noite', 'n', '--noite']
-];
-const CATS = {
-    horario: { t: 'Horário noturno, trânsito e segurança' },
-    shopping: { t: 'Regras do shopping ou do complexo' },
-    equipe: { t: 'Folgas e escala da equipe' },
-    rotina: { t: 'Rotina de recebimento já definida pela loja' },
-    doca: { t: 'Doca e espaço de descarga' }
-};
+const DS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const H0 = 5,
+    NH = 18,
+    NC = 6 * NH;
+const hh = h => String(H0 + h).padStart(2, '0') + 'h';
+const faixa = h => `${hh(h)}–${String(H0 + h + 1).padStart(2,'0')}h`;
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const N = DATA.length,
-    TOTAL = N * 6;
-const pct = (a, b) => Math.round(a / b * 100);
-ALL.forEach(s => { s.score = s.responded ? s.days.filter(d => d.ok).length : -1; });
+const pt = (a, b) => a.localeCompare(b, 'pt');
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const byCode = Object.fromEntries(STORES.map(s => [s.code, s]));
+const REGS = [...new Set(STORES.map(s => s.reg))].sort(pt);
+const UFS = [...new Set(STORES.map(s => s.uf))].sort(pt);
+const regBySlug = Object.fromEntries(STORES.map(s => [s.slug, s.reg]));
+const ICON_OK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+const ICON_X = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+const closeBtn = () => `<button class="md-close" id="mdClose" aria-label="Fechar (Esc)">${ICON_X}<span>Fechar</span><kbd>Esc</kbd></button>`;
 
-/* ---------- Resumo ---------- */
-const okAll = DATA.reduce((a, s) => a + s.score, 0);
-const fullWeek = DATA.filter(s => s.score === 6).length;
-const weekdays = DATA.filter(s => s.days.slice(0, 5).every(d => d.ok)).length;
-const onlySat = DATA.filter(s => s.days.slice(0, 5).every(d => !d.ok) && s.days[5].ok);
-const satMorning = DATA.filter(s => s.days[5].ok && s.days[5].p.includes('Manhã')).length;
-const satOk = DATA.filter(s => s.days[5].ok).length;
-const satNight = DATA.filter(s => s.days[5].ok && s.days[5].p.includes('Noite')).length;
+/* ---------- Respostas (planilha) ---------- */
+let RESP = {},
+    RSTATE = FORM_ENDPOINT ? 'loading' : 'off',
+    RAT = '',
+    DEMO = false;
 
-$('#metaLine').textContent = `Pesquisa com ${ALL.length} lojas ativas de São Paulo: ${PEND.length ? `${N} responderam` : 'todas responderam'} em 1 e 2 de outubro de 2026${PEND.length ? `, ${PEND.length} ainda não responderam` : ''}. ${closedTxt}`;
-$('#daysHint').textContent = `Verde: recebe. Rosa: não recebe. Base: ${N} lojas${PEND.length ? ' que responderam' : ''}.`;
-$('#headline').textContent = `${weekdays} das ${N} lojas ${PEND.length ? 'que responderam ' : ''}recebem caminhão de segunda a sexta.`;
-$('#subline').textContent = `No sábado, a janela se desloca para a manhã: ${satMorning} das ${satOk} lojas que recebem nesse dia aceitam a manhã, e só ${satNight} aceitam a noite. ${onlySat.length} lojas só conseguem receber no sábado.`;
-$('#kpis').innerHTML = [
-  [`${pct(okAll, TOTAL)}%`, `dos dias aceitam caminhão (${okAll} de ${TOTAL} combinações de loja e dia)`, 'var(--sim)'],
-  [fullWeek, 'lojas recebem de segunda a sábado, sem nenhuma restrição', 'var(--sim)'],
-  [N - fullWeek, 'lojas têm ao menos um dia sem recebimento', 'var(--nao)'],
-  [onlySat.length, 'lojas recebem apenas no sábado', 'var(--nao)']
-].map(([v, l, c]) => `<div class="kpi"><b>${v}</b><small><span class="dot" style="background:${c}"></span>${l}</small></div>`).join('');
-
-/* ---------- Dias ---------- */
-let selDay = 0;
-function renderDays() {
-  $('#days').innerHTML = DAYS.map((d, i) => {
-    const ok = DATA.filter(s => s.days[i].ok).length;
-    return `<button class="day" data-i="${i}" aria-pressed="${i === selDay}" aria-label="${d}: ${ok} de ${N} lojas recebem">
-      <span class="val">${ok}<small>${pct(ok, N)}%</small></span>
-      <span class="bar"><span class="yes" style="height:${ok / N * 100}%"></span></span>
-      <span class="lbl"><span class="lg">${d}</span><span class="sh">${DAYS_SHORT[i]}</span></span></button>`;
-  }).join('');
-  const no = DATA.filter(s => !s.days[selDay].ok);
-  $('#dayDetail').innerHTML = no.length
-    ? `<p><strong>${DAYS[selDay]}:</strong> ${no.length} ${no.length > 1 ? 'lojas não recebem' : 'loja não recebe'}.</p><div class="chips">${no.map(s => `<button class="chip" data-code="${s.code}"><span class="c">${s.code}</span>${esc(s.name)}</button>`).join('')}</div>`
-    : `<p><strong>${DAYS[selDay]}:</strong> todas as lojas recebem.</p>`;
-}
-$('#days').addEventListener('click', e => { const b = e.target.closest('.day'); if (!b) return; selDay = +b.dataset.i; renderDays(); });
-$('#dayDetail').addEventListener('click', e => { const c = e.target.closest('[data-code]'); if (c) openStore(c.dataset.code); });
-renderDays();
-
-const tg = ['<span></span>', ...DAYS_SHORT.map(d => `<span class="h">${d}</span>`)];
-TURNS.forEach(([t, , v]) => {
-  tg.push(`<span class="r"><i class="sw" style="background:var(${v})"></i>${t}</span>`);
-  DAYS.forEach((_, i) => {
-    const c = DATA.filter(s => s.days[i].ok && s.days[i].p.includes(t)).length;
-    const a = Math.round(12 + c / N * 78);
-    tg.push(`<span class="tcell" style="background:color-mix(in srgb,var(${v}) ${a}%,var(--surface))" title="${t}, ${DAYS[i]}: ${c} lojas">${c}</span>`);
-  });
-});
-$('#tgrid').innerHTML = tg.join('');
-const wkM = DATA.filter(s => s.days[0].ok && s.days[0].p.includes('Manhã')).length;
-$('#tnote').innerHTML = `De segunda a sexta, manhã e noite têm adesão parecida, perto de <strong>${wkM} lojas</strong> cada. No sábado a noite praticamente some: <strong>${satNight} lojas</strong>.`;
-
-/* ---------- Quadro semanal ---------- */
-const st = { q: '', profile: 'all', turn: '', sort: 'code', grp: '', truck: '', ativo: '' };
-const uniq = k => [...new Set(ALL.map(s => s[k]).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt'));
-const fillSel = (id, k, label) => { $(id).innerHTML = `<option value="">${label}</option>` + uniq(k).map(v => `<option>${esc(v)}</option>`).join(''); };
-fillSel('#fGrp', 'grp', 'Todos'); fillSel('#fTruck', 'truck', 'Todos'); fillSel('#fAtivo', 'ativo', 'Todos');
-function syncChip(sel) {
-  const c = sel.closest('.fchip');
-  c.querySelector('.fv').textContent = sel.selectedOptions[0] ? sel.selectedOptions[0].text : '';
-  c.classList.toggle('on', sel.selectedIndex > 0 && !c.dataset.neutral);
-}
-const FMAP = { fProfile: 'profile', fTurn: 'turn', fSort: 'sort', fGrp: 'grp', fTruck: 'truck', fAtivo: 'ativo' };
-function syncClear() { $('#fClear').hidden = !(st.q || ['profile', 'turn', 'grp', 'truck', 'ativo'].some(k => $('#' + Object.keys(FMAP).find(i => FMAP[i] === k)).selectedIndex > 0)); }
-Object.entries(FMAP).forEach(([id, k]) => { const el = $('#' + id); syncChip(el); el.addEventListener('change', () => { st[k] = el.value; syncChip(el); syncClear(); renderWeek(); }); });
-$('#fClear').addEventListener('click', () => {
-  Object.entries(FMAP).forEach(([id, k]) => { if (k === 'sort') return; const el = $('#' + id); el.selectedIndex = 0; st[k] = el.value; syncChip(el); });
-  $('#q').value = ''; st.q = ''; syncClear(); renderWeek();
-});
-function segBind(id, key, after) {
-  $(id).addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
-    $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
-    st[key] = b.dataset.v; after();
-  });
-}
-/* ---------- Nova pesquisa (respostas do formulário) ---------- */
-let NEWS = {}, NEWS_AT = null, NEWS_STATE = 'off';
-function seg(s, i, t, k, d) {
-  const n = NEWS[s.code] && NEWS[s.code].map[i + '|' + t];
-  if (d.p.includes(t)) return `<i class="${k}"></i>`;
-  if (n && n.sit === 'no') return `<i class="why" data-c="${s.code}" data-w="${i}|${t}"></i>`;
-  if (n && n.sit === 'lib') return `<i class="${k} lib" data-c="${s.code}" data-w="${i}|${t}"></i>`;
-  return '<i></i>';
-}
-function cellHTML(s, i, mini) {
-  const m = mini ? ' mini' : '';
-  if (!s.responded) return `<div class="cell pend${m}" data-c="${s.code}" data-i="${i}">${mini ? '?' : 'Sem resposta'}</div>`;
-  const d = s.days[i];
-  if (mini) {
-    if (!d.ok) return `<div class="cell no mini" data-c="${s.code}" data-i="${i}">Não</div>`;
-    return `<div class="cell mini" data-c="${s.code}" data-i="${i}">${TURNS.map(([t, k]) => seg(s, i, t, k, d)).join('')}</div>`;
-  }
-  if (!d.ok) {
-    const dim = st.turn ? ' dim' : '';
-    return `<div class="cell no${dim}" data-c="${s.code}" data-i="${i}">Não</div>`;
-  }
-  const dim = st.turn && !d.p.includes(st.turn) ? ' dim' : '';
-  return `<div class="cell${dim}" data-c="${s.code}" data-i="${i}">${TURNS.map(([t, k]) => seg(s, i, t, k, d)).join('')}</div>`;
-}
-function renderWeek() {
-  const q = st.q.trim().toLowerCase();
-  let rows = ALL.filter(s =>
-    (!q || s.name.toLowerCase().includes(q) || s.code.includes(q)) &&
-    (st.profile === 'all' || (st.profile === 'full' ? s.score === 6 : st.profile === 'pend' ? !s.responded : (s.responded && s.score < 6))) &&
-    (!st.turn || !s.responded || s.days.some(d => d.ok && d.p.includes(st.turn))) &&
-    (!st.grp || s.grp === st.grp) && (!st.truck || s.truck === st.truck) && (!st.ativo || s.ativo === st.ativo));
-  rows = rows.slice().sort(st.sort === 'code' ? (a, b) => a.code.localeCompare(b.code) : (a, b) => b.score - a.score || a.code.localeCompare(b.code));
-  $('#count').textContent = `${rows.length} de ${ALL.length} lojas`;
-  $('#week').innerHTML = `<thead><tr><th>Loja</th>${DAYS.map(d => `<th>${d}</th>`).join('')}<th style="text-align:right;padding-right:18px">Dias</th></tr></thead>
-  <tbody>${rows.length ? rows.map(s => `<tr data-code="${s.code}" class="${s.responded ? '' : 'pend'}">
-    <td class="store"><button aria-label="Abrir ficha da loja ${esc(s.name)}"><span class="l1"><span class="code">${s.code}</span><span class="nm">${esc(s.name)}</span></span><span class="sub">${esc(s.grp)}, ${esc(s.truck)}, ${esc(s.ativo)}</span></button></td>
-    ${DAYS.map((_, i) => `<td>${cellHTML(s, i)}</td>`).join('')}
-    <td class="score">${s.responded ? `${s.score} de 6` : 'Pendente'}</td></tr>`).join('')
-      : `<tr><td colspan="8" class="empty">Nenhuma loja corresponde aos filtros. Use "Limpar" na barra de filtros para ver todas as lojas.</td></tr>`}</tbody>`;
-}
-$('#q').addEventListener('input', e => { st.q = e.target.value; syncClear(); renderWeek(); });
-
-$('#week').addEventListener('click', e => { const tr = e.target.closest('tr[data-code]'); if (tr) openStore(tr.dataset.code); });
-renderWeek();
-
-/* Tooltip */
-const tip = $('#tip');
-const byCode = Object.fromEntries(ALL.map(s => [s.code, s]));
-document.addEventListener('pointermove', e => {
-  const w = e.target.closest('.cell i[data-w]');
-  const c = e.target.closest('.cell');
-  if (!c) { tip.classList.remove('on'); return; }
-  const s = byCode[c.dataset.c], i = +c.dataset.i;
-  if (!s) { tip.classList.remove('on'); return; }
-  const d = s.responded ? s.days[i] : null;
-  if (w && NEWS[s.code]) {
-    const [wi, wt] = w.dataset.w.split('|'), n = NEWS[s.code].map[w.dataset.w];
-    tip.innerHTML = `<b>${esc(s.name)}, ${DAYS[+wi].toLowerCase()}, ${wt.toLowerCase()}</b><br>${n.sit === 'no' ? `Não recebe${n.grupo ? ` (${esc(n.grupo)})` : ''}: ${esc(n.txt.slice(0, 220))}${n.txt.length > 220 ? '…' : ''}` : 'A loja informou que recebe nesta janela.'}<br><span style="opacity:.7">Nova pesquisa, ${esc(NEWS[s.code].quando)}</span>`;
-    tip.classList.add('on'); placeTip(e); return;
-  }
-  const body = !d ? 'A loja ainda não respondeu à pesquisa.' : d.ok ? `Recebe: ${d.p.join(', ').toLowerCase()}` : `Não recebe. ${esc(d.why.split('\n')[0].slice(0, 160))}${d.why.length > 160 ? '…' : ''}`;
-  tip.innerHTML = `<b>${esc(s.name)}, ${DAYS[i].toLowerCase()}</b><br>${body}`;
-  tip.classList.add('on'); placeTip(e);
-});
-function placeTip(e) {
-  const r = tip.getBoundingClientRect();
-  let x = e.clientX + 14, y = e.clientY + 14;
-  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
-  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
-  tip.style.left = x + 'px'; tip.style.top = y + 'px';
-}
-
-/* ---------- Motivos ---------- */
-let selCat = '';
-const groups = [];
-DATA.forEach(s => {
-  const m = new Map();
-  s.days.forEach((d, i) => { if (!d.ok) { const k = d.cat + '|' + d.why; if (!m.has(k)) m.set(k, { s, cat: d.cat, why: d.why, days: [] }); m.get(k).days.push(i); } });
-  groups.push(...m.values());
-});
-groups.sort((a, b) => b.days.length - a.days.length || a.s.code.localeCompare(b.s.code));
-const catCount = {}, catStores = {};
-groups.forEach(g => { catCount[g.cat] = (catCount[g.cat] || 0) + g.days.length; (catStores[g.cat] ||= new Set()).add(g.s.code); });
-const noTotal = TOTAL - okAll;
-$('#catHint').textContent = `${noTotal} dias sem recebimento no total, somando todas as lojas.`;
-function renderCats() {
-  const order = Object.keys(CATS).filter(k => catCount[k]).sort((a, b) => catCount[b] - catCount[a]);
-  const max = Math.max(...Object.values(catCount));
-  $('#cats').innerHTML = order.map(k => `<button class="cat" data-k="${k}" aria-pressed="${selCat === k}">
-    <b>${catCount[k]}<small>dias</small></b>
-    <span class="t">${CATS[k].t}</span>
-    <span class="n">${catStores[k].size} ${catStores[k].size > 1 ? 'lojas' : 'loja'}, ${pct(catCount[k], noTotal)}% dos casos</span>
-    <span class="track"><span class="fill" style="width:${catCount[k] / max * 100}%"></span></span></button>`).join('');
-  const list = groups.filter(g => !selCat || g.cat === selCat);
-  $('#rTitle').textContent = selCat ? `${CATS[selCat].t} (${list.length})` : `Todas as justificativas (${list.length})`;
-  $('#clearCat').hidden = !selCat;
-  $('#reasons').innerHTML = list.map(g => `<button class="reason" data-g="${groups.indexOf(g)}">
-    <span class="who"><span>${g.s.code}</span>${esc(g.s.name)}</span>
-    ${selCat ? '' : `<span class="cname">${CATS[g.cat].t}</span>`}
-    <span class="dd">${g.days.map(i => `<span>${DAYS_SHORT[i]}</span>`).join('')}</span>
-    <p>${esc(g.why.replace(/\n+/g, ' '))}</p>
-    <span class="more">Ler justificativa completa</span></button>`).join('');
-}
-$('#cats').addEventListener('click', e => { const b = e.target.closest('.cat'); if (!b) return; selCat = selCat === b.dataset.k ? '' : b.dataset.k; renderCats(); });
-$('#clearCat').addEventListener('click', () => { selCat = ''; renderCats(); });
-$('#reasons').addEventListener('click', e => { const b = e.target.closest('.reason'); if (b) openReason(groups[+b.dataset.g]); });
-renderCats();
-
-/* ---------- Agrupamentos ---------- */
-const byCodeSort = (a, b) => a.code.localeCompare(b.code);
-const GROUPS = [...new Set(ALL.map(s => s.grp))].sort((a, b) => a.localeCompare(b, 'pt'));
-const groupStores = g => ALL.filter(s => s.grp === g).sort(byCodeSort);
-function commonDay(ss, i) {
-  const r = ss.filter(s => s.responded); if (!r.length) return null;
-  return TURNS.map(t => t[0]).filter(t => r.every(s => s.days[i].ok && s.days[i].p.includes(t)));
-}
-function mix(ss, k) {
-  const c = {}; ss.forEach(s => c[s[k]] = (c[s[k]] || 0) + 1);
-  return Object.entries(c).sort((a, b) => b[1] - a[1]).map(([v, n]) => `${n} ${v}`).join(', ');
-}
-function groupInfo(g) {
-  const ss = groupStores(g), com = DAYS.map((_, i) => commonDay(ss, i));
-  const resp = ss.filter(s => s.responded).length, pend = ss.length - resp;
-  const days = com.filter(c => c && c.length).length;
-  return { g, ss, com, resp, pend, days };
-}
-const GI = GROUPS.map(groupInfo);
-const reasonsOf = st => groups.filter(g => g.s === st);
-const dayLabel = ds => ds.length === 6 ? 'Seg a Sáb' : (ds.length > 1 && ds[ds.length - 1] - ds[0] === ds.length - 1) ? `${DAYS_SHORT[ds[0]]} a ${DAYS_SHORT[ds[ds.length - 1]]}` : ds.map(i => DAYS_SHORT[i]).join(', ');
-const ALERT = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 17h.01"/></svg>';
-function newsBox(st) {
-  if (NEWS_STATE !== 'ok') return '';
-  const n = NEWS[st.code];
-  if (!n) return `<div class="news-box pend"><b>Nova pesquisa</b><span>A loja ainda não respondeu ao formulário de janelas.</span></div>`;
-  const chips = ks => ks.map(k => { const [i, t] = k.split('|'); return `<span>${DAYS_SHORT[+i]} ${t.toLowerCase()}</span>`; }).join('');
-  return `<div class="news-box"><div class="nb-h"><b>Nova pesquisa</b><span>Respondida em ${esc(n.quando)} por ${esc(n.nome)}${n.cargo ? ` (${esc(n.cargo)})` : ''}. Protocolo ${esc(n.envio)}.</span></div>
-    ${n.groups.length ? n.groups.map(g => `<div class="nb-i"><div class="nb-t">${g.grupo ? `<em>${esc(g.grupo)}</em>` : ''}${chips(g.keys)}</div><p>${esc(g.txt)}</p></div>`).join('') : '<p class="nb-ok">Nenhuma janela nova sem recebimento.</p>'}
-    ${n.lib.length ? `<div class="nb-i lib"><div class="nb-t"><em>Recebe</em>${chips(n.lib)}</div><p>A loja informou que recebe nessas janelas.</p></div>` : ''}</div>`;
-}
-function whyBox(st) {
-  if (!st.responded) return '';
-  const rs = reasonsOf(st);
-  if (!rs.length) return `<div class="why-ok">Na primeira pesquisa, a loja informou que recebe todos os dias, de segunda a sábado, sem motivo de restrição.</div>`;
-  return `<div class="why-box" role="note"><div class="why-h">${ALERT}Por que a loja não recebe${rs.length > 1 ? ` (${rs.length} motivos)` : ''}</div>
-    ${rs.map(g => `<div class="why-item"><div class="why-meta"><span class="dd">${g.days.map(i => `<span>${DAYS[i]}</span>`).join('')}</span><span class="catp">${CATS[g.cat].t}</span></div>
-      <p class="why-text">${esc(g.why)}</p>
-      ${g.s.days[g.days[0]].orig.trim() !== g.why.trim() ? `<details class="orig"><summary>Ver texto original</summary><div>${esc(g.s.days[g.days[0]].orig)}</div></details>` : ''}</div>`).join('')}</div>`;
-}
-function blockers(info, me) {
-  const { ss, com } = info;
-  const bad = com.map((c, i) => c && !c.length ? i : -1).filter(i => i >= 0);
-  if (!bad.length) return '';
-  const items = [];
-  ss.filter(x => x.responded).forEach(x => {
-    reasonsOf(x).forEach(g => {
-      const ds = g.days.filter(i => bad.includes(i));
-      if (ds.length) items.push({ x, g, ds });
+function parseResp(lojas) {
+    const out = {};
+    Object.entries(lojas || {}).forEach(([code, l]) => {
+        if (!Array.isArray(l.d) || l.d.length !== 6) return;
+        const reasons = (l.m || []).map(([txt, keys]) => ({ txt: String(txt), keys }));
+        const rOf = {};
+        reasons.forEach((r, i) => r.keys.forEach(k => rOf[k] = i));
+        out[String(code).padStart(4, '0')] = { envio: l.envio, quando: l.quando, nome: l.nome, cargo: l.cargo, d: l.d.map(String), reasons, rOf };
     });
-  });
-  const turnDays = bad.filter(i => ss.filter(x => x.responded).every(x => x.days[i].ok));
-  const nst = new Set(items.map(it => it.x.code)).size;
-  const cnt = [nst ? `${nst} ${nst > 1 ? 'lojas' : 'loja'} com restrição` : '', turnDays.length ? 'turnos que não coincidem' : ''].filter(Boolean).join(' e ');
-  return `<details class="block-box"><summary><span class="bt">O que impede a janela em comum (${dayLabel(bad)})</span><span class="bc">${cnt}</span>
-    <span class="btog"><span class="o">Expandir</span><span class="c">Fechar</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary><ul>
-    ${items.map(({ x, g, ds }) => `<li><div class="bl1"><button class="bstore" data-code="${x.code}"><small>${x.code}</small>${esc(x.name)}</button>${x.code === me ? '<span class="me">esta loja</span>' : ''}
-      <span class="dd">${ds.map(i => `<span>${DAYS_SHORT[i]}</span>`).join('')}</span><span class="catp">${CATS[g.cat].t}</span></div>
-      <p>${esc(g.why.replace(/\n+/g, ' '))}</p></li>`).join('')}
-    ${turnDays.length ? `<li class="turns"><div class="bl1"><b style="font-size:14px">Turnos diferentes</b><span class="dd">${turnDays.map(i => `<span style="background:var(--hover);color:var(--ink)">${DAYS_SHORT[i]}</span>`).join('')}</span></div>
-      <p>Nesses dias todas as lojas que responderam recebem, mas em turnos que não coincidem.</p></li>`: ''}
-  </ul></details>`;
+    return out;
 }
-function groupTable(info, hl) {
-  const { ss, com } = info;
-  return `<div class="gwrap"><table class="gt${hl ? ' focus' : ''}"><thead><tr><th>Loja</th><th>Caminhão</th><th>Ativo</th>${DAYS_SHORT.map(d => `<th>${d}</th>`).join('')}</tr></thead>
-  <tbody>${ss.map(s => `<tr data-code="${s.code}" class="${s.code === hl ? 'hl' : ''}" title="Abrir ficha de ${esc(s.name)}">
-    <td class="gs"><small>${s.code}</small><b>${esc(s.name)}</b>${s.code === hl ? '<span class="thisone">esta loja</span>' : ''}</td><td class="gx">${esc(s.truck)}</td><td class="gx">${esc(s.ativo)}</td>
-    ${DAYS.map((_, i) => `<td>${cellHTML(s, i, true)}</td>`).join('')}</tr>`).join('')}</tbody>
-  <tfoot><tr><td colspan="3">Janela em comum</td>${com.map((c, i) => c === null ? '<td></td>' : `<td>${c.length
-    ? `<div class="cell mini common" title="${DAYS[i]}: ${c.join(', ').toLowerCase()}">${TURNS.map(([t, k]) => `<i class="${c.includes(t) ? k : ''}"></i>`).join('')}</div>`
-    : `<div class="cell mini none" title="${DAYS[i]}: nenhum turno em comum">–</div>`}</td>`).join('')}</tr></tfoot></table></div>`;
+async function loadResp() {
+    if (!FORM_ENDPOINT) {
+        RSTATE = 'off';
+        refreshAll();
+        return;
+    }
+    RSTATE = 'loading';
+    dstat();
+    try {
+        const r = await fetch(FORM_ENDPOINT + '?acao=respostas&_=' + Date.now());
+        const j = await r.json();
+        if (!j.ok) throw new Error(j.erro || 'erro');
+        RESP = parseResp(j.lojas);
+        DEMO = false;
+        RSTATE = 'ok';
+        RAT = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) { RSTATE = 'err'; }
+    refreshAll();
 }
-function groupNote(info) {
-  const { resp, pend, days, com } = info;
-  if (!resp) return `Nenhuma loja deste agrupamento respondeu ainda.`;
-  const best = com.map((c, i) => c && c.length ? `${DAYS_SHORT[i]} (${c.join(', ').toLowerCase()})` : null).filter(Boolean);
-  let t = resp === 1 ? `Só uma loja respondeu, então a janela em comum é a dela: ${days} de 6 dias.`
-    : days ? `As ${resp} lojas que responderam têm janela em comum em <strong>${days} de 6 dias</strong>: ${best.join('; ')}.`
-      : `As ${resp} lojas que responderam <strong>não têm nenhuma janela em comum</strong> na semana.`;
-  if (pend) t += ` ${pend} ${pend > 1 ? 'lojas ainda não responderam' : 'loja ainda não respondeu'}, então a janela pode mudar.`;
-  return t;
-}
-const gFull5 = GI.filter(x => x.resp && x.com.slice(0, 5).every(c => c && c.length)).length;
-const gNone = GI.filter(x => x.resp && x.days === 0).length;
-const gPend = GI.filter(x => x.pend).length;
-$('#gsum').innerHTML = [
-  [GROUPS.length, `agrupamentos, somando ${ALL.length} lojas`, 'var(--accent)'],
-  [gFull5, `${gFull5 === 1 ? 'agrupamento tem' : 'agrupamentos têm'} janela em comum todos os dias, de segunda a sexta`, 'var(--sim)'],
-  [gNone, `${gNone === 1 ? 'agrupamento não tem' : 'agrupamentos não têm'} nenhuma janela em comum${gPend ? `; ${gPend} têm loja sem resposta` : ''}`, 'var(--nao)']
-].map(([v, l, c]) => `<div class="kpi"><b>${v}</b><small><span class="dot" style="background:${c}"></span>${l}</small></div>`).join('');
-const gst = { sel: '', sort: 'name' };
-$('#gSel').innerHTML = '<option value="">Todos</option>' + GROUPS.map(g => `<option>${esc(g)}</option>`).join('');
-$('#gSel').addEventListener('change', e => { gst.sel = e.target.value; syncChip(e.target); renderGroups(); });
-$('#gSort').addEventListener('change', e => { gst.sort = e.target.value; syncChip(e.target); renderGroups(); });
-syncChip($('#gSel')); syncChip($('#gSort'));
-function renderGroups() {
-  let list = GI.filter(x => !gst.sel || x.g === gst.sel);
-  if (gst.sort === 'conf') list = list.slice().sort((a, b) => a.days - b.days || a.g.localeCompare(b.g, 'pt'));
-  $('#gcards').innerHTML = list.map(x => `<article class="gcard">
-    <div><h3>${esc(x.g)}${x.pend ? `<span class="tag warn">${x.pend} sem resposta</span>` : ''}</h3></div>
-    <div class="gmeta"><span>${x.ss.length} lojas</span><span>${mix(x.ss, 'truck')}</span><span>${mix(x.ss, 'ativo')}</span></div>
-    ${groupTable(x)}
-    <p class="gnote">${groupNote(x)}</p>${blockers(x)}</article>`).join('');
-}
-renderGroups();
-$('#gcards').addEventListener('click', e => { const t = e.target.closest('tr[data-code], .bstore'); if (t) openStore(t.dataset.code); });
+// Dados de exemplo, só para ver o painel antes das respostas chegarem
+const DEMO_TXT = ['Shopping só libera a doca depois das 07h.', 'Equipe ainda não chegou nesse horário.', 'Rua residencial: barulho à noite gera reclamação dos vizinhos.', 'Horário de almoço da equipe, não temos quem confira a carga.', 'Movimento de clientes alto, a doca fica bloqueada.', 'Região com risco de assalto à noite.'];
 
-/* ---------- Ficha da loja ---------- */
-const dr = $('#drawer');
-function mergeDays(days) {
-  const key = d => d.ok ? 'ok:' + d.p.join(',') : 'no:' + d.why;
-  const out = [];
-  days.forEach((d, i) => { const l = out[out.length - 1]; if (l && key(l.d) === key(d) && l.b === i - 1) l.b = i; else out.push({ d, a: i, b: i }); });
+function makeDemo() {
+    let seed = 7;
+    const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    const out = {};
+    STORES.forEach(s => {
+        if (rnd() < 0.3) return;
+        const d = [],
+            m = {};
+        const free = rnd() < .2,
+            early = free ? 0 : Math.floor(rnd() * 3),
+            late = free ? 0 : Math.floor(rnd() * 4),
+            lunch = !free && rnd() < .2,
+            satShort = !free && rnd() < .4;
+        for (let i = 0; i < 6; i++) {
+            let row = '';
+            for (let h = 0; h < NH; h++) {
+                let no = '';
+                if (h < early) no = DEMO_TXT[1];
+                else if (h >= NH - late) no = rnd() < .5 ? DEMO_TXT[2] : DEMO_TXT[5];
+                else if (lunch && (h === 7 || h === 8)) no = DEMO_TXT[3];
+                else if (i === 5 && satShort && h >= 10) no = DEMO_TXT[4];
+                if (!free && s.city !== 'Sao Paulo' && h < 2 && rnd() < .4) no = DEMO_TXT[0];
+                row += no ? 'N' : 'S';
+                if (no)(m[no] = m[no] || []).push(i + '|' + h);
+            }
+            d.push(row);
+        }
+        out[s.code] = { envio: 'EXEMPLO', quando: 'exemplo', nome: 'Gerente (exemplo)', cargo: 'Gerente', d, m: Object.entries(m) };
+    });
+    return out;
+}
+
+function setDemo(on) {
+    DEMO = on;
+    if (on) {
+        RESP = parseResp(makeDemo());
+        RSTATE = 'demo';
+    } else {
+        RESP = {};
+        RSTATE = FORM_ENDPOINT ? 'loading' : 'off';
+        if (FORM_ENDPOINT) { loadResp(); return; }
+    }
+    refreshAll();
+}
+
+function dstat() {
+    const el = $('#dstat'),
+        n = Object.keys(RESP).length;
+    if (RSTATE === 'demo') {
+        el.innerHTML = `<span class="demo-flag">Dados de exemplo</span><span>Números ilustrativos, não são respostas reais.</span><button class="linkbtn" id="dsx">Sair do exemplo</button>`;
+        $('#dsx').onclick = () => setDemo(false);
+        return;
+    }
+    if (RSTATE === 'loading') { el.innerHTML = '<span class="dot"></span>Carregando respostas…'; return; }
+    if (RSTATE === 'ok') {
+        el.innerHTML = `<span class="dot ok"></span><span>${n} de ${STORES.length} lojas responderam. Atualizado às ${RAT}.</span><button class="linkbtn" id="dsr">Atualizar</button>${n?'':'<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>'}`;
+        $('#dsr').onclick = loadResp;
+        const dd = $('#dsd');
+        if (dd) dd.onclick = () => setDemo(true);
+        return;
+    }
+    const msg = RSTATE === 'err' ? 'Não foi possível carregar as respostas.' : 'A planilha de respostas ainda não foi conectada.';
+    el.innerHTML = `<span class="dot err"></span><span>${msg}</span>${RSTATE==='err'?'<button class="linkbtn" id="dsr">Tentar de novo</button>':''}<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>`;
+    const r = $('#dsr');
+    if (r) r.onclick = loadResp;
+    $('#dsd').onclick = () => setDemo(true);
+}
+
+/* ---------- Filtros gerais ---------- */
+const G = { reg: '', uf: '' };
+const inScope = s => (!G.reg || s.reg === G.reg) && (!G.uf || s.uf === G.uf);
+
+function syncChip(sel) {
+    const c = sel.closest('.fchip');
+    c.querySelector('.fv').textContent = sel.selectedOptions[0] ? sel.selectedOptions[0].text : '';
+    c.classList.toggle('on', sel.selectedIndex > 0 && !c.dataset.neutral);
+}
+$('#gReg').innerHTML = '<option value="">Todos</option>' + REGS.map(r => `<option>${esc(r)}</option>`).join('');
+$('#gUf').innerHTML = '<option value="">Todas</option>' + UFS.map(u => `<option>${u}</option>`).join('');
+
+function setG(k, v) {
+    G[k] = v;
+    const el = $(k === 'reg' ? '#gReg' : '#gUf');
+    el.value = v;
+    syncChip(el);
+    $('#gClear').hidden = !(G.reg || G.uf);
+    refreshAll();
+}
+$('#gReg').onchange = e => setG('reg', e.target.value);
+$('#gUf').onchange = e => setG('uf', e.target.value);
+$('#gClear').onclick = () => {
+    G.reg = '';
+    G.uf = '';
+    ['#gReg', '#gUf'].forEach(id => {
+        $(id).value = '';
+        syncChip($(id));
+    });
+    $('#gClear').hidden = true;
+    refreshAll();
+};
+[$('#gReg'), $('#gUf')].forEach(syncChip);
+
+/* ---------- Cálculos ---------- */
+function stats(list) {
+    const resp = list.filter(s => RESP[s.code]);
+    const yes = DAYS.map(() => Array(NH).fill(0));
+    let ys = 0,
+        full = 0;
+    resp.forEach(s => {
+        const r = RESP[s.code];
+        let all = true;
+        r.d.forEach((row, i) => {
+            for (let h = 0; h < NH; h++) {
+                if (row[h] === 'S') {
+                    yes[i][h]++;
+                    ys++;
+                } else all = false;
+            }
+        });
+        if (all) full++;
+    });
+    return { list, resp, n: resp.length, yes, ys, cells: resp.length * NC, full };
+}
+const scopeLabel = () => [G.reg && `regional ${G.reg}`, G.uf && `UF ${G.uf}`].filter(Boolean).join(', ');
+const storeAvail = r => r.d.join('').split('').filter(c => c === 'S').length;
+
+function winLabel(keys) {
+    const byDay = DAYS.map(() => []);
+    keys.forEach(k => {
+        const [i, h] = k.split('|').map(Number);
+        byDay[i].push(h);
+    });
+    const dayTxt = byDay.map(hs => {
+        hs.sort((a, b) => a - b);
+        const rs = [];
+        let a = null,
+            p = null;
+        hs.forEach(h => {
+            if (a === null) { a = p = h; } else if (h === p + 1) { p = h; } else {
+                rs.push([a, p]);
+                a = p = h;
+            }
+        });
+        if (a !== null) rs.push([a, p]);
+        return rs.map(([x, y]) => x === 0 && y === NH - 1 ? 'dia todo' : `${hh(x)}–${String(H0+y+1).padStart(2,'0')}h`).join(', ');
+    });
+    const out = [];
+    let i = 0;
+    while (i < 6) {
+        if (!dayTxt[i]) { i++; continue; }
+        let j = i;
+        while (j + 1 < 6 && dayTxt[j + 1] === dayTxt[i]) j++;
+        out.push(`${j>i ? `${DS[i]} a ${DS[j]}` : DS[i]}: ${dayTxt[i]}`); i = j+1;
+  }
   return out;
 }
-function openStore(code) {
-  const s = byCode[code];
-  dr.dataset.code = code;
-  const info = GI.find(x => x.g === s.grp);
-  const others = info.ss.length - 1;
-  $('#drIn').innerHTML = `
-    <div class="dr-head"><div><h2 id="drTitle">${esc(s.name)}</h2><p>Loja ${s.code}, ${s.responded ? `recebe em ${s.score} de 6 dias` : 'ainda não respondeu à pesquisa'}</p></div>
-      ${closeBtn('drClose')}</div>
-    ${whyBox(s)}
-    ${newsBox(s)}
-    <dl class="facts"><dt>Agrupamento</dt><dd>${esc(s.grpFull)}</dd><dt>Caminhão</dt><dd>${esc(s.truck)}</dd><dt>Ativo</dt><dd>${esc(s.ativo)}</dd>
-      ${s.responded ? `<dt>Respondido por</dt><dd>${esc(s.resp)}</dd><dt>Cargo</dt><dd>${esc(s.role)}</dd><dt>Data da resposta</dt><dd>${s.ts}</dd>` : ''}</dl>
-    <div class="mod-sec"><h4>Vão junto no agrupamento ${esc(s.grp)}</h4>
-      <p class="hint">${others ? `${others} ${others > 1 ? 'outras lojas' : 'outra loja'} no mesmo agrupamento: ${mix(info.ss, 'truck')}; ${mix(info.ss, 'ativo')}. Esta loja está destacada; clique em outra para abrir a ficha dela.` : 'Esta é a única loja do agrupamento.'}</p>
-      ${groupTable(info, s.code)}
-      <p class="gnote" style="margin-top:12px">${groupNote(info)}</p>
-      ${blockers(info, s.code)}</div>
-    <div class="mod-sec"><h4>Detalhe por dia</h4>
-    ${s.responded ? `<div class="dlist">${mergeDays(s.days).map(({ d, a, b }) => `<div class="drow"><span class="dn">${a === b ? DAYS[a] : (b - a === 1 ? DAYS_SHORT[a] + ' e ' + DAYS_SHORT[b] : DAYS_SHORT[a] + ' a ' + DAYS_SHORT[b])}</span><div>${d.ok ? TURNS.filter(([t]) => d.p.includes(t)).map(([t, k]) => `<span class="pill ${k}">${t}</span>`).join('')
-      : `<span class="pill x">Não recebe</span><span class="dn-why">${CATS[d.cat].t}, motivo em destaque no topo</span>`
-    }</div></div>`).join('')}</div>` : `<div class="notice">A loja ainda não respondeu. Os dias e turnos aparecem aqui assim que a resposta entrar na planilha.</div>`}</div>`;
-  $('#drClose').onclick = () => dr.close();
-  tip.classList.remove('on');
-  if (!dr.open) dr.showModal();
-  dr.scrollTop = 0;
-  $('#drTitle').setAttribute('tabindex', '-1'); $('#drTitle').focus({ preventScroll: true });
-}
-$('#drIn').addEventListener('click', e => { const t = e.target.closest('.gt tr[data-code], .bstore'); if (t && t.dataset.code) openStore(t.dataset.code); });
-dr.addEventListener('click', e => { if (e.target === dr) dr.close(); });
-const closeBtn = id => `<button class="dr-close" id="${id}" aria-label="Fechar (Esc)" title="Fechar (Esc)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg><span>Fechar</span><kbd>Esc</kbd></button>`;
-function openReason(g) {
-  const d = g.s.days[g.days[0]];
-  $('#drIn').innerHTML = `
-    <div class="dr-head"><div><h2 id="drTitle">${esc(g.s.name)}</h2><p>Loja ${g.s.code}, ${esc(g.s.resp)} (${esc(g.s.role)})</p></div>${closeBtn('drClose')}</div>
-    <div><span class="pill x">Não recebe</span><span class="pill" style="background:var(--bg)">${CATS[g.cat].t}</span></div>
-    <dl class="facts"><dt>Dias afetados</dt><dd><span class="dd">${g.days.map(i => `<span>${DAYS[i]}</span>`).join('')}</span></dd></dl>
-    <div class="why-box"><div class="why-h">${ALERT}Motivo informado pela loja</div><p class="why-text">${esc(g.why)}</p></div>
-    ${d.orig.trim() !== g.why.trim() ? `<details class="orig"><summary>Ver texto original</summary><div>${esc(d.orig)}</div></details>` : ''}
-    <div class="dr-foot"><button class="btn" id="toStore">Ver ficha completa da loja</button></div>`;
-  $('#drClose').onclick = () => dr.close();
-  $('#toStore').onclick = () => openStore(g.s.code);
-  tip.classList.remove('on');
-  if (!dr.open) dr.showModal();
-  dr.scrollTop = 0;
-  $('#drTitle').setAttribute('tabindex', '-1'); $('#drTitle').focus({ preventScroll: true });
-}
+const heatColor = p => p >= 50 ? `color-mix(in srgb,var(--sim) ${Math.round((p-50)*2*0.85+15)}%,var(--surface))` : `color-mix(in srgb,var(--nao) ${Math.round((50-p)*2*0.8+12)}%,var(--surface))`;
 
-/* ---------- Tema ---------- */
-$('#themeBtn').addEventListener('click', () => {
-  const root = document.documentElement;
-  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  root.dataset.theme = dark ? 'light' : 'dark';
-  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) { }
+/* ---------- Resumo ---------- */
+function renderResumo(){
+  const list = STORES.filter(inScope), st = stats(list), sc = scopeLabel();
+  $('#rsMeta').textContent = `${list.length} lojas${sc ? `, ${sc}` : ''}. Faixas de uma hora, das 05h às 23h, de segunda a sábado.`;
+  if(!st.n){
+    $('#rsHead').textContent = RSTATE==='loading' ? 'Carregando respostas…' : 'Aguardando as respostas das lojas.';
+    $('#rsSub').textContent = 'Envie a cada regional o link da pesquisa. Assim que as lojas responderem, o painel mostra aqui em quais horários cada uma pode receber o caminhão.';
+  } else {
+    let worst = null, best = null;
+    DAYS.forEach((_,i) => { for(let h=0;h<NH;h++){ const p = pct(st.yes[i][h], st.n); if(!worst || p < worst.p) worst = {i,h,p}; if(!best || p > best.p) best = {i,h,p}; } });
+    $('#rsHead').textContent = `${pct(st.ys, st.cells)}% das faixas horárias aceitam caminhão.`;
+    $('#rsSub').textContent = `A faixa mais restrita é ${DAYS[worst.i].toLowerCase()}, ${faixa(worst.h)}, com ${worst.p}% das lojas recebendo. ${st.full} ${st.full===1?'loja recebe':'lojas recebem'} em todas as faixas da semana.`;
+  }
+  const rp = pct(st.n, list.length);
+  $('#rsKpis').innerHTML = `
+    <div class="kpi"><b>${st.n} <span style="font-size:18px;color:var(--muted);font-weight:500">de ${list.length}</span></b><small>lojas responderam</small><div class="bar"><i style="width:${rp}%"></i></div></div>
+    <div class="kpi"><b>${st.n ? pct(st.ys, st.cells)+'%' : '–'}</b><small>das faixas aceitam caminhão</small></div>
+    <div class="kpi"><b>${st.n ? st.full : '–'}</b><small>lojas recebem em todas as faixas</small></div>
+    <div class="kpi"><b>${st.n ? st.n - st.full : '–'}</b><small>lojas têm alguma faixa sem recebimento</small></div>`;
+  const g = ['<span></span>', ...DS.map(d => `<span class="hh">${d}</span>`)];
+  for(let h=0;h<NH;h++){
+    g.push(`<span class="hl">${faixa(h)}</span>`);
+    DAYS.forEach((d,i) => {
+      if(!st.n){ g.push('<span class="hc none">–</span>'); return; }
+      const p = pct(st.yes[i][h], st.n);
+      g.push(`<button class="hc" data-i="${i}" data-h="${h}" style="background:${heatColor(p)}" aria-label="${d}, ${faixa(h)}: ${p}% das lojas recebem">${p}%</button>`);
+    });
+  }
+  $('#heat').innerHTML = g.join('');
+  if(st.n){
+    const byH = Array.from({length:NH}, (_,h) => pct(DAYS.reduce((a,_,i)=>a+st.yes[i][h],0), st.n*6));
+    const good = byH.map((p,h)=>({p,h})).filter(x=>x.p>=80);
+    $('#heatNote').innerHTML = good.length
+      ? `Na média da semana, <b>${good.length} das 18 faixas</b> têm pelo menos 80% das lojas recebendo. Base: ${st.n} ${st.n===1?'loja':'lojas'} que responderam.`
+      : `Nenhuma faixa tem 80% ou mais das lojas recebendo na média da semana. Base: ${st.n} ${st.n===1?'loja':'lojas'} que responderam.`;
+  } else $('#heatNote').textContent = '';
+}
+$('#heat').addEventListener('click', e => { const b = e.target.closest('.hc[data-i]'); if(b) openSlot(+b.dataset.i, +b.dataset.h); });
+
+/* ---------- Regionais ---------- */
+const openPend = new Set();
+function renderRegionais(){
+  const list = STORES.filter(s => !G.uf || s.uf === G.uf);
+  const rows = REGS.map(reg => { const ss = list.filter(s => s.reg === reg); return {reg, ss, st:stats(ss)}; }).filter(x => x.ss.length);
+  $('#rtable').innerHTML = `<thead><tr><th>Regional</th><th class="num">Lojas</th><th>Respostas</th><th class="num">Faixas com recebimento</th><th class="num">Lojas com restrição</th><th></th></tr></thead>
+  <tbody>${rows.map(({reg,ss,st}) => {
+    const p = pct(st.n, ss.length), pend = ss.filter(s => !RESP[s.code]);
+    return `<tr><td><button class="rname" data-r="${esc(reg)}">${esc(reg)}</button></td><td class="num">${ss.length}</td>
+      <td><div class="prog"><div class="pb"><i class="${p===100?'full':''}" style="width:${p}%"></i></div><span>${st.n} de ${ss.length}</span></div></td>
+      <td class="num">${st.n ? pct(st.ys, st.cells)+'%' : '–'}</td><td class="num">${st.n ? st.n - st.full : '–'}</td>
+      <td class="num">${pend.length ? `<button class="linkbtn" data-p="${esc(reg)}">${openPend.has(reg)?'Ocultar':'Pendentes'} (${pend.length})</button>` : '<span style="color:var(--sim);font-size:13px;font-weight:600">Completo</span>'}</td></tr>
+      ${openPend.has(reg) && pend.length ? `<tr class="pendrow"><td colspan="6"><div class="pendchips">${pend.map(s => `<button class="chip" data-code="${s.code}"><small>${s.code}</small>${esc(s.name)}</button>`).join('')}</div></td></tr>` : ''}`;
+  }).join('')}</tbody>`;
+}
+$('#rtable').addEventListener('click', e => {
+  const n = e.target.closest('.rname'); if(n){ setG('reg', n.dataset.r); show('lojas', true); return; }
+  const p = e.target.closest('[data-p]'); if(p){ const r = p.dataset.p; openPend.has(r) ? openPend.delete(r) : openPend.add(r); renderRegionais(); return; }
+  const c = e.target.closest('.chip'); if(c) openStore(c.dataset.code);
 });
-try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) { }
 
-/* ---------- Formulário do gerente ---------- */
-const ICON_OK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
-const ICON_NO = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
-let fs = null;
-const slotKey = (i, t) => i + '|' + t;
-let pickQ = '';
-function openForm(raw) {
-  const params = new URLSearchParams(raw.split('?')[1] || '');
-  const rawCode = (params.get('loja') || '').replace(/\D/g, '');
-  const code = rawCode ? rawCode.padStart(4, '0') : '';
-  const token = (params.get('t') || '').trim();
-  const s = code ? byCode[code] : null;
-  if (!s) { renderPicker(code ? `Não encontramos a loja ${code}. Escolha na lista abaixo.` : ''); return; }
-  if (!fs || fs.code !== code) fs = newFormState(s, code);
-  fs.token = token;
+/* ---------- Lojas ---------- */
+const L = {q:'', status:'', sort:'code'};
+function barBg(r, i){
+  const row = r.d[i], st = [];
+  for(let h=0;h<NH;h++){ const c = row[h]==='S' ? 'var(--sim)' : 'var(--nao)'; st.push(`${c} ${(h*100/NH).toFixed(3)}% ${((h+1)*100/NH).toFixed(3)}%`); }
+  return `linear-gradient(90deg,${st.join(',')})`;
+}
+function renderLojas(){
+  const q = L.q.trim().toLowerCase();
+  let rows = STORES.filter(inScope).filter(s => !q || s.name.toLowerCase().includes(q) || s.code.includes(q) || s.city.toLowerCase().includes(q));
+  rows = rows.filter(s => { const r = RESP[s.code];
+    if(L.status === 'resp') return !!r; if(L.status === 'pend') return !r;
+    if(L.status === 'restr') return r && storeAvail(r) < NC; if(L.status === 'full') return r && storeAvail(r) === NC; return true; });
+  const av = s => RESP[s.code] ? storeAvail(RESP[s.code]) : 999;
+  rows.sort(L.sort==='low' ? (a,b) => av(a)-av(b) || pt(a.code,b.code) : L.sort==='reg' ? (a,b) => pt(a.reg,b.reg) || pt(a.code,b.code) : (a,b) => pt(a.code,b.code));
+  $('#lCount').textContent = `${rows.length} de ${STORES.filter(inScope).length} lojas`;
+  $('#ltable').innerHTML = `<thead><tr><th>Loja</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}<th style="text-align:right;padding-right:18px">Faixas</th></tr></thead><tbody>${
+    rows.length ? rows.map(s => { const r = RESP[s.code];
+      return `<tr data-code="${s.code}"><td class="st"><div class="ln"><small>${s.code}</small><b>${esc(s.name)}</b></div><div class="lsub">${esc(s.city)}/${s.uf}, ${esc(s.reg)}</div></td>
+      ${r ? DAYS.map((_,i) => `<td><div class="dbar" data-c="${s.code}" data-i="${i}" style="background:${barBg(r,i)}"></div></td>`).join('')
+          : `<td colspan="6"><div class="dbar pend"></div></td>`}
+      <td class="pc">${r ? `${pct(storeAvail(r), NC)}%<small>${storeAvail(r)} de ${NC}</small>` : '<span class="pending-txt">Sem resposta</span>'}</td></tr>`; }).join('')
+    : `<tr><td colspan="8" class="empty">Nenhuma loja com esses filtros.</td></tr>`}</tbody>`;
+}
+$('#lq').oninput = e => { L.q = e.target.value; renderLojas(); };
+[['#lStatus','status'],['#lSort','sort']].forEach(([id,k]) => { const el = $(id); syncChip(el); el.onchange = () => { L[k] = el.value; syncChip(el); renderLojas(); }; });
+$('#ltable').addEventListener('click', e => { const tr = e.target.closest('tr[data-code]'); if(tr) openStore(tr.dataset.code); });
+
+/* ---------- Motivos ---------- */
+let MQ = '';
+function renderMotivos(){
+  const q = MQ.trim().toLowerCase(), items = [];
+  STORES.filter(inScope).forEach(s => { const r = RESP[s.code]; if(!r) return; r.reasons.forEach(x => { if(!q || x.txt.toLowerCase().includes(q)) items.push({s, x}); }); });
+  items.sort((a,b) => b.x.keys.length - a.x.keys.length || pt(a.s.code, b.s.code));
+  const ns = new Set(items.map(i => i.s.code)).size;
+  $('#mCount').textContent = `${items.length} ${items.length===1?'motivo':'motivos'} de ${ns} ${ns===1?'loja':'lojas'}`;
+  $('#mlist').innerHTML = items.length ? items.map(({s,x}) => `<button class="mcard" data-code="${s.code}">
+      <span class="mt"><small>${s.code}</small>${esc(s.name)}</span><span class="ms">${esc(s.city)}/${s.uf}, ${esc(s.reg)}, ${x.keys.length} ${x.keys.length===1?'faixa':'faixas'}</span>
+      <span class="wins">${winLabel(x.keys).map(w=>`<span>${w}</span>`).join('')}</span><p>${esc(x.txt)}</p></button>`).join('')
+    : `<div class="empty" style="grid-column:1/-1">${Object.keys(RESP).length ? 'Nenhum motivo com esses filtros.' : 'Os motivos aparecem aqui assim que as lojas responderem.'}</div>`;
+}
+$('#mq').oninput = e => { MQ = e.target.value; renderMotivos(); };
+$('#mlist').addEventListener('click', e => { const b = e.target.closest('.mcard'); if(b) openStore(b.dataset.code); });
+
+/* ---------- Modais ---------- */
+const md = $('#md');
+function showMd(html){
+  $('#mdIn').innerHTML = html; $('#mdClose').onclick = () => md.close(); tip.classList.remove('on');
+  if(!md.open) md.showModal(); md.scrollTop = 0;
+  const t = $('#mdTitle'); if(t){ t.tabIndex = -1; t.focus({preventScroll:true}); }
+}
+md.addEventListener('click', e => { if(e.target === md) md.close(); });
+$('#mdIn').addEventListener('click', e => { const c = e.target.closest('[data-code]'); if(c && !c.closest('.md-head')) openStore(c.dataset.code); });
+function openStore(code){
+  const s = byCode[code], r = RESP[code];
+  let body;
+  if(!r) body = `<div class="pendbox">A loja ainda não respondeu à pesquisa. Ela aparece aqui assim que o gerente enviar as faixas pelo link do regional ${esc(s.reg)}.</div>`;
+  else {
+    const g = ['<span></span>', ...DS.map(d => `<span class="gh">${d}</span>`)];
+    for(let h=0;h<NH;h++){
+      g.push(`<span class="gl">${faixa(h)}</span>`);
+      DAYS.forEach((d,i) => { const yes = r.d[i][h]==='S', n = yes ? '' : (r.rOf[i+'|'+h] ?? -1) + 1;
+        g.push(`<span class="gc ${yes?'s':'n'}" title="${d}, ${faixa(h)}: ${yes?'recebe':'não recebe'+(n?`, motivo ${n}`:'')}">${yes?'':n||'!'}</span>`); });
+    }
+    const av = storeAvail(r);
+    body = `<section><h4>Grade da semana: ${av} de ${NC} faixas com recebimento (${pct(av,NC)}%)</h4><div class="sgrid">${g.join('')}</div>
+      <div class="legend" style="margin:10px 0 0"><span><i class="sw" style="background:var(--sim-soft);outline:1px solid var(--sim)"></i>Recebe</span><span><i class="sw" style="background:var(--nao-soft);outline:1.5px solid var(--nao)"></i>Não recebe (número do motivo)</span></div></section>
+      <section><h4>Justificativas</h4>${r.reasons.length ? `<ol class="rlist">${r.reasons.map((x,i) => `<li><div class="rl-h"><b class="rn">${i+1}</b><span class="wins">${winLabel(x.keys).map(w=>`<span>${w}</span>`).join('')}</span></div><p>${esc(x.txt)}</p></li>`).join('')}</ol>` : '<div class="okbox">A loja recebe em todas as faixas da semana.</div>'}
+      <p class="hint" style="margin:12px 0 0">Respondido por ${esc(r.nome)} (${esc(r.cargo)}) em ${esc(r.quando)}.</p></section>`;
+  }
+  showMd(`<div class="md-head"><div><p class="meta" style="margin:0">Loja ${s.code}</p><h2 id="mdTitle">${esc(s.name)}</h2>
+    <div class="tags"><span>${esc(s.city)}/${s.uf}</span><span>${esc(s.addr)}</span><span>Regional ${esc(s.reg)}</span></div></div>${closeBtn()}</div>${body}`);
+}
+function openSlot(i, h){
+  const st = stats(STORES.filter(inScope));
+  const no = st.resp.filter(s => RESP[s.code].d[i][h] !== 'S');
+  const groups = new Map();
+  no.forEach(s => { const r = RESP[s.code], ri = r.rOf[i+'|'+h], txt = ri != null ? r.reasons[ri].txt : 'Sem motivo informado';
+    if(!groups.has(txt)) groups.set(txt, []); groups.get(txt).push(s); });
+  const gs = [...groups.entries()].sort((a,b) => b[1].length - a[1].length);
+  showMd(`<div class="md-head"><div><p class="meta" style="margin:0">Faixa horária${scopeLabel()?`, ${esc(scopeLabel())}`:''}</p><h2 id="mdTitle">${DAYS[i]}, ${faixa(h)}</h2>
+    <p>${st.n - no.length} de ${st.n} lojas recebem (${pct(st.n-no.length, st.n)}%). ${no.length} não recebem.</p></div>${closeBtn()}</div>
+    ${no.length ? `<div class="slist">${gs.map(([txt, ss]) => `<div class="sgroup"><p>${esc(txt)}</p><div class="pendchips" style="padding:0">${ss.map(s => `<button class="chip" data-code="${s.code}"><small>${s.code}</small>${esc(s.name)}</button>`).join('')}</div></div>`).join('')}</div>`
+      : '<div class="okbox">Todas as lojas que responderam recebem nesta faixa.</div>'}`);
+}
+
+/* ---------- Tooltip das barras ---------- */
+const tip = $('#tip');
+function placeTip(e){
+  const r = tip.getBoundingClientRect(); let x = e.clientX + 14, y = e.clientY + 14;
+  if(x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if(y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+document.addEventListener('pointermove', e => {
+  const b = e.target.closest('.dbar[data-c]');
+  if(!b){ tip.classList.remove('on'); return; }
+  const s = byCode[b.dataset.c], r = RESP[s.code], i = +b.dataset.i, rc = b.getBoundingClientRect();
+  const h = Math.min(NH-1, Math.max(0, Math.floor((e.clientX - rc.left) / rc.width * NH)));
+  const yes = r.d[i][h] === 'S', ri = r.rOf[i+'|'+h];
+  tip.innerHTML = `<b>${esc(s.name)}, ${DAYS[i].toLowerCase()}, ${faixa(h)}</b><br>${yes ? 'Recebe' : `Não recebe${ri!=null ? `: ${esc(r.reasons[ri].txt.slice(0,200))}` : ''}`}`;
+  tip.classList.add('on'); placeTip(e);
+});
+
+/* ---------- Formulário da loja ---------- */
+let F = null, pickQ = '';
+function openForm(raw){
+  const p = new URLSearchParams(raw.split('?')[1] || '');
+  const slug = p.get('r') || '', token = p.get('t') || '', reg = regBySlug[slug];
+  const root = $('#formRoot');
+  if(!reg || !token){ root.innerHTML = `<div class="fcard"><div class="fmsg"><h2>Link incompleto</h2><p>Abra a pesquisa pelo link enviado pelo seu regional. Ele já indica as lojas da sua regional.</p></div></div>`; return; }
+  const code = (p.get('loja') || '').replace(/\D/g,'').padStart(4,'0');
+  const s = byCode[code];
+  if(!p.get('loja') || !s || s.reg !== reg){ renderPicker(reg, slug, token, p.get('loja') && !s ? 'Não encontramos essa loja. Escolha na lista.' : ''); return; }
+  if(!F || F.code !== code) F = {code, s, slug, token, nome:'', cargo:'', cells:DAYS.map(() => Array(NH).fill(null)), reasons:new Map(), nextR:1, sel:new Set(), draft:'', mode:'', sent:null};
+  F.slug = slug; F.token = token;
   renderForm();
 }
-function renderPicker(msg) {
-  const root = $('#formRoot');
-  root.innerHTML = `<div class="fcard">
-    <header class="fhead"><p class="meta">Pesquisa de recebimento de carga</p>
-      <h1 class="ftitle">Janelas de recebimento da loja</h1>
-      <p class="fintro">Escolha a sua loja para começar. Em seguida, confirme quem está respondendo e marque as janelas em que a loja não pode receber o caminhão.</p></header>
-    <div class="fstep">
-      <h3>Qual é a sua loja?</h3>
-      ${msg ? `<p class="ferr" style="padding:10px 14px;border-radius:8px;margin:12px 0 0">${esc(msg)}</p>` : ''}
-      <label class="psearch"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="pickQ" type="search" placeholder="Digite o código ou o nome da loja" aria-label="Buscar loja" value="${esc(pickQ)}" autocomplete="off"></label>
-      <div id="pickList" class="plist"></div>
-    </div></div>`;
+function renderPicker(reg, slug, token, msg){
+  const ss = STORES.filter(s => s.reg === reg);
+  const done = ss.filter(s => RESP[s.code]).length;
+  $('#formRoot').innerHTML = `<div class="fcard"><header class="fhead"><p class="k">Pesquisa de janelas de recebimento</p><h1 class="ftitle">Lojas da regional ${esc(reg)}</h1>
+    <p class="fintro">Escolha a sua loja. Você vai informar, para cada hora entre 05h e 23h de segunda a sábado, se a loja pode receber o caminhão e, quando não puder, o motivo.</p></header>
+    <div class="fsec" style="border-bottom:0">
+      ${msg?`<p class="ferr" style="padding:10px 14px;border-radius:8px;margin-bottom:12px">${esc(msg)}</p>`:''}
+      ${RSTATE==='ok' ? `<p class="hint" style="margin:0">${done} de ${ss.length} lojas da regional já responderam.</p>` : ''}
+      <label class="pickq"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="pq" type="search" placeholder="Digite o código, o nome ou a cidade da loja" value="${esc(pickQ)}" autocomplete="off" aria-label="Buscar loja"></label>
+      <div class="plist" id="plist"></div></div></div>`;
   const draw = () => {
     const q = pickQ.trim().toLowerCase();
-    const list = ALL.filter(s => !q || s.code.includes(q) || s.name.toLowerCase().includes(q) || s.grp.toLowerCase().includes(q));
-    if (!list.length) { $('#pickList').innerHTML = `<p class="pempty">Nenhuma loja encontrada para "${esc(pickQ)}".</p>`; return; }
-    const gs = [...new Set(list.map(s => s.grp))].sort((a, b) => a.localeCompare(b, 'pt'));
-    $('#pickList').innerHTML = gs.map(g => `<div class="pgroup"><h4>${esc(g)}</h4><div class="pgrid">${list.filter(s => s.grp === g).sort(byCodeSort).map(s => `<button type="button" class="pstore" data-code="${s.code}"><small>${s.code}</small><b>${esc(s.name)}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`).join('')
-      }</div></div>`).join('');
+    const list = ss.filter(s => !q || s.code.includes(q) || s.name.toLowerCase().includes(q) || s.city.toLowerCase().includes(q));
+    $('#plist').innerHTML = list.length ? list.map(s => { const r = RESP[s.code];
+      return `<button type="button" class="pstore" data-code="${s.code}"><small>${s.code}</small><span class="pn"><b>${esc(s.name)}</b><em>${esc(s.city)}/${s.uf}</em></span>${RSTATE==='ok' ? (r ? `<span class="pstat ok">Respondida</span>` : `<span class="pstat no">Pendente</span>`) : ''}</button>`; }).join('')
+      : `<p class="hint" style="grid-column:1/-1">Nenhuma loja encontrada.</p>`;
   };
   draw();
-  $('#pickQ').oninput = e => { pickQ = e.target.value; draw(); };
-  $('#pickQ').onkeydown = e => { if (e.key === 'Enter') { const b = $('#pickList .pstore'); if (b) b.click(); } };
-  $('#pickList').onclick = e => { const b = e.target.closest('.pstore'); if (b) location.hash = '#responder?loja=' + b.dataset.code; };
-  if (matchMedia('(pointer:fine)').matches) $('#pickQ').focus();
+  $('#pq').oninput = e => { pickQ = e.target.value; draw(); };
+  $('#plist').onclick = e => { const b = e.target.closest('.pstore'); if(b) location.hash = `#responder?r=${slug}&t=${encodeURIComponent(token)}&loja=${b.dataset.code}`; };
 }
-// Janelas fixas (cadeado): o que a loja já respondeu na 1ª pesquisa.
-// Janelas pendentes: turnos não marcados na 1ª pesquisa. O gerente seleciona uma ou mais,
-// escreve um motivo livre e aplica; repete até responder 100%.
-function newFormState(s, code) {
-  const st = {
-    code, token: '', s, nome: s.resp || '', cargo: s.role || '', fixedWho: !!(s.responded && s.resp),
-    locked: new Map(), pend: [], ans: new Map(), groups: new Map(), nextG: 1, sel: new Set(), draft: '', sent: null
-  };
-  DAYS.forEach((_, i) => TURNS.forEach(([t]) => {
-    const k = slotKey(i, t), d = s.responded ? s.days[i] : null;
-    if (d && !d.ok) st.locked.set(k, { state: 'no', dia: i, turno: t, txt: d.why });
-    else if (d && d.p.includes(t)) st.locked.set(k, { state: 'ok', dia: i, turno: t });
-    else st.pend.push(k);
-  }));
-  return st;
-}
-const ICON_LOCK = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
-const ICON_DOT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/></svg>';
-const kInfo = k => { const [i, t] = k.split('|'); return { dia: +i, turno: t }; };
-const byDayTurn = (a, b) => a.dia - b.dia || TURNS.findIndex(x => x[0] === a.turno) - TURNS.findIndex(x => x[0] === b.turno);
-const sortKeys = ks => ks.map(kInfo).sort(byDayTurn).map(x => slotKey(x.dia, x.turno));
-const chipsOf = ks => sortKeys(ks).map(k => { const x = kInfo(k); return `<span>${DAYS_SHORT[x.dia]} ${x.turno.toLowerCase()}</span>`; }).join('');
-function lockedNo() { return [...fs.locked.values()].filter(x => x.state === 'no').sort(byDayTurn); }
-const keysOf = g => fs.pend.filter(k => fs.ans.get(k) === g);
-const answeredCount = () => fs.pend.filter(k => fs.ans.has(k)).length;
-function gLabel(id) { return `Motivo ${[...fs.groups.keys()].indexOf(id) + 1}`; }
-
-function renderForm() {
-  const { s } = fs, root = $('#formRoot');
-  if (fs.sent) {
-    root.innerHTML = `<div class="fcard"><div class="fdone">
-      <div class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
-      <h2>Resposta enviada</h2>
-      <p>Obrigado! As janelas da loja ${s.code} ${esc(s.name)} foram registradas. Protocolo <code>${esc(fs.sent.envio)}</code>.</p>
-      ${fs.sent.resumo}
+const fk = (i,h) => i+'|'+h;
+const cellOf = k => { const [i,h] = k.split('|').map(Number); return F.cells[i][h]; };
+const answered = () => F.cells.flat().filter(v => v !== null).length;
+const keysOfR = id => { const ks = []; F.cells.forEach((row,i) => row.forEach((v,h) => { if(v === id) ks.push(fk(i,h)); })); return ks; };
+const rLabel = id => [...F.reasons.keys()].indexOf(id) + 1;
+function renderForm(){
+  const {s} = F, root = $('#formRoot'), back = `#responder?r=${F.slug}&t=${encodeURIComponent(F.token)}`;
+  if(F.sent){
+    root.innerHTML = `<div class="fcard"><div class="fdone"><div class="ic">${ICON_OK}</div><h2>Resposta enviada</h2>
+      <p>Obrigado! As faixas da loja ${s.code} ${esc(s.name)} foram registradas. Protocolo <code>${esc(F.sent)}</code>.</p>
       <p style="font-size:13.5px">Se precisar corrigir, envie de novo. A resposta mais recente é a que vale.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="fbtn ghost" id="fAgain">Corrigir e enviar de novo</button>${fs.token ? '' : '<a class="fbtn ghost" href="#responder" style="text-decoration:none">Responder por outra loja</a>'}</div></div></div>`;
-    $('#fAgain').onclick = () => { fs.sent = null; renderForm(); };
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="fbtn ghost" id="fAgain">Corrigir e enviar de novo</button><a class="fbtn ghost" style="text-decoration:none" href="${back}">Voltar para a lista de lojas</a></div></div></div>`;
+    $('#fAgain').onclick = () => { F.sent = null; renderForm(); };
     return;
   }
-  const who = fs.fixedWho
-    ? `<p class="hint">Dados de quem respondeu a primeira pesquisa.</p>
-       <div class="ffixed"><div><small>Nome</small><b>${esc(fs.nome)}</b></div><div><small>Cargo</small><b>${esc(fs.cargo)}</b></div><span class="lk">${ICON_LOCK}Informado na 1ª pesquisa</span></div>`
-    : `<div class="frow"><label class="ff">Nome<input id="fNome" autocomplete="name" maxlength="120" value="${esc(fs.nome)}"></label>
-       <label class="ff">Cargo<input id="fCargo" maxlength="80" value="${esc(fs.cargo)}" placeholder="Ex.: Gerente de loja"></label></div>`;
-  const total = fs.pend.length;
   root.innerHTML = `<div class="fcard">
-    <header class="fhead"><p class="meta">Pesquisa de recebimento de carga</p>
-      <h1 class="ftitle">Janelas de recebimento da loja</h1>
-      <div class="fstore"><b>${s.code} ${esc(s.name)}</b><span>${esc(s.grp)}</span><span>${esc(s.truck)}</span><span>${esc(s.ativo)}</span>
-        ${fs.token ? '' : `<a class="fswap" href="#responder">Não é a sua loja? Trocar</a>`}</div></header>
-    <ol class="fsteps">
-      <li class="fstep"><h3><span class="n">1</span>Quem está respondendo</h3>${who}</li>
-      <li class="fstep"><h3><span class="n">2</span>Responda as janelas sem resposta</h3>
-        ${total ? `<p class="hint">Selecione uma ou mais janelas <b>sem resposta</b>, escreva o motivo e clique em "Aplicar motivo". Depois selecione as que sobraram e responda de novo, até completar 100%. As janelas com cadeado vieram da primeira pesquisa e não mudam.</p>
-        <div class="prog" id="fProg"></div>` : `<p class="hint">A loja não tem janelas sem resposta: tudo foi informado na primeira pesquisa. Confira a grade e envie para confirmar.</p>`}
-        <div class="slots" id="fGrid" role="group" aria-label="Janelas de recebimento"></div>
-        <div class="legend2">
-          ${total ? `<span class="lg-i"><i class="lg-sw pd"></i>Sem resposta</span><span class="lg-i"><i class="lg-sw sl"></i>Selecionada</span><span class="lg-i"><i class="lg-sw no"></i>Respondida: não recebe</span>` : ''}
-          <span class="lg-i"><i class="lg-sw ok"></i>Recebe</span>
-          <span class="lg-i">${ICON_LOCK}Informado na 1ª pesquisa</span></div>
-        ${total ? `<div class="apanel" id="fPanel"></div>` : ''}</li>
-      ${total ? `<li class="fstep"><h3><span class="n">3</span>Respostas dadas</h3><div id="fGroups"></div></li>` : ''}
-    </ol>
-    ${prevBox() ? `<div class="fstep" style="border-bottom:0;padding-top:0">${prevBox()}</div>` : ''}
+    <header class="fhead"><p class="k">Loja ${s.code}, regional ${esc(s.reg)}</p><h1 class="ftitle">${esc(s.name)}</h1>
+      <p class="fintro">${esc(s.addr)}, ${esc(s.city)}/${s.uf}. <a class="fswap" href="${back}">Não é a sua loja? Trocar</a></p></header>
+    <div class="fsec"><h3><span class="n">1</span>Quem está respondendo</h3>
+      <div class="frow"><label class="ff">Nome<input id="fNome" autocomplete="name" maxlength="120" value="${esc(F.nome)}"></label>
+      <label class="ff">Cargo<input id="fCargo" maxlength="80" value="${esc(F.cargo)}" placeholder="Ex.: Gerente de loja"></label></div></div>
+    <div class="fsec"><h3><span class="n">2</span>Em quais horários a loja pode receber o caminhão?</h3>
+      <p class="hint">Selecione faixas tocando nelas (no computador, dá para arrastar). Tocar no dia ou na hora seleciona a coluna ou a linha inteira. Depois escolha "Recebe" ou "Não recebe"; para "Não recebe", escreva o motivo.</p>
+      <div class="fprog" id="fProg"></div>
+      <div class="shortcuts" id="fSc"></div>
+      <div class="fgrid-wrap"><div class="fgrid" id="fGrid" role="grid" aria-label="Faixas horárias"></div></div>
+      <div class="fleg"><span><i class="lg p"></i>Sem resposta</span><span><i class="lg x"></i>Selecionada</span><span><i class="lg s"></i>Recebe</span><span><i class="lg n"></i>Não recebe (número do motivo)</span></div>
+      <div class="abar" id="fBar" hidden></div></div>
+    <div class="fsec" id="fRsec" hidden><h3><span class="n">3</span>Motivos informados</h3><p class="hint">Confira os textos. "Desfazer" devolve as faixas para sem resposta.</p><div class="jlist" id="fReasons"></div></div>
     <p class="ferr" id="fErr" role="alert"></p>
     <div class="fsubmit"><p id="fSum"></p><button class="fbtn" id="fSend">Enviar resposta</button></div></div>`;
-  if (!fs.fixedWho) {
-    $('#fNome').oninput = e => { fs.nome = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
-    $('#fCargo').oninput = e => { fs.cargo = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
-  }
-  $('#fGrid').addEventListener('click', e => {
-    const b = e.target.closest('.slot[data-k], .daybtn'); if (!b) return;
-    if (b.classList.contains('daybtn')) {
-      const ks = fs.pend.filter(k => kInfo(k).dia === +b.dataset.i && !fs.ans.has(k));
-      const all = ks.length && ks.every(k => fs.sel.has(k));
-      ks.forEach(k => all ? fs.sel.delete(k) : fs.sel.add(k));
-    } else {
-      const k = b.dataset.k; fs.sel.has(k) ? fs.sel.delete(k) : fs.sel.add(k);
-    }
-    refresh();
-  });
+  $('#fNome').oninput = e => { F.nome = e.target.value; e.target.closest('.ff').classList.remove('bad'); $('#fErr').textContent=''; };
+  $('#fCargo').oninput = e => { F.cargo = e.target.value; e.target.closest('.ff').classList.remove('bad'); $('#fErr').textContent=''; };
   $('#fSend').onclick = submitForm;
-  $('#formRoot').oninput = () => { const e = $('#fErr'); if (e) e.textContent = ''; };
-  refresh();
+  bindGrid();
+  fRefresh();
 }
-function prevBox() {
-  const ln = lockedNo(); if (!ln.length) return '';
-  const grp = new Map(); ln.forEach(x => { if (!grp.has(x.txt)) grp.set(x.txt, []); grp.get(x.txt).push(slotKey(x.dia, x.turno)); });
-  return `<details class="prevj"><summary>${ICON_LOCK}<span>Já justificadas na 1ª pesquisa (${ln.length} ${ln.length > 1 ? 'janelas' : 'janela'})</span><span class="pv-t"><span class="o">Ver</span><span class="c">Ocultar</span></span></summary>
-    ${[...grp.entries()].map(([txt, ks]) => `<div class="pv-i"><div class="jt">${chipsOf(ks)}</div><p>${esc(txt)}</p></div>`).join('')}</details>`;
-}
-function refresh() { renderSlots(); renderPanel(); renderAnswers(); renderSum(); }
-function renderSlots() {
-  const g = ['<span></span>', ...DAYS.map((d, i) => {
-    const open = fs.pend.some(k => kInfo(k).dia === i && !fs.ans.has(k));
-    return open ? `<button type="button" class="daybtn" data-i="${i}" title="Selecionar as janelas sem resposta do dia">${DAYS_SHORT[i]}</button>` : `<span class="sh">${DAYS_SHORT[i]}</span>`;
-  })];
-  TURNS.forEach(([t, , v]) => {
-    g.push(`<span class="rh"><i class="sw" style="background:var(${v})"></i>${t}</span>`);
-    DAYS.forEach((d, i) => {
-      const k = slotKey(i, t), L = fs.locked.get(k);
-      if (L) {
-        const ok = L.state === 'ok';
-        g.push(`<div class="slot locked ${ok ? '' : 'no'}" aria-label="${d}, ${t}: ${ok ? 'recebe' : 'não recebe'}, informado na primeira pesquisa">${ok ? ICON_OK : ICON_NO}${ok ? 'Recebe' : 'Não recebe'}<span class="lk">${ICON_LOCK}1ª pesquisa</span></div>`);
-        return;
-      }
-      const a = fs.ans.get(k), sel = fs.sel.has(k);
-      let cls = 'pd', body = `${ICON_DOT}Sem resposta`, lab = 'sem resposta';
-      if (a === 'free') { cls = 'fr'; body = `${ICON_OK}Recebe<span class="lk">liberada</span>`; lab = 'recebe'; }
-      else if (a) { cls = 'an'; body = `${ICON_NO}Não recebe<span class="lk">${gLabel(a)}</span>`; lab = 'não recebe, ' + gLabel(a); }
-      g.push(`<button type="button" class="slot ${cls}${sel ? ' sel' : ''}" data-k="${k}" aria-pressed="${sel}" aria-label="${d}, ${t}: ${lab}${sel ? ', selecionada' : ''}">${body}</button>`);
+function fRefresh(){ drawGrid(); drawBar(); drawShortcuts(); drawReasons(); drawSum(); }
+function drawGrid(){
+  const g = ['<span class="corner">Hora</span>', ...DAYS.map((d,i) => `<button type="button" class="dh" data-col="${i}" title="Selecionar ${d.toLowerCase()} inteira">${DS[i]}</button>`)];
+  for(let h=0;h<NH;h++){
+    g.push(`<button type="button" class="hh2" data-row="${h}" title="Selecionar ${faixa(h)} em todos os dias"><span class="lf">${faixa(h)}</span><span class="ls">${hh(h)}</span></button>`);
+    DAYS.forEach((d,i) => {
+      const v = F.cells[i][h], k = fk(i,h), sel = F.sel.has(k);
+      const cls = v === null ? '' : v === 'S' ? 's' : 'n';
+      g.push(`<button type="button" class="fc ${cls}${sel?' sel':''}" data-k="${k}" aria-pressed="${sel}" aria-label="${d}, ${faixa(h)}: ${v===null?'sem resposta':v==='S'?'recebe':'não recebe, motivo '+rLabel(v)}">${v===null?'':v==='S'?'✓':rLabel(v)}</button>`);
     });
-  });
+  }
   $('#fGrid').innerHTML = g.join('');
-  const p = $('#fProg');
-  if (p) {
-    const n = answeredCount(), tot = fs.pend.length, pc = Math.round(n / tot * 100);
-    p.innerHTML = `<div class="prog-h"><span><b>${n} de ${tot}</b> janelas respondidas</span><b>${pc}%</b></div><div class="prog-b"><i style="width:${pc}%"></i></div>`;
-    p.classList.toggle('done', n === tot);
+  const n = answered(), p = $('#fProg');
+  p.innerHTML = `<div class="h"><span><b>${n} de ${NC}</b> faixas respondidas</span><b>${pct(n,NC)}%</b></div><div class="b"><i style="width:${pct(n,NC)}%"></i></div>`;
+  p.classList.toggle('done', n === NC);
+}
+function paintSel(){ $('#fGrid').querySelectorAll('.fc').forEach(b => { const on = F.sel.has(b.dataset.k); b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on); }); drawBar(); }
+let drag = null;
+addEventListener('pointerup', () => { if(drag && drag.moved){ drag.ignoreClick = true; setTimeout(() => { drag = null; }, 0); } else drag = null; });
+function bindGrid(){
+  const grid = $('#fGrid');
+  grid.addEventListener('pointerdown', e => {
+    const c = e.target.closest('.fc'); if(!c || e.pointerType !== 'mouse' || e.button !== 0) return;
+    const [i,h] = c.dataset.k.split('|').map(Number);
+    drag = {i, h, base:new Set(F.sel), add:!F.sel.has(c.dataset.k), moved:false};
+  });
+  grid.addEventListener('pointerover', e => {
+    if(!drag) return; const c = e.target.closest('.fc'); if(!c) return;
+    const [i,h] = c.dataset.k.split('|').map(Number);
+    if(i === drag.i && h === drag.h && !drag.moved) return;
+    drag.moved = true;
+    const s = new Set(drag.base);
+    for(let a=Math.min(i,drag.i); a<=Math.max(i,drag.i); a++) for(let b=Math.min(h,drag.h); b<=Math.max(h,drag.h); b++) drag.add ? s.add(fk(a,b)) : s.delete(fk(a,b));
+    F.sel = s; paintSel();
+  });
+  grid.addEventListener('click', e => {
+    if(drag && drag.ignoreClick) return;
+    const c = e.target.closest('.fc, .dh, .hh2'); if(!c) return;
+    let ks;
+    if(c.classList.contains('fc')) ks = [c.dataset.k];
+    else if(c.classList.contains('dh')) ks = Array.from({length:NH}, (_,h) => fk(+c.dataset.col, h));
+    else ks = DAYS.map((_,i) => fk(i, +c.dataset.row));
+    const all = ks.every(k => F.sel.has(k));
+    ks.forEach(k => all ? F.sel.delete(k) : F.sel.add(k));
+    paintSel();
+  });
+}
+function drawBar(){
+  const bar = $('#fBar'), n = F.sel.size;
+  if(!n){ bar.hidden = true; F.mode = ''; return; }
+  bar.hidden = false;
+  const reuse = [...F.reasons.entries()];
+  bar.innerHTML = `<div class="ah"><b>${n} ${n>1?'faixas selecionadas':'faixa selecionada'}</b><button type="button" class="linkbtn" id="fClr">Limpar seleção</button></div>
+    ${F.mode === 'no' ? `<label class="ff">Por que a loja não pode receber nessas faixas?<textarea id="fDraft" maxlength="1500" placeholder="Escreva com as suas palavras">${esc(F.draft)}</textarea></label>
+      ${reuse.length ? `<div class="reuse"><span>Usar um motivo já escrito:</span>${reuse.map(([id,r]) => `<button type="button" data-r="${id}" title="${esc(r.txt)}">${rLabel(id)}. ${esc(r.txt)}</button>`).join('')}</div>` : ''}
+      <div class="acts"><button type="button" class="fbtn no" id="fApply">Aplicar motivo</button><button type="button" class="fbtn ghost" id="fBack">Voltar</button></div>`
+    : `<div class="acts"><button type="button" class="fbtn yes" id="fYes">${ICON_OK}Recebe</button><button type="button" class="fbtn no" id="fNo">${ICON_X}Não recebe</button></div>`}`;
+  $('#fClr').onclick = () => { F.sel.clear(); F.mode = ''; paintSel(); };
+  if(F.mode === 'no'){
+    const ta = $('#fDraft');
+    ta.oninput = e => { F.draft = e.target.value; e.target.closest('.ff').classList.remove('bad'); $('#fErr').textContent=''; };
+    if(matchMedia('(pointer:fine)').matches) ta.focus({preventScroll:true});
+    $('#fBack').onclick = () => { F.mode = ''; drawBar(); };
+    $('#fApply').onclick = () => {
+      const txt = F.draft.trim();
+      if(txt.length < 5){ ta.closest('.ff').classList.add('bad'); ta.focus(); $('#fErr').textContent = 'Escreva o motivo (pelo menos 5 caracteres).'; return; }
+      let id = [...F.reasons.entries()].find(([,r]) => r.txt.trim().toLowerCase() === txt.toLowerCase())?.[0];
+      if(!id){ id = 'r' + (F.nextR++); F.reasons.set(id, {txt}); }
+      applySel(id); F.draft = '';
+    };
+    bar.querySelectorAll('.reuse button').forEach(b => b.onclick = () => applySel(b.dataset.r));
+  } else {
+    $('#fYes').onclick = () => applySel('S');
+    $('#fNo').onclick = () => { F.mode = 'no'; drawBar(); };
   }
 }
-function renderPanel() {
-  const box = $('#fPanel'); if (!box) return;
-  const sel = [...fs.sel], open = fs.pend.filter(k => !fs.ans.has(k));
-  const reassign = sel.some(k => fs.ans.has(k));
-  if (!sel.length) {
-    box.innerHTML = open.length
-      ? `<div class="ap-empty"><span>Nenhuma janela selecionada. Toque nas janelas <b>sem resposta</b> na grade acima${open.length > 1 ? ' ou' : ''}</span>${open.length > 1 ? `<button type="button" class="linkbtn" id="fSelAll">selecione todas as ${open.length} sem resposta</button>` : ''}.</div>`
-      : `<div class="ap-done">${ICON_OK}<span>Todas as janelas foram respondidas. Confira as respostas abaixo e envie.</span></div>`;
-    const sa = $('#fSelAll'); if (sa) sa.onclick = () => { open.forEach(k => fs.sel.add(k)); refresh(); };
-    return;
-  }
-  box.innerHTML = `<div class="ap-h"><b>${sel.length} ${sel.length > 1 ? 'janelas selecionadas' : 'janela selecionada'}</b><span class="ap-chips">${chipsOf(sel)}</span><button type="button" class="linkbtn" id="fClr">Limpar seleção</button></div>
-    ${reassign ? '<p class="ap-note">Algumas já tinham resposta; o novo motivo vai substituir o anterior.</p>' : ''}
-    <label class="ff">Motivo de a loja não receber nessas janelas<textarea id="fDraft" maxlength="1500" placeholder="Escreva com as suas palavras o motivo">${esc(fs.draft)}</textarea></label>
-    <div class="ap-act"><button type="button" class="fbtn" id="fApply">Aplicar motivo às selecionadas</button><button type="button" class="fbtn ghost" id="fFree">A loja recebe nessas janelas</button></div>`;
-  const ta = $('#fDraft');
-  ta.oninput = e => { fs.draft = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
-  $('#fClr').onclick = () => { fs.sel.clear(); refresh(); };
-  $('#fApply').onclick = () => {
-    if (fs.draft.trim().length < 5) { ta.closest('.ff').classList.add('bad'); ta.focus(); $('#fErr').textContent = 'Escreva o motivo (pelo menos 5 caracteres) antes de aplicar.'; return; }
-    const id = 'g' + (fs.nextG++);
-    fs.groups.set(id, { txt: fs.draft.trim() });
-    fs.sel.forEach(k => fs.ans.set(k, id));
-    fs.sel.clear(); fs.draft = ''; cleanGroups(); $('#fErr').textContent = ''; refresh();
+function applySel(v){
+  F.sel.forEach(k => { const [i,h] = k.split('|').map(Number); F.cells[i][h] = v; });
+  F.sel.clear(); F.mode = ''; cleanReasons(); $('#fErr').textContent = ''; fRefresh();
+}
+function cleanReasons(){ [...F.reasons.keys()].forEach(id => { if(!keysOfR(id).length) F.reasons.delete(id); }); }
+function drawShortcuts(){
+  const nulls = F.cells.flat().filter(v => v === null).length;
+  const monDone = F.cells[0].every(v => v !== null), emptyDays = F.cells.slice(1).filter(r => r.every(v => v === null)).length;
+  $('#fSc').innerHTML = `<button type="button" class="sc" id="scCopy" ${monDone && emptyDays ? '' : 'disabled'} title="Responda a segunda inteira para liberar">Copiar segunda para os dias vazios${emptyDays && monDone ? ` (${emptyDays})` : ''}</button>
+    <button type="button" class="sc" id="scYes" ${nulls ? '' : 'disabled'}>${nulls ? `Marcar as ${nulls} sem resposta como "Recebe"` : 'Todas as faixas respondidas'}</button>`;
+  $('#scCopy').onclick = () => { for(let i=1;i<6;i++) if(F.cells[i].every(v => v === null)) F.cells[i] = F.cells[0].slice(); fRefresh(); };
+  $('#scYes').onclick = () => {
+    if(nulls > 12 && !confirm(`Marcar ${nulls} faixas sem resposta como "Recebe"?`)) return;
+    F.cells = F.cells.map(r => r.map(v => v === null ? 'S' : v)); fRefresh();
   };
-  $('#fFree').onclick = () => { fs.sel.forEach(k => fs.ans.set(k, 'free')); fs.sel.clear(); cleanGroups(); refresh(); };
-  if (matchMedia('(pointer:fine)').matches) ta.focus({ preventScroll: true });
 }
-function cleanGroups() { [...fs.groups.keys()].forEach(id => { if (!keysOf(id).length) fs.groups.delete(id); }); }
-function renderAnswers() {
-  const box = $('#fGroups'); if (!box) return;
-  const free = keysOf('free');
-  if (!fs.groups.size && !free.length) { box.innerHTML = `<p class="hint" style="margin:0">As respostas aparecem aqui conforme você aplica os motivos.</p>`; return; }
-  box.innerHTML = `<div class="jlist">${[...fs.groups.entries()].map(([id, g]) => `<div class="jitem" data-g="${id}">
-      <div class="jt">${gLabel(id)} ${chipsOf(keysOf(id))}<button type="button" class="linkbtn undo" data-u="${id}">Desfazer</button></div>
-      <label class="ff">Motivo<textarea class="jtxt" maxlength="1500">${esc(g.txt)}</textarea></label></div>`).join('')}
-    ${free.length ? `<div class="jitem okitem"><div class="jt">Recebe ${chipsOf(free)}<button type="button" class="linkbtn undo" data-u="free">Desfazer</button></div><p class="hint" style="margin:0">A loja informou que recebe nessas janelas.</p></div>` : ''}</div>`;
-  box.querySelectorAll('.jitem[data-g]').forEach(it => {
-    it.querySelector('.jtxt').oninput = e => { fs.groups.get(it.dataset.g).txt = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
-  });
-  box.querySelectorAll('.undo').forEach(b => b.onclick = () => {
-    const id = b.dataset.u; fs.pend.forEach(k => { if (fs.ans.get(k) === id) fs.ans.delete(k); });
-    if (id !== 'free') fs.groups.delete(id); refresh();
+function drawReasons(){
+  const sec = $('#fRsec'), list = [...F.reasons.entries()];
+  sec.hidden = !list.length; if(!list.length) return;
+  $('#fReasons').innerHTML = list.map(([id,r]) => `<div class="jitem" data-r="${id}"><div class="jt"><b class="rn">${rLabel(id)}</b><span class="wins">${winLabel(keysOfR(id)).map(w=>`<span>${w}</span>`).join('')}</span><button type="button" class="linkbtn undo">Desfazer</button></div>
+    <label class="ff">Motivo<textarea class="jtxt" maxlength="1500">${esc(r.txt)}</textarea></label></div>`).join('');
+  $('#fReasons').querySelectorAll('.jitem').forEach(it => {
+    const id = it.dataset.r;
+    it.querySelector('.jtxt').oninput = e => { F.reasons.get(id).txt = e.target.value; e.target.closest('.ff').classList.remove('bad'); };
+    it.querySelector('.undo').onclick = () => { F.cells = F.cells.map(r => r.map(v => v === id ? null : v)); F.reasons.delete(id); fRefresh(); };
   });
 }
-function renderSum() {
-  const tot = fs.pend.length, n = answeredCount(), btn = $('#fSend');
-  const ready = n === tot;
-  btn.disabled = !ready;
-  btn.title = ready ? '' : 'Responda todas as janelas para enviar';
-  $('#fSum').innerHTML = !tot ? 'Nenhuma janela pendente.' : ready ? `<strong>100% respondido.</strong> Pronto para enviar.` : `Faltam <strong>${tot - n} ${tot - n > 1 ? 'janelas' : 'janela'}</strong> para enviar.`;
+function drawSum(){
+  const n = answered(), btn = $('#fSend');
+  btn.disabled = n < NC;
+  $('#fSum').innerHTML = n === NC ? '<strong>100% respondido.</strong> Pronto para enviar.' : `Faltam <strong>${NC-n} ${NC-n>1?'faixas':'faixa'}</strong> para enviar.`;
 }
-async function submitForm() {
-  const err = $('#fErr'); err.textContent = '';
-  let bad = null;
+async function submitForm(){
+  const err = $('#fErr'); err.textContent = ''; let bad = null;
   const mark = el => { el.closest('.ff').classList.add('bad'); bad = bad || el; };
-  if (!fs.fixedWho) {
-    if (fs.nome.trim().length < 3) mark($('#fNome'));
-    if (fs.cargo.trim().length < 3) mark($('#fCargo'));
-  }
-  if (answeredCount() < fs.pend.length) { err.textContent = 'Ainda há janelas sem resposta.'; return; }
-  document.querySelectorAll('#fGroups .jitem[data-g]').forEach(it => { if (fs.groups.get(it.dataset.g).txt.trim().length < 5) mark(it.querySelector('.jtxt')); });
-  if (bad) { err.textContent = 'Preencha os campos destacados para enviar.'; bad.focus(); return; }
-  if (!FORM_ENDPOINT) { err.textContent = 'O envio ainda não foi configurado. Avise a equipe responsável pela pesquisa.'; return; }
-  const rows = [];
-  lockedNo().forEach(x => rows.push({ dia: DAYS[x.dia], turno: x.turno, justificativa: x.txt, grupo: '', origem: 'pesquisa' }));
-  fs.groups.forEach((g, id) => keysOf(id).forEach(k => { const x = kInfo(k); rows.push({ dia: DAYS[x.dia], turno: x.turno, justificativa: g.txt.trim(), grupo: gLabel(id), origem: 'gerente' }); }));
-  const bloqueios = rows.sort((a, b) => DAYS.indexOf(a.dia) - DAYS.indexOf(b.dia) || TURNS.findIndex(x => x[0] === a.turno) - TURNS.findIndex(x => x[0] === b.turno));
-  const liberadas = sortKeys(keysOf('free')).map(k => { const x = kInfo(k); return { dia: DAYS[x.dia], turno: x.turno }; });
-  const payload = { loja: fs.code, token: fs.token, nome: fs.nome.trim(), cargo: fs.cargo.trim(), bloqueios, liberadas };
-  const resumo = [...fs.groups.entries()].map(([id, g]) => `<li><b>${gLabel(id)}</b> (${keysOf(id).length} ${keysOf(id).length > 1 ? 'janelas' : 'janela'}): ${esc(g.txt.trim())}</li>`).join('')
-    + (liberadas.length ? `<li><b>Recebe</b> (${liberadas.length} ${liberadas.length > 1 ? 'janelas' : 'janela'})</li>` : '');
+  if(F.nome.trim().length < 3) mark($('#fNome'));
+  if(F.cargo.trim().length < 3) mark($('#fCargo'));
+  if(answered() < NC){ err.textContent = 'Ainda há faixas sem resposta.'; return; }
+  document.querySelectorAll('#fReasons .jitem').forEach(it => { if(F.reasons.get(it.dataset.r).txt.trim().length < 5) mark(it.querySelector('.jtxt')); });
+  if(bad){ err.textContent = 'Preencha os campos destacados.'; bad.focus(); return; }
+  if(!FORM_ENDPOINT){ err.textContent = 'O envio ainda não foi configurado. Avise a equipe responsável pela pesquisa.'; return; }
+  const payload = { r:F.slug, t:F.token, loja:F.code, nome:F.nome.trim(), cargo:F.cargo.trim(),
+    dias: F.cells.map(row => row.map(v => v === 'S' ? 'S' : 'N').join('')),
+    motivos: [...F.reasons.entries()].map(([id,r]) => ({texto:r.txt.trim(), celulas:keysOfR(id)})) };
   const btn = $('#fSend'); btn.disabled = true; btn.textContent = 'Enviando…';
-  try {
-    const r = await fetch(FORM_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) });
+  try{
+    const r = await fetch(FORM_ENDPOINT, {method:'POST', body:JSON.stringify(payload)});
     const j = await r.json();
-    if (!j.ok) throw new Error(j.erro || 'Não foi possível registrar a resposta.');
-    fs.sent = { envio: j.envio, resumo: resumo ? `<ul>${resumo}</ul>` : '<p>A resposta confirma a grade da primeira pesquisa.</p>' };
-    renderForm(); window.scrollTo({ top: 0, behavior: 'instant' });
-  } catch (e) {
+    if(!j.ok) throw new Error(j.erro || 'Não foi possível registrar a resposta.');
+    F.sent = j.envio;
+    RESP[F.code] = parseResp({[F.code]: {envio:j.envio, quando:'agora', nome:payload.nome, cargo:payload.cargo, d:payload.dias, m:payload.motivos.map(m => [m.texto, m.celulas])}})[F.code];
+    renderForm(); scrollTo({top:0, behavior:'instant'});
+  }catch(e){
     err.textContent = (e && e.message && !/fetch|network|json/i.test(e.message)) ? e.message : 'Não foi possível enviar agora. Verifique a internet e tente de novo.';
     btn.disabled = false; btn.textContent = 'Enviar resposta';
   }
 }
 
-/* ---------- Leitura da nova pesquisa ---------- */
-function parseNews(lojas) {
-  const out = {};
-  Object.entries(lojas || {}).forEach(([code, l]) => {
-    const map = {}, gmap = new Map(), lib = [];
-    (l.janelas || []).forEach(j => {
-      const i = DAYS.indexOf(j.dia); if (i < 0 || !TURNS.some(x => x[0] === j.turno)) return;
-      const k = i + '|' + j.turno, sit = String(j.situacao || '');
-      if (sit === 'Não recebe') {
-        map[k] = { sit: 'no', txt: String(j.justificativa || ''), grupo: String(j.grupo || '') };
-        const gk = (j.grupo || '') + '|' + j.justificativa;
-        if (!gmap.has(gk)) gmap.set(gk, { grupo: String(j.grupo || ''), txt: String(j.justificativa || ''), keys: [] });
-        gmap.get(gk).keys.push(k);
-      } else if (sit.startsWith('Recebe')) { map[k] = { sit: 'lib' }; lib.push(k); }
-    });
-    out[String(code).padStart(4, '0')] = { envio: l.envio, quando: l.quando, nome: l.nome || '', cargo: l.cargo || '', map, groups: [...gmap.values()], lib };
-  });
-  return out;
-}
-function newsInfo() {
-  const el = $('#newsInfo'); if (!el) return;
-  if (NEWS_STATE === 'off') { el.hidden = true; return; }
-  el.hidden = false;
-  if (NEWS_STATE === 'loading') { el.innerHTML = '<span class="ni-dot"></span>Carregando respostas da nova pesquisa…'; return; }
-  if (NEWS_STATE === 'err') { el.innerHTML = '<span class="ni-dot err"></span>Não foi possível carregar a nova pesquisa agora. <button class="linkbtn" id="newsRetry">Tentar de novo</button>'; $('#newsRetry').onclick = loadNews; return; }
-  const n = Object.keys(NEWS).length, j = Object.values(NEWS).reduce((a, x) => a + Object.values(x.map).filter(m => m.sit === 'no').length, 0);
-  el.innerHTML = `<span class="ni-dot ok"></span><span><b>Nova pesquisa:</b> ${n} de ${ALL.length} lojas responderam, ${j} ${j === 1 ? 'janela' : 'janelas'} com motivo informado. Atualizado às ${NEWS_AT}.</span> <button class="linkbtn" id="newsRetry">Atualizar</button>`;
-  $('#newsRetry').onclick = loadNews;
-}
-async function loadNews() {
-  if (!FORM_ENDPOINT) return;
-  NEWS_STATE = 'loading'; newsInfo();
-  try {
-    const r = await fetch(FORM_ENDPOINT + '?acao=respostas&_=' + Date.now());
-    const j = await r.json();
-    if (!j.ok) throw new Error(j.erro || 'erro');
-    NEWS = parseNews(j.lojas);
-    NEWS_AT = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    NEWS_STATE = 'ok';
-    renderWeek(); renderGroups();
-    if (dr.open && $('#drTitle')) { const c = dr.dataset.code; if (c) openStore(c); }
-  } catch (e) { NEWS_STATE = 'err'; }
-  newsInfo();
-}
-
 /* ---------- Páginas ---------- */
-const PAGES = [
-  { id: 'resumo', t: 'Resumo' },
-  { id: 'dias', t: 'Dias e turnos', d: 'Quantas lojas recebem em cada dia e em quais janelas de horário.', k: () => `Dia com mais lojas: ${DAYS[[0, 1, 2, 3, 4, 5].sort((a, b) => DATA.filter(s => s.days[b].ok).length - DATA.filter(s => s.days[a].ok).length)[0]].toLowerCase()}` },
-  { id: 'quadro', t: 'Quadro semanal', d: 'A semana de cada uma das lojas, com filtros por perfil e turno.', k: () => `${fullWeek} lojas sem nenhuma restrição${PEND.length ? `, ${PEND.length} sem resposta` : ''}` },
-  { id: 'grupos', t: 'Agrupamentos', d: 'Quem vai junto com quem: caminhão, ativo e grade de cada loja do grupo.', k: () => `${GROUPS.length} agrupamentos, ${gFull5} com janela em comum de segunda a sexta` },
-  { id: 'motivos', t: 'Motivos', d: 'Por que algumas lojas não recebem, agrupado por tema.', k: () => `${noTotal} dias sem recebimento no total` }
-];
-const secs = PAGES.map(p => document.getElementById(p.id));
-$('#explore').innerHTML = PAGES.slice(1).map(p => `<a href="#${p.id}"><b>${p.t}</b><span>${p.d}</span><span>${p.k()}</span><em>Abrir página</em></a>`).join('');
-secs.forEach((sec, i) => {
-  if (i === 0) return;
-  const pv = PAGES[i - 1], nx = PAGES[i + 1];
-  sec.insertAdjacentHTML('beforeend', `<nav class="pagenav" aria-label="Navegação entre páginas">
-    <a class="prev" href="#${pv.id}" aria-label="Página anterior: ${pv.t}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span>${pv.t}</span></a>
-    ${nx ? `<a class="next" href="#${nx.id}" aria-label="Próxima página: ${nx.t}"><span>${nx.t}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>` : ''}</nav>`);
-});
-let cur = 0;
-function show(id, push) {
-  const raw = String(id || '');
-  if (raw.split('?')[0] === 'responder') {
-    cur = -1;
-    document.body.classList.add('form-mode');
-    secs.forEach(s => s.classList.remove('active'));
-    $('#responder').classList.add('active');
-    document.title = 'Janelas de recebimento da loja';
-    tip.classList.remove('on');
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    openForm(raw);
-    return;
+const PAGES = ['resumo','regionais','lojas','motivos'];
+let cur = 'resumo';
+function refreshAll(){
+  dstat();
+  if(cur === 'responder'){ if(!/[?&]loja=/.test(location.hash)) openForm(location.hash.slice(1)); return; }
+  renderResumo(); renderRegionais(); renderLojas(); renderMotivos();
+}
+function show(id, push){
+  const raw = String(id || ''), base = raw.split('?')[0];
+  if(md.open) md.close();
+  if(base === 'responder'){
+    cur = 'responder'; document.body.classList.add('form-mode');
+    document.querySelectorAll('main>section').forEach(s => s.classList.toggle('active', s.id === 'responder'));
+    document.title = 'Pesquisa de janelas de recebimento';
+    openForm(raw); scrollTo({top:0, behavior:'instant'}); return;
   }
   document.body.classList.remove('form-mode');
-  $('#responder').classList.remove('active');
-  const i = Math.max(0, PAGES.findIndex(p => p.id === id));
-  cur = i;
-  secs.forEach((s, k) => s.classList.toggle('active', k === i));
-  document.querySelectorAll('.nav a, .mnav a').forEach(a => a.getAttribute('href') === '#' + PAGES[i].id ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
-  document.title = `${PAGES[i].t}: Recebimento de carga nas lojas`;
-  $('#pos').textContent = `${i + 1} de ${PAGES.length}`;
-  if (push && location.hash !== '#' + PAGES[i].id) history.pushState(null, '', '#' + PAGES[i].id);
-  tip.classList.remove('on');
-  window.scrollTo({ top: 0, behavior: 'instant' });
-  if (PAGES[i].id === 'dias') renderDays();
-  document.querySelector('.mnav a[aria-current]')?.scrollIntoView({ block: 'nearest', inline: 'center' });
+  cur = PAGES.includes(base) ? base : 'resumo';
+  document.querySelectorAll('main>section').forEach(s => s.classList.toggle('active', s.id === cur));
+  document.querySelectorAll('.nav a, .mnav a').forEach(a => a.getAttribute('href') === '#'+cur ? a.setAttribute('aria-current','page') : a.removeAttribute('aria-current'));
+  document.title = `${cur[0].toUpperCase()+cur.slice(1)}: Janelas de recebimento das lojas`;
+  if(push && location.hash !== '#'+cur) history.pushState(null, '', '#'+cur);
+  scrollTo({top:0, behavior:'instant'});
 }
 document.addEventListener('click', e => {
-  const a = e.target.closest('a[href^="#"]'); if (!a) return;
+  const a = e.target.closest('a[href^="#"]'); if(!a) return;
   const id = a.getAttribute('href').slice(1);
-  if (PAGES.some(p => p.id === id)) { e.preventDefault(); show(id, true); }
+  if(PAGES.includes(id)){ e.preventDefault(); show(id, true); }
 });
 addEventListener('popstate', () => show(location.hash.slice(1)));
-addEventListener('hashchange', () => { const id = location.hash.slice(1); if (cur < 0 || PAGES[cur].id !== id) show(id); });
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-setTimeout(loadNews, 0);
+addEventListener('hashchange', () => show(location.hash.slice(1)));
+if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+$('#themeBtn').onclick = () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try{ localStorage.setItem('theme', root.dataset.theme); }catch(e){}
+};
+try{ const t = localStorage.getItem('theme'); if(t) document.documentElement.dataset.theme = t; }catch(e){}
+
+$('#foot').textContent = `${STORES.length} lojas ativas em ${UFS.length} estados, ${REGS.length} regionais. Pesquisa por faixa horária de uma hora, das 05h às 23h, de segunda a sábado; domingo não tem recebimento. A loja 0173 S.SPMarket está fechada e não entra na pesquisa.`;
 show(location.hash.slice(1) || 'resumo');
-addEventListener('load', () => setTimeout(() => window.scrollTo(0, 0), 0));
-function go(d) { if (cur < 0) return; const i = Math.min(PAGES.length - 1, Math.max(0, cur + d)); if (i !== cur) show(PAGES[i].id, true); }
-
-/* ---------- Apresentação ---------- */
-function setPresent(on) {
-  document.body.classList.toggle('present', on);
-  $('#presentBtn span').textContent = on ? 'Sair da apresentação' : 'Apresentar';
-}
-$('#presentBtn').addEventListener('click', async () => {
-  const on = !document.body.classList.contains('present');
-  setPresent(on);
-  try {
-    if (on && document.documentElement.requestFullscreen && !document.fullscreenElement) await document.documentElement.requestFullscreen();
-    if (!on && document.fullscreenElement) await document.exitFullscreen();
-  } catch (e) { }
-  if (on) show('resumo', true);
-});
-document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) setPresent(false); });
-$('#prevS').onclick = () => go(-1); $('#nextS').onclick = () => go(1);
-document.addEventListener('keydown', e => {
-  if (!document.body.classList.contains('present') || dr.open || e.target.matches('input')) return;
-  if (['ArrowRight', 'PageDown'].includes(e.key)) { e.preventDefault(); go(1); }
-  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(-1); }
-});
-
-$('#foot').textContent = `Fonte: Pesquisa de Recebimento de Caminhão nas Lojas (${N} respostas de ${ALL.length} lojas ativas). ${closedTxt} Textos das justificativas com ortografia revisada; o original fica disponível nos detalhes de cada justificativa. Os temas dos motivos são um agrupamento feito a partir das respostas.`;
+refreshAll();
+loadResp();
