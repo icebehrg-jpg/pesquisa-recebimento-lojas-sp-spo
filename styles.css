@@ -2605,6 +2605,200 @@ body.form-mode .pager {
 }
 
 
+/* Nova pesquisa no dashboard */
+
+.cell i.why {
+    background: var(--nao-soft);
+    box-shadow: inset 0 0 0 2px var(--nao);
+    cursor: help
+}
+
+.cell i.lib {
+    box-shadow: inset 0 0 0 2px var(--sim);
+    cursor: help
+}
+
+.newsinfo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0 0 14px
+}
+
+.newsinfo b {
+    color: var(--ink);
+    font-weight: 600
+}
+
+.ni-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--manha);
+    flex: none
+}
+
+.ni-dot.ok {
+    background: var(--sim)
+}
+
+.ni-dot.err {
+    background: var(--nao)
+}
+
+.news-box {
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+    border-left: 5px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: color-mix(in srgb, var(--accent) 5%, var(--surface))
+}
+
+.news-box.pend {
+    border-left-color: var(--line);
+    background: var(--bg);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--muted)
+}
+
+.news-box.pend b {
+    color: var(--ink)
+}
+
+.nb-h {
+    display: flex;
+    flex-direction: column;
+    gap: 2px
+}
+
+.nb-h b {
+    font-size: 15.5px
+}
+
+.nb-h span {
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.nb-i {
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px
+}
+
+.nb-t {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center
+}
+
+.nb-t em {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    margin-right: 4px;
+    color: var(--nao-ink)
+}
+
+.nb-t span {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: var(--nao-soft);
+    color: var(--nao-ink);
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1.5px var(--nao)
+}
+
+.nb-i p {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--nao-ink);
+    font-weight: 500;
+    white-space: pre-line
+}
+
+.nb-i.lib .nb-t em {
+    color: var(--ink)
+}
+
+.nb-i.lib .nb-t span {
+    background: var(--sim-soft);
+    color: var(--ink);
+    box-shadow: none
+}
+
+.nb-i.lib p {
+    color: var(--muted);
+    font-weight: 400
+}
+
+.nb-ok {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted)
+}
+
+
+/* Foco da loja aberta na tabela do agrupamento */
+
+.gt.focus tbody tr:not(.hl) {
+    opacity: .45;
+    transition: opacity .15s
+}
+
+.gt.focus tbody tr:not(.hl):hover {
+    opacity: 1
+}
+
+.gt.focus tfoot {
+    opacity: .7
+}
+
+.gt tr.hl td {
+    background: color-mix(in srgb, var(--accent) 11%, var(--surface));
+    border-bottom-color: color-mix(in srgb, var(--accent) 35%, var(--line))
+}
+
+.gt tr.hl td:first-child {
+    box-shadow: inset 4px 0 0 var(--accent)
+}
+
+.gt tr.hl td.gs b {
+    font-weight: 700;
+    font-size: 14.5px
+}
+
+.gt tr.hl td.gx {
+    color: var(--ink);
+    font-weight: 600
+}
+
+.thisone {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--surface);
+    vertical-align: 1px
+}
+
+
 /* Tooltip */
 
 .tip {
