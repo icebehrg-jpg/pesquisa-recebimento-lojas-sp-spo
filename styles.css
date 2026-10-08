@@ -205,7 +205,7 @@ textarea {
     display: none
 }
 
-@media (max-width:900px) {
+@media (max-width:1000px) {
     .top .nav {
         display: none
     }
@@ -993,6 +993,305 @@ h2 {
 }
 
 
+/* Agrupamentos */
+
+.gsum {
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 20px
+}
+
+.gsum .kpi:nth-child(2n) {
+    border-right: 1px solid var(--line)
+}
+
+.gsum .kpi:last-child {
+    border-right: 0
+}
+
+.gsum .kpi {
+    border-bottom: 0
+}
+
+@media (max-width:760px) {
+    .gsum {
+        grid-template-columns: 1fr 1fr
+    }
+    .gsum .kpi:nth-child(2n) {
+        border-right: 0
+    }
+    .gsum .kpi:nth-child(-n+2) {
+        border-bottom: 1px solid var(--line)
+    }
+}
+
+.glist {
+    display: flex;
+    flex-direction: column;
+    gap: 18px
+}
+
+.gcard {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0
+}
+
+.gcard header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px
+}
+
+.gcard h3 {
+    font-size: 17px;
+    margin: 0
+}
+
+.gmeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px
+}
+
+.gmeta span {
+    font-size: 12.5px;
+    padding: 2px 9px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--muted)
+}
+
+.gmeta span.warn {
+    background: color-mix(in srgb, var(--pend) 22%, var(--surface));
+    color: var(--ink);
+    border-color: color-mix(in srgb, var(--pend) 50%, var(--line))
+}
+
+.gtab {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    font-size: 13.5px
+}
+
+.gtab th {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 6px 4px 8px;
+    border-bottom: 1px solid var(--line);
+    text-align: center
+}
+
+.gtab th:first-child {
+    text-align: left;
+    width: 250px
+}
+
+.gtab th:last-child {
+    width: 96px;
+    text-align: right
+}
+
+.gtab td {
+    padding: 7px 4px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle
+}
+
+.gtab tbody tr {
+    cursor: pointer
+}
+
+.gtab tbody tr:hover td {
+    background: var(--hover)
+}
+
+.gtab td.pc {
+    text-align: right;
+    font-size: 12.5px;
+    color: var(--muted);
+    white-space: nowrap
+}
+
+.gtab .dbar {
+    height: 18px
+}
+
+.gtab tfoot td {
+    border-bottom: 0;
+    padding-top: 10px;
+    font-weight: 600;
+    font-size: 12.5px
+}
+
+.gtab tr.rrow td {
+    padding-top: 12px
+}
+
+.gtab tr.rrow .gsub {
+    font-weight: 400
+}
+
+.rbar {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent)
+}
+
+.gtab .gsub {
+    font-size: 11.5px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.cbar {
+    height: 18px;
+    border-radius: 4px;
+    position: relative;
+    cursor: help;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent)
+}
+
+.cbar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: repeating-linear-gradient(90deg, transparent 0 calc(100%/18 - 1px), var(--surface) calc(100%/18 - 1px) calc(100%/18))
+}
+
+.gtab.focus tbody tr:not(.hl) {
+    opacity: .45
+}
+
+.gtab.focus tbody tr:not(.hl):hover {
+    opacity: 1
+}
+
+.gtab tr.hl td {
+    background: color-mix(in srgb, var(--accent) 10%, var(--surface))
+}
+
+.gtab tr.hl td:first-child {
+    box-shadow: inset 4px 0 0 var(--accent)
+}
+
+.thisone {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--surface);
+    vertical-align: 1px
+}
+
+.gnote {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--muted)
+}
+
+.gnote b {
+    color: var(--ink);
+    font-weight: 600
+}
+
+.gblock {
+    border: 1px solid color-mix(in srgb, var(--nao) 35%, var(--line));
+    border-left: 4px solid var(--nao);
+    border-radius: 10px
+}
+
+.gblock summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nao-ink)
+}
+
+.gblock summary::-webkit-details-marker {
+    display: none
+}
+
+.gblock summary .tg {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent)
+}
+
+.gblock summary .tg .c {
+    display: none
+}
+
+.gblock[open] summary .tg .o {
+    display: none
+}
+
+.gblock[open] summary .tg .c {
+    display: inline
+}
+
+.gbl {
+    list-style: none;
+    margin: 0;
+    padding: 4px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid color-mix(in srgb, var(--nao) 25%, var(--line))
+}
+
+.gbl li {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 10px
+}
+
+.gbl .bs {
+    all: unset;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px
+}
+
+.gbl .bs small {
+    color: var(--muted);
+    font-weight: 400;
+    margin-right: 5px
+}
+
+.gbl .bs:hover {
+    text-decoration: underline
+}
+
+.gbl p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--nao-ink);
+    font-weight: 500
+}
+
+
 /* Modal */
 
 dialog.md {
@@ -1128,6 +1427,1888 @@ dialog.md[open] {
 }
 
 .sgrid .gc {
+    cursor: help;
+    height: 24px;
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 700
+}
+
+.gc.s {
+    background: var(--sim-soft);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sim) 40%, transparent)
+}
+
+.gc.n {
+    background: var(--nao-soft);
+    color: var(--nao-ink);
+    box-shadow: inset 0 0 0 1.5px var(--nao)
+}
+
+.rlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.rlist li {
+    border: 1px solid color-mix(in srgb, var(--nao) 35%, var(--line));
+    border-left: 5px solid var(--nao);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: color-mix(in srgb, var(--nao-soft) 45%, var(--surface));
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.rl-h {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px
+}
+
+.rn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--nao);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 12.5px;
+    flex: none
+}
+
+.rlist p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--nao-ink);
+    font-weight: 500;
+    white-space: pre-line
+}
+
+.okbox {
+    border-left: 5px solid var(--sim);
+    background: var(--sim-soft);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14.5px
+}
+
+.pendbox {
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    color: var(--muted);
+    font-size: 14.5px
+}
+
+.slist {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.sgroup {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px
+}
+
+.sgroup p {
+    margin: 0 0 8px;
+    color: var(--nao-ink);
+    font-weight: 500;
+    font-size: 14.5px
+}
+
+
+/* Formulário */
+
+.fwrap {
+    max-width: 900px;
+    margin: 0 auto
+}
+
+.fcard {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px
+}
+
+.fhead {
+    padding: 26px 28px 20px;
+    border-bottom: 1px solid var(--line)
+}
+
+.fhead .ftitle {
+    font-size: clamp(24px, 3.4vw, 32px);
+    max-width: none;
+    margin: 0 0 10px
+}
+
+.fhead p.k {
+    margin: 0 0 4px;
+    color: var(--muted);
+    font-size: 14px
+}
+
+.fintro {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 64ch
+}
+
+.fswap {
+    font-size: 13px;
+    color: var(--accent);
+    text-underline-offset: 3px
+}
+
+.fsec {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--line)
+}
+
+.fsec h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 6px
+}
+
+.fsec h3 .n {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--surface);
+    font-size: 12.5px;
+    flex: none
+}
+
+.fsec>.hint {
+    margin-left: 34px
+}
+
+.frow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 12px
+}
+
+.ff {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--muted);
+    font-weight: 500
+}
+
+.ff input,
+.ff textarea {
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 10px 12px;
+    width: 100%
+}
+
+.ff textarea {
+    min-height: 80px;
+    resize: vertical;
+    line-height: 1.5
+}
+
+.ff input:focus,
+.ff textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-color: transparent
+}
+
+.ff.bad input,
+.ff.bad textarea {
+    border-color: var(--nao);
+    background: color-mix(in srgb, var(--nao-soft) 45%, var(--surface))
+}
+
+.pickq {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0 14px;
+    margin: 14px 0 16px;
+    color: var(--muted)
+}
+
+.pickq:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px
+}
+
+.pickq input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 16px;
+    padding: 13px 0;
+    width: 100%;
+    color: var(--ink)
+}
+
+.plist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 8px
+}
+
+.pstore {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    font-size: 14.5px
+}
+
+.pstore:hover {
+    background: var(--hover)
+}
+
+.pstore:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.pstore small {
+    color: var(--muted);
+    font-size: 12.5px;
+    width: 34px;
+    flex: none
+}
+
+.pstore .pn {
+    flex: 1;
+    min-width: 0
+}
+
+.pstore .pn b {
+    font-weight: 500;
+    display: block
+}
+
+.pstore .pn em {
+    font-style: normal;
+    font-size: 12px;
+    color: var(--muted)
+}
+
+.pstat {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap
+}
+
+.pstat.ok {
+    background: var(--sim-soft);
+    color: color-mix(in srgb, var(--sim) 65%, var(--ink))
+}
+
+.pstat.no {
+    background: color-mix(in srgb, var(--pend) 25%, var(--surface));
+    color: var(--ink)
+}
+
+.fprog {
+    margin: 4px 0 16px
+}
+
+.fprog .h {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 6px
+}
+
+.fprog .h b {
+    color: var(--ink)
+}
+
+.fprog .b {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--empty);
+    overflow: hidden
+}
+
+.fprog .b i {
+    display: block;
+    height: 100%;
+    background: var(--pend);
+    border-radius: 4px;
+    transition: width .25s
+}
+
+.fprog.done .b i {
+    background: var(--sim)
+}
+
+.shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px
+}
+
+.sc {
+    border: 1px solid var(--line);
+    background: var(--bg);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer
+}
+
+.sc:hover {
+    background: var(--hover)
+}
+
+.sc:disabled {
+    opacity: .45;
+    cursor: not-allowed
+}
+
+.fgrid-wrap {
+    overflow-x: auto;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation
+}
+
+.fgrid {
+    display: grid;
+    grid-template-columns: 64px repeat(6, minmax(48px, 1fr));
+    gap: 3px;
+    min-width: 360px
+}
+
+.fgrid .dh,
+.fgrid .hh2 {
+    all: unset;
+    cursor: pointer;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 6px
+}
+
+.fgrid .hh2 {
+    text-align: right;
+    padding-right: 8px;
+    font-weight: 500
+}
+
+.fgrid .dh:hover,
+.fgrid .hh2:hover {
+    background: var(--hover);
+    color: var(--ink)
+}
+
+.fgrid .dh:focus-visible,
+.fgrid .hh2:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.fgrid .ls {
+    display: none
+}
+
+.fgrid .corner {
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    padding: 0 8px 6px 0
+}
+
+.fc {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 30px;
+    border-radius: 5px;
+    display: grid;
+    place-items: center;
+    font-size: 11.5px;
+    font-weight: 700;
+    border: 1.5px dashed color-mix(in srgb, var(--pend) 75%, var(--muted));
+    background: var(--surface);
+    color: var(--muted)
+}
+
+.fc.s {
+    border: 1.5px solid color-mix(in srgb, var(--sim) 45%, transparent);
+    background: var(--sim-soft);
+    color: color-mix(in srgb, var(--sim) 70%, var(--ink))
+}
+
+.fc.n {
+    border: 1.5px solid var(--nao);
+    background: var(--nao-soft);
+    color: var(--nao-ink)
+}
+
+.fc.sel {
+    outline: 3px solid var(--accent);
+    outline-offset: -1px;
+    border-color: var(--accent)
+}
+
+.fc:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.fleg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--muted)
+}
+
+.fleg span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px
+}
+
+.lg {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    border: 1.5px solid
+}
+
+.lg.p {
+    border-style: dashed;
+    border-color: color-mix(in srgb, var(--pend) 75%, var(--muted))
+}
+
+.lg.s {
+    background: var(--sim-soft);
+    border-color: color-mix(in srgb, var(--sim) 45%, transparent)
+}
+
+.lg.n {
+    background: var(--nao-soft);
+    border-color: var(--nao)
+}
+
+.lg.x {
+    border-color: var(--accent);
+    border-width: 2.5px
+}
+
+
+/* Barra de ação fixa enquanto há seleção */
+
+.abar {
+    position: sticky;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 5;
+    margin: 16px 0 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: 0 8px 24px rgba(20, 30, 40, .12);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.abar .ah {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    font-size: 14px
+}
+
+.abar .ah b {
+    font-weight: 600
+}
+
+.abar .acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px
+}
+
+.fbtn {
+    border: 0;
+    background: var(--accent);
+    color: var(--surface);
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px
+}
+
+.fbtn:hover {
+    filter: brightness(1.08)
+}
+
+.fbtn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    filter: none
+}
+
+.fbtn.yes {
+    background: var(--sim-strong);
+    color: #fff
+}
+
+.fbtn.no {
+    background: var(--nao-strong);
+    color: #fff
+}
+
+.fbtn.ghost {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--line)
+}
+
+.reuse {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    font-size: 12.5px;
+    color: var(--muted)
+}
+
+.reuse button {
+    all: unset;
+    cursor: pointer;
+    font-size: 12.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--nao) 40%, var(--line));
+    color: var(--nao-ink);
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.reuse button:hover {
+    background: var(--nao-soft)
+}
+
+.jlist {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+.jitem {
+    border: 1px solid color-mix(in srgb, var(--nao) 35%, var(--line));
+    border-left: 4px solid var(--nao);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.jitem .jt {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center
+}
+
+.jitem .jt .undo {
+    margin-left: auto
+}
+
+.ferr {
+    margin: 0;
+    padding: 0 28px;
+    color: var(--nao-ink);
+    font-size: 14px;
+    font-weight: 500
+}
+
+.ferr:not(:empty) {
+    padding: 14px 28px;
+    background: var(--nao-soft)
+}
+
+.fsubmit {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 20px 28px;
+    background: var(--bg);
+    flex-wrap: wrap;
+    border-radius: 0 0 14px 14px
+}
+
+.fsubmit p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted)
+}
+
+.fsubmit p strong {
+    color: var(--ink)
+}
+
+.fdone {
+    padding: 44px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px
+}
+
+.fdone .ic {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--sim-soft);
+    color: var(--sim);
+    display: grid;
+    place-items: center
+}
+
+.fdone h2 {
+    font-size: 24px;
+    margin: 0
+}
+
+.fdone p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 54ch
+}
+
+.fdone code {
+    font-size: 14px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 3px 8px;
+    color: var(--ink)
+}
+
+.fmsg {
+    padding: 44px 28px;
+    text-align: center;
+    color: var(--muted)
+}
+
+.fmsg h2 {
+    color: var(--ink);
+    font-size: 22px;
+    margin: 0 0 8px
+}
+
+@media (max-width:700px) {
+    .fhead,
+    .fsec,
+    .fsubmit {
+        padding-left: 16px;
+        padding-right: 16px
+    }
+    .fsec>.hint {
+        margin-left: 0
+    }
+    .frow {
+        grid-template-columns: 1fr
+    }
+    .fgrid {
+        grid-template-columns: 36px repeat(6, minmax(0, 1fr));
+        gap: 2px;
+        min-width: 0
+    }
+    #responder.wrap {
+        padding-left: 10px;
+        padding-right: 10px
+    }
+    .fgrid .dh {
+        font-size: 12px
+    }
+    .fgrid .lf {
+        display: none
+    }
+    .fgrid .ls {
+        display: inline
+    }
+    .fgrid .corner {
+        font-size: 0
+    }
+    .fc {
+        font-size: 10.5px
+    }
+    .abar .acts .fbtn {
+        flex: 1;
+        justify-content: center
+    }
+    .fsubmit .fbtn {
+        width: 100%;
+        justify-content: center
+    }
+    .md-in {
+        padding: 18px
+    }
+    .md-close span,
+    .md-close kbd {
+        display: none
+    }
+    .md-close {
+        width: 36px;
+        padding: 0;
+        justify-content: center
+    }
+}
+
+
+/* Tooltip */
+
+.tip {
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    max-width: 320px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 13px;
+    line-height: 1.45;
+    padding: 9px 12px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity .12s
+}
+
+.tip.on {
+    opacity: 1
+}
+
+footer {
+    color: var(--muted);
+    font-size: 13px;
+    padding: 32px 0 44px
+}
+.dot.demo {
+    background: var(--accent)
+}
+
+.demo-flag {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--surface)
+}
+
+
+/* Páginas */
+
+main {
+    min-height: calc(100vh - 170px)
+}
+
+main>section:not(.active) {
+    display: none
+}
+
+main>section.wrap {
+    padding-top: 44px;
+    padding-bottom: 24px
+}
+
+h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -.02em;
+    font-weight: 600;
+    margin: 0;
+    max-width: 24ch;
+    text-wrap: balance
+}
+
+h2 {
+    font-size: 22px;
+    letter-spacing: -.01em;
+    font-weight: 600;
+    margin: 0 0 4px
+}
+
+.lead {
+    color: var(--muted);
+    margin: 0 0 22px;
+    max-width: 72ch
+}
+
+.meta {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 14px
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px
+}
+
+.panel h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 13.5px;
+    margin: 0 0 16px
+}
+
+
+/* Resumo */
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 36px;
+    align-items: end;
+    margin-bottom: 28px
+}
+
+.hero p.sub {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 54ch;
+    margin: 16px 0 0
+}
+
+.kpis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    overflow: hidden
+}
+
+.kpi {
+    padding: 18px 20px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line)
+}
+
+.kpi:nth-child(2n) {
+    border-right: 0
+}
+
+.kpi:nth-last-child(-n+2) {
+    border-bottom: 0
+}
+
+.kpi b {
+    display: block;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.1
+}
+
+.kpi small {
+    color: var(--muted);
+    font-size: 13.5px;
+    display: block;
+    margin-top: 4px
+}
+
+.kpi .bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--empty);
+    margin-top: 10px;
+    overflow: hidden
+}
+
+.kpi .bar i {
+    display: block;
+    height: 100%;
+    background: var(--accent)
+}
+
+@media (max-width:880px) {
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 24px
+    }
+}
+
+
+/* Mapa de calor: faixas × dias (elemento principal) */
+
+.heat-wrap {
+    overflow-x: auto
+}
+
+.heat {
+    display: grid;
+    grid-template-columns: 88px repeat(6, minmax(72px, 1fr));
+    gap: 4px;
+    min-width: 560px
+}
+
+.heat .hh {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    padding: 4px 0 6px
+}
+
+.heat .hl {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    white-space: nowrap
+}
+
+.hc {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink)
+}
+
+.hc:hover {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px
+}
+
+.hc:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.hc.none {
+    background: var(--empty);
+    color: var(--muted);
+    font-weight: 400;
+    cursor: default
+}
+
+.hc.none:hover {
+    outline: 0
+}
+
+.heat-leg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: var(--muted);
+    flex-wrap: wrap
+}
+
+.heat-leg .grad {
+    width: 160px;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--nao), var(--nao-soft) 50%, var(--sim))
+}
+
+.heat-note {
+    margin: 14px 0 0;
+    font-size: 14px;
+    color: var(--muted)
+}
+
+.heat-note b {
+    color: var(--ink)
+}
+
+
+/* Regionais */
+
+.rtable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px
+}
+
+.rtable th {
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg)
+}
+
+.rtable td {
+    padding: 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle
+}
+
+.rtable tr:last-child td {
+    border-bottom: 0
+}
+
+.rtable .num {
+    text-align: right;
+    white-space: nowrap
+}
+
+.rname {
+    all: unset;
+    cursor: pointer;
+    font-weight: 600
+}
+
+.rname:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px
+}
+
+.rname:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.prog {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px
+}
+
+.prog .pb {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--empty);
+    overflow: hidden
+}
+
+.prog .pb i {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px
+}
+
+.prog .pb i.full {
+    background: var(--sim)
+}
+
+.prog span {
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+    min-width: 64px
+}
+
+.pendrow td {
+    background: var(--bg);
+    padding-top: 0
+}
+
+.pendchips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 10px
+}
+
+.chip {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer
+}
+
+.chip:hover {
+    background: var(--hover)
+}
+
+.chip small {
+    color: var(--muted);
+    margin-right: 4px
+}
+
+.tblwrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface)
+}
+
+
+/* Lojas */
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--muted);
+    flex: 1 1 220px;
+    max-width: 320px
+}
+
+.search input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 14px;
+    padding: 8px 0;
+    width: 100%;
+    color: var(--ink)
+}
+
+.search:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px
+}
+
+.count {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-left: auto
+}
+
+.ltable {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed
+}
+
+.ltable th {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 12px 6px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    text-align: center;
+    position: sticky;
+    top: 0
+}
+
+.ltable th:first-child {
+    text-align: left;
+    padding-left: 18px;
+    width: 260px
+}
+
+.ltable th:last-child {
+    width: 110px
+}
+
+.ltable td {
+    border-bottom: 1px solid var(--line);
+    padding: 10px 6px;
+    vertical-align: middle
+}
+
+.ltable tr:last-child td {
+    border-bottom: 0
+}
+
+.ltable tbody tr {
+    cursor: pointer
+}
+
+.ltable tbody tr:hover td {
+    background: var(--hover)
+}
+
+.ltable td.st {
+    padding-left: 18px
+}
+
+.ln {
+    display: flex;
+    align-items: baseline;
+    gap: 10px
+}
+
+.ln small {
+    color: var(--muted);
+    font-size: 12.5px;
+    width: 34px;
+    flex: none
+}
+
+.ln b {
+    font-weight: 500;
+    font-size: 14.5px
+}
+
+.lsub {
+    font-size: 12px;
+    color: var(--muted);
+    padding-left: 44px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.dbar {
+    height: 22px;
+    border-radius: 4px;
+    position: relative;
+    cursor: help
+}
+
+.dbar.pend {
+    background: repeating-linear-gradient(135deg, var(--empty) 0 6px, transparent 6px 12px);
+    cursor: default
+}
+
+.dbar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: repeating-linear-gradient(90deg, transparent 0 calc(100%/18 - 1px), var(--surface) calc(100%/18 - 1px) calc(100%/18))
+}
+
+.ltable td.pc {
+    text-align: right;
+    padding-right: 18px;
+    font-size: 13.5px;
+    white-space: nowrap
+}
+
+.ltable td.pc small {
+    display: block;
+    color: var(--muted);
+    font-size: 12px
+}
+
+.pending-txt {
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px
+}
+
+.legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px
+}
+
+.sw {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+    flex: none
+}
+
+.empty {
+    padding: 40px;
+    text-align: center;
+    color: var(--muted)
+}
+
+
+/* Motivos */
+
+.mlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px
+}
+
+.mcard {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid color-mix(in srgb, var(--nao) 35%, var(--line));
+    border-left: 4px solid var(--nao);
+    border-radius: 10px;
+    padding: 16px;
+    background: var(--surface)
+}
+
+.mcard:hover {
+    background: var(--hover)
+}
+
+.mcard:focus-visible {
+    outline: 2px solid var(--accent)
+}
+
+.mcard .mt {
+    font-weight: 600;
+    font-size: 14.5px
+}
+
+.mcard .mt small {
+    color: var(--muted);
+    font-weight: 400;
+    margin-right: 6px
+}
+
+.mcard .ms {
+    font-size: 12.5px;
+    color: var(--muted)
+}
+
+.wins {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px
+}
+
+.wins span {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: var(--nao-soft);
+    color: var(--nao-ink);
+    font-weight: 600
+}
+
+.mcard p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--nao-ink);
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden
+}
+
+
+/* Agrupamentos */
+
+.gsum {
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 20px
+}
+
+.gsum .kpi:nth-child(2n) {
+    border-right: 1px solid var(--line)
+}
+
+.gsum .kpi:last-child {
+    border-right: 0
+}
+
+.gsum .kpi {
+    border-bottom: 0
+}
+
+@media (max-width:760px) {
+    .gsum {
+        grid-template-columns: 1fr 1fr
+    }
+    .gsum .kpi:nth-child(2n) {
+        border-right: 0
+    }
+    .gsum .kpi:nth-child(-n+2) {
+        border-bottom: 1px solid var(--line)
+    }
+}
+
+.glist {
+    display: flex;
+    flex-direction: column;
+    gap: 18px
+}
+
+.gcard {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0
+}
+
+.gcard header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px
+}
+
+.gcard h3 {
+    font-size: 17px;
+    margin: 0
+}
+
+.gmeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px
+}
+
+.gmeta span {
+    font-size: 12.5px;
+    padding: 2px 9px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--muted)
+}
+
+.gmeta span.warn {
+    background: color-mix(in srgb, var(--pend) 22%, var(--surface));
+    color: var(--ink);
+    border-color: color-mix(in srgb, var(--pend) 50%, var(--line))
+}
+
+.gtab {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    font-size: 13.5px
+}
+
+.gtab th {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 6px 4px 8px;
+    border-bottom: 1px solid var(--line);
+    text-align: center
+}
+
+.gtab th:first-child {
+    text-align: left;
+    width: 250px
+}
+
+.gtab th:last-child {
+    width: 96px;
+    text-align: right
+}
+
+.gtab td {
+    padding: 7px 4px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle
+}
+
+.gtab tbody tr {
+    cursor: pointer
+}
+
+.gtab tbody tr:hover td {
+    background: var(--hover)
+}
+
+.gtab td.pc {
+    text-align: right;
+    font-size: 12.5px;
+    color: var(--muted);
+    white-space: nowrap
+}
+
+.gtab .dbar {
+    height: 18px
+}
+
+.gtab tfoot td {
+    border-bottom: 0;
+    padding-top: 10px;
+    font-weight: 600;
+    font-size: 12.5px
+}
+
+.gtab tr.rrow td {
+    padding-top: 12px
+}
+
+.gtab tr.rrow .gsub {
+    font-weight: 400
+}
+
+.rbar {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent)
+}
+
+.gtab .gsub {
+    font-size: 11.5px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.cbar {
+    height: 18px;
+    border-radius: 4px;
+    position: relative;
+    cursor: help;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent)
+}
+
+.cbar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: repeating-linear-gradient(90deg, transparent 0 calc(100%/18 - 1px), var(--surface) calc(100%/18 - 1px) calc(100%/18))
+}
+
+.gtab.focus tbody tr:not(.hl) {
+    opacity: .45
+}
+
+.gtab.focus tbody tr:not(.hl):hover {
+    opacity: 1
+}
+
+.gtab tr.hl td {
+    background: color-mix(in srgb, var(--accent) 10%, var(--surface))
+}
+
+.gtab tr.hl td:first-child {
+    box-shadow: inset 4px 0 0 var(--accent)
+}
+
+.thisone {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--surface);
+    vertical-align: 1px
+}
+
+.gnote {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--muted)
+}
+
+.gnote b {
+    color: var(--ink);
+    font-weight: 600
+}
+
+.gblock {
+    border: 1px solid color-mix(in srgb, var(--nao) 35%, var(--line));
+    border-left: 4px solid var(--nao);
+    border-radius: 10px
+}
+
+.gblock summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--nao-ink)
+}
+
+.gblock summary::-webkit-details-marker {
+    display: none
+}
+
+.gblock summary .tg {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent)
+}
+
+.gblock summary .tg .c {
+    display: none
+}
+
+.gblock[open] summary .tg .o {
+    display: none
+}
+
+.gblock[open] summary .tg .c {
+    display: inline
+}
+
+.gbl {
+    list-style: none;
+    margin: 0;
+    padding: 4px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid color-mix(in srgb, var(--nao) 25%, var(--line))
+}
+
+.gbl li {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 10px
+}
+
+.gbl .bs {
+    all: unset;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px
+}
+
+.gbl .bs small {
+    color: var(--muted);
+    font-weight: 400;
+    margin-right: 5px
+}
+
+.gbl .bs:hover {
+    text-decoration: underline
+}
+
+.gbl p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--nao-ink);
+    font-weight: 500
+}
+
+
+/* Modal */
+
+dialog.md {
+    overflow: auto;
+    overscroll-behavior: contain;
+    margin: auto;
+    max-height: min(90vh, 940px);
+    width: min(820px, calc(100% - 24px));
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0;
+    background: var(--surface);
+    color: var(--ink)
+}
+
+dialog.md::backdrop {
+    background: rgba(15, 22, 30, .4);
+    backdrop-filter: blur(2px)
+}
+
+dialog.md[open] {
+    animation: pop .2s cubic-bezier(.2, .7, .2, 1)
+}
+
+@keyframes pop {
+    from {
+        scale: .97;
+        opacity: 0
+    }
+}
+
+.md-in {
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.md-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px
+}
+
+.md-head h2 {
+    font-size: 24px;
+    margin: 0
+}
+
+.md-head h2:focus {
+    outline: none
+}
+
+.md-head p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 13.5px
+}
+
+.md-close {
+    margin-left: auto;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 8px 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer
+}
+
+.md-close:hover {
+    background: var(--nao-soft);
+    color: var(--nao-ink)
+}
+
+.md-close kbd {
+    font: inherit;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 5px;
+    padding: 1px 6px
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px
+}
+
+.tags span {
+    font-size: 12.5px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--muted)
+}
+
+.md h4 {
+    font-size: 15px;
+    margin: 0 0 10px
+}
+
+.sgrid {
+    display: grid;
+    grid-template-columns: 72px repeat(6, 1fr);
+    gap: 3px
+}
+
+.sgrid .gh {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+    padding-bottom: 4px
+}
+
+.sgrid .gl {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px
+}
+
+.sgrid .gc {
+    cursor: help;
     height: 24px;
     border-radius: 4px;
     display: grid;
