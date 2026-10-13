@@ -106,10 +106,15 @@ function restrAt(code, i, h) {
 }
 // "pode receber" para os cálculos: a loja recebe e, se a opção estiver ligada, o caminhão pode circular
 const ok = (code, i, h) => RESP[code].d[i][h] === 'S' && !(TR && restrAt(code, i, h));
-const conflictN = code => { const r = RESP[code]; if (!r || !RESTR[code]) return 0; let n = 0; for (let i = 0; i < 6; i++)
+const conflictN = code => {
+    const r = RESP[code];
+    if (!r || !RESTR[code]) return 0;
+    let n = 0;
+    for (let i = 0; i < 6; i++)
         for (let h = 0; h < NH; h++)
             if (r.d[i][h] === 'S' && restrAt(code, i, h)) n++;
-    return n; };
+    return n;
+};
 const hhf = x => String(Math.floor(x)).padStart(2, '0') + 'h' + (x % 1 ? String(Math.round(x % 1 * 60)).padStart(2, '0') : '');
 
 function rulesTxt(code) {
@@ -121,10 +126,13 @@ function rulesTxt(code) {
     }).join('; ');
 }
 
-function setTR(on) { TR = on; const b = $('#gTr');
+function setTR(on) {
+    TR = on;
+    const b = $('#gTr');
     b.setAttribute('aria-pressed', on);
     b.classList.toggle('on', on);
-    refreshAll(); }
+    refreshAll();
+}
 
 /* ---------- Respostas (planilha) ---------- */
 let RESP = {},
@@ -145,8 +153,11 @@ function parseResp(lojas) {
     return out;
 }
 async function loadResp() {
-    if (!FORM_ENDPOINT) { RSTATE = 'off';
-        refreshAll(); return; }
+    if (!FORM_ENDPOINT) {
+        RSTATE = 'off';
+        refreshAll();
+        return;
+    }
     RSTATE = 'loading';
     dstat();
     try {
@@ -156,9 +167,12 @@ async function loadResp() {
         RESP = parseResp(j.lojas);
         DEMO = false;
         RSTATE = 'ok';
-        if (Array.isArray(j.restricoes) && j.restricoes.length) { RESTR = buildRestr(j.restricoes);
-            RZSRC = 'planilha'; }
+        if (Array.isArray(j.restricoes) && j.restricoes.length) {
+            RESTR = buildRestr(j.restricoes);
+            RZSRC = 'planilha';
+        }
         if (j.coords) GEO = {...GEO_FIXED, ...j.coords };
+        if (j.abastecimento) ABAST = j.abastecimento;
         if (j.cd) CD = j.cd;
         RAT = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     } catch (e) { RSTATE = 'err'; }
@@ -201,20 +215,33 @@ function makeDemo() {
 
 function setDemo(on) {
     DEMO = on;
-    if (on) { RESP = parseResp(makeDemo());
-        RSTATE = 'demo'; } else { RESP = {};
-        RSTATE = FORM_ENDPOINT ? 'loading' : 'off'; if (FORM_ENDPOINT) { loadResp(); return; } }
+    if (on) {
+        RESP = parseResp(makeDemo());
+        RSTATE = 'demo';
+    } else {
+        RESP = {};
+        RSTATE = FORM_ENDPOINT ? 'loading' : 'off';
+        if (FORM_ENDPOINT) { loadResp(); return; }
+    }
     refreshAll();
 }
 
 function dstat() {
     const el = $('#dstat'),
         n = Object.keys(RESP).length;
-    if (RSTATE === 'demo') { el.innerHTML = `<span class="demo-flag">Dados de exemplo</span><span>Números ilustrativos, não são respostas reais.</span><button class="linkbtn" id="dsx">Sair do exemplo</button>`;
-        $('#dsx').onclick = () => setDemo(false); return; }
+    if (RSTATE === 'demo') {
+        el.innerHTML = `<span class="demo-flag">Dados de exemplo</span><span>Números ilustrativos, não são respostas reais.</span><button class="linkbtn" id="dsx">Sair do exemplo</button>`;
+        $('#dsx').onclick = () => setDemo(false);
+        return;
+    }
     if (RSTATE === 'loading') { el.innerHTML = '<span class="dot"></span>Carregando respostas…'; return; }
-    if (RSTATE === 'ok') { el.innerHTML = `<span class="dot ok"></span><span>${n} de ${STORES.length} lojas responderam. Atualizado às ${RAT}.</span><button class="linkbtn" id="dsr">Atualizar</button>${n?'':'<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>'}`;
-        $('#dsr').onclick = loadResp; const dd = $('#dsd'); if (dd) dd.onclick = () => setDemo(true); return; }
+    if (RSTATE === 'ok') {
+        el.innerHTML = `<span class="dot ok"></span><span>${n} de ${STORES.length} lojas responderam. Atualizado às ${RAT}.</span><button class="linkbtn" id="dsr">Atualizar</button>${n?'':'<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>'}`;
+        $('#dsr').onclick = loadResp;
+        const dd = $('#dsd');
+        if (dd) dd.onclick = () => setDemo(true);
+        return;
+    }
     const msg = RSTATE === 'err' ? 'Não foi possível carregar as respostas.' : 'A planilha de respostas ainda não foi conectada.';
     el.innerHTML = `<span class="dot err"></span><span>${msg}</span>${RSTATE==='err'?'<button class="linkbtn" id="dsr">Tentar de novo</button>':''}<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>`;
     const r = $('#dsr');
@@ -234,19 +261,26 @@ function syncChip(sel) {
 $('#gReg').innerHTML = '<option value="">Todos</option>' + REGS.map(r => `<option>${esc(r)}</option>`).join('');
 $('#gUf').innerHTML = '<option value="">Todas</option>' + UFS.map(u => `<option>${u}</option>`).join('');
 
-function setG(k, v) { G[k] = v; const el = $(k === 'reg' ? '#gReg' : '#gUf');
+function setG(k, v) {
+    G[k] = v;
+    const el = $(k === 'reg' ? '#gReg' : '#gUf');
     el.value = v;
     syncChip(el);
     $('#gClear').hidden = !(G.reg || G.uf);
-    refreshAll(); }
+    refreshAll();
+}
 $('#gReg').onchange = e => setG('reg', e.target.value);
 $('#gUf').onchange = e => setG('uf', e.target.value);
-$('#gClear').onclick = () => { G.reg = '';
+$('#gClear').onclick = () => {
+    G.reg = '';
     G.uf = '';
-    ['#gReg', '#gUf'].forEach(id => { $(id).value = '';
-        syncChip($(id)); });
+    ['#gReg', '#gUf'].forEach(id => {
+        $(id).value = '';
+        syncChip($(id));
+    });
     $('#gClear').hidden = true;
-    refreshAll(); };
+    refreshAll();
+};
 [$('#gReg'), $('#gUf')].forEach(syncChip);
 $('#gTr').onclick = () => setTR(!TR);
 
@@ -259,29 +293,44 @@ function stats(list) {
     resp.forEach(s => {
         const r = RESP[s.code];
         let all = true;
-        r.d.forEach((row, i) => { for (let h = 0; h < NH; h++) { if (ok(s.code, i, h)) { yes[i][h]++;
-                    ys++; } else all = false; } });
+        r.d.forEach((row, i) => {
+            for (let h = 0; h < NH; h++) {
+                if (ok(s.code, i, h)) {
+                    yes[i][h]++;
+                    ys++;
+                } else all = false;
+            }
+        });
         if (all) full++;
     });
     return { list, resp, n: resp.length, yes, ys, cells: resp.length * NC, full };
 }
 const scopeLabel = () => [G.reg && `regional ${G.reg}`, G.uf && `UF ${G.uf}`].filter(Boolean).join(', ');
-const storeAvail = code => { let n = 0; for (let i = 0; i < 6; i++)
+const storeAvail = code => {
+    let n = 0;
+    for (let i = 0; i < 6; i++)
         for (let h = 0; h < NH; h++)
             if (ok(code, i, h)) n++;
-    return n; };
+    return n;
+};
 
 function winLabel(keys) {
     const byDay = DAYS.map(() => []);
-    keys.forEach(k => { const [i, h] = k.split('|').map(Number);
-        byDay[i].push(h); });
+    keys.forEach(k => {
+        const [i, h] = k.split('|').map(Number);
+        byDay[i].push(h);
+    });
     const dayTxt = byDay.map(hs => {
         hs.sort((a, b) => a - b);
         const rs = [];
         let a = null,
             p = null;
-        hs.forEach(h => { if (a === null) { a = p = h; } else if (h === p + 1) { p = h; } else { rs.push([a, p]);
-                a = p = h; } });
+        hs.forEach(h => {
+            if (a === null) { a = p = h; } else if (h === p + 1) { p = h; } else {
+                rs.push([a, p]);
+                a = p = h;
+            }
+        });
         if (a !== null) rs.push([a, p]);
         return rs.map(([x, y]) => x === 0 && y === NH - 1 ? 'dia todo' : `${hh(x)}–${String(H0+y+1).padStart(2,'0')}h`).join(', ');
     });
@@ -472,11 +521,38 @@ function groupBlockers(info){
   return `<details class="gblock"><summary>O que impede uma janela maior<span style="font-weight:400;color:var(--muted);font-size:13px">${items.length} ${items.length>1?'lojas com restrição':'loja com restrição'}</span><span class="tg"><span class="o">Expandir</span><span class="c">Fechar</span></span></summary>
     <ul class="gbl">${items.map(s => RESP[s.code].reasons.map(x => `<li><div class="ln" style="flex-wrap:wrap"><button class="bs" data-code="${s.code}"><small>${s.code}</small>${esc(s.name)}</button><span class="wins">${winLabel(x.keys).map(w=>`<span>${w}</span>`).join('')}</span></div><p>${esc(x.txt)}</p></li>`).join('')).join('')}</ul></details>`;
 }
-const GS = {q:'', sort:'name'};
+const GS = {q:'', sort:'name', ab:''};
+/* Modo de abastecimento por agrupamento (Min e Max ou Simulador), salvo na planilha */
+let ABAST = {};
+const MODOS = ['Min e Max', 'Simulador'];
+const abSwitch = g => !g ? '' : `<div class="abseg" role="group" aria-label="Modo de abastecimento de ${esc(g)}" data-ag="${esc(g)}"><span class="abl">Abastecimento</span>${MODOS.map(m => `<button type="button" data-m="${m}" aria-pressed="${ABAST[g]===m}">${m}</button>`).join('')}</div>`;
+async function setAbast(g, modo, btnBox){
+  const prev = ABAST[g] || '', novo = prev === modo ? '' : modo;
+  if(!FORM_ENDPOINT || RSTATE === 'demo'){ alert('Para salvar o modo de abastecimento, o painel precisa estar conectado à planilha.'); return; }
+  let chave = ''; try{ chave = localStorage.getItem('chaveEdicao') || ''; }catch(e){}
+  const paint = v => document.querySelectorAll(`.abseg[data-ag="${CSS.escape(g)}"] button`).forEach(b => b.setAttribute('aria-pressed', b.dataset.m === v));
+  const send = async ch => {
+    const r = await fetch(FORM_ENDPOINT, {method:'POST', body:JSON.stringify({acao:'abastecimento', grupo:g, modo:novo, chave:ch})});
+    return r.json();
+  };
+  ABAST[g] = novo; paint(novo); btnBox && btnBox.classList.add('saving');
+  try{
+    let j = await send(chave);
+    if(!j.ok && j.erro === 'chave'){
+      const ch = prompt('Digite o código de edição para alterar o modo de abastecimento:');
+      if(ch){ j = await send(ch.trim()); if(j.ok) try{ localStorage.setItem('chaveEdicao', ch.trim()); }catch(e){} }
+    }
+    if(!j.ok) throw new Error(j.mensagem || 'Não foi possível salvar.');
+  }catch(e){ ABAST[g] = prev; paint(prev); alert(e.message && !/fetch|json/i.test(e.message) ? e.message : 'Não foi possível salvar agora. Tente de novo.'); }
+  btnBox && btnBox.classList.remove('saving');
+  if(GS.ab) renderGrupos();
+}
+document.addEventListener('click', e => { const b = e.target.closest('.abseg button'); if(!b) return; e.stopPropagation(); const box = b.closest('.abseg'); setAbast(box.dataset.ag, b.dataset.m, box); });
 function renderGrupos(){
   const q = GS.q.trim().toLowerCase();
   let infos = GRPS.map(groupInfo).filter(x => x.ss.some(inScope));
   const total = infos.length;
+  if(GS.ab) infos = infos.filter(x => x.g && (GS.ab === 'none' ? !ABAST[x.g] : ABAST[x.g] === GS.ab));
   if(q) infos = infos.filter(x => grpName(x.g).toLowerCase().includes(q) || x.ss.some(s => s.name.toLowerCase().includes(q) || s.code.includes(q)));
   if(GS.sort === 'few') infos.sort((a,b) => (a.resp.length?0:1)-(b.resp.length?0:1) || a.n-b.n || pt(a.g,b.g));
   else if(GS.sort === 'pend') infos.sort((a,b) => b.pend-a.pend || pt(a.g,b.g));
@@ -491,12 +567,13 @@ function renderGrupos(){
     <div class="kpi"><b>${withResp.length ? avg : '–'}</b><small>faixas em comum, em média, de ${NC}</small></div>
     <div class="kpi"><b>${withResp.length ? none : '–'}</b><small>sem janela em comum nem rota em sequência</small></div>`;
   $('#gCount').textContent = `${infos.length} de ${total} agrupamentos`;
-  $('#glist').innerHTML = infos.length ? infos.map(x => `<article class="gcard"><header><h3>${esc(grpName(x.g))}</h3><div class="gmeta"><span>${x.ss.length} ${x.ss.length>1?'lojas':'loja'}</span><span>${[...new Set(x.ss.map(s=>s.reg))].map(esc).join(', ')}</span>${x.pend?`<span class="warn">${x.pend} sem resposta</span>`:''}${x.ss.some(s => RESTR[s.code]) ? `<span class="rzwarn" title="${esc(x.ss.filter(s=>RESTR[s.code]).map(s=>s.code+' '+s.name).join(', '))}"><b>!</b>Contém loja com restrição</span>` : ''}</div></header>
+  $('#glist').innerHTML = infos.length ? infos.map(x => `<article class="gcard"><header><h3>${esc(grpName(x.g))}</h3>${abSwitch(x.g)}<div class="gmeta"><span>${x.ss.length} ${x.ss.length>1?'lojas':'loja'}</span><span>${[...new Set(x.ss.map(s=>s.reg))].map(esc).join(', ')}</span>${x.pend?`<span class="warn">${x.pend} sem resposta</span>`:''}${x.ss.some(s => RESTR[s.code]) ? `<span class="rzwarn" title="${esc(x.ss.filter(s=>RESTR[s.code]).map(s=>s.code+' '+s.name).join(', '))}"><b>!</b>Contém loja com restrição</span>` : ''}</div></header>
       ${groupTable(x)}<p class="gnote">${groupNoteFull(x)}</p><div><button class="btn mapbtn" data-gmap="${esc(x.g)}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Ver rota no mapa</button></div>${groupBlockers(x)}</article>`).join('')
     : `<div class="empty">Nenhum agrupamento com esses filtros.</div>`;
 }
 $('#gq').oninput = e => { GS.q = e.target.value; renderGrupos(); };
 (() => { const el = $('#gSort'); syncChip(el); el.onchange = () => { GS.sort = el.value; syncChip(el); renderGrupos(); }; })();
+(() => { const el = $('#gAb'); syncChip(el); el.onchange = () => { GS.ab = el.value; syncChip(el); renderGrupos(); }; })();
 $('#glist').addEventListener('click', e => { const gm = e.target.closest('[data-gmap]'); if(gm){ openGroupMap(gm.dataset.gmap); return; } const t = e.target.closest('tr[data-code], .bs'); if(t) openStore(t.dataset.code); });
 
 /* ---------- Motivos ---------- */
@@ -635,7 +712,7 @@ function openStore(code){
   }
   showMd(`<div class="md-head"><div><p class="meta" style="margin:0">Loja ${s.code}</p><h2 id="mdTitle">${esc(s.name)}</h2>
     <div class="tags"><span>${esc(s.city)}/${s.uf}</span><span>${esc(s.addr)}</span><span>Regional ${esc(s.reg)}</span><span>${esc(grpName(s.grp))}</span>${s.truck?`<span>${esc(s.truck)}, ${esc(s.ativo)}</span>`:''}</div></div>${closeBtn()}</div>${body}
-    ${s.grp ? (() => { const info = groupInfo(s.grp), o = info.ss.length - 1; return `<section style="border-top:1px solid var(--line);padding-top:18px"><h4 style="color:var(--muted)">Agrupamento ${esc(s.grp)}</h4>
+    ${s.grp ? (() => { const info = groupInfo(s.grp), o = info.ss.length - 1; return `<section style="border-top:1px solid var(--line);padding-top:18px"><h4 style="color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:10px">Agrupamento ${esc(s.grp)}${abSwitch(s.grp)}</h4>
       <p class="hint">${o ? `Vai junto com ${o} ${o>1?'outras lojas':'outra loja'}. Clique em uma loja para abrir a ficha dela. <button class="linkbtn" data-gmap="${esc(s.grp)}">Ver rota do agrupamento no mapa</button>` : 'Esta é a única loja do agrupamento.'}</p>${groupTable(info, s.code)}<p class="gnote" style="margin-top:10px">${groupNoteFull(info)}</p></section>`; })() : ''}
     <section style="border-top:1px solid var(--line);padding-top:18px"><h4>Trajeto a partir do CD</h4>${mapBlock('mapS', 280)}</section>`);
   drawRoute('mapS', [s]);

@@ -2525,6 +2525,61 @@ dialog.md[open] {
 }
 
 
+/* Chave de abastecimento */
+
+.gcard header h3 {
+    margin-right: 4px
+}
+
+.abseg {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg);
+    font-size: 12.5px;
+    font-weight: 500;
+    vertical-align: middle
+}
+
+.abseg .abl {
+    color: var(--muted);
+    padding: 0 6px 0 8px
+}
+
+.abseg button {
+    border: 0;
+    background: transparent;
+    border-radius: 999px;
+    padding: 4px 11px;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 12.5px;
+    font-weight: 600
+}
+
+.abseg button:hover {
+    background: var(--hover);
+    color: var(--ink)
+}
+
+.abseg button[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--surface)
+}
+
+.abseg button[data-m="Simulador"][aria-pressed="true"] {
+    background: var(--sim-strong)
+}
+
+.abseg.saving {
+    opacity: .6;
+    pointer-events: none
+}
+
+
 /* Tooltip */
 
 .tip {
