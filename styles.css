@@ -2613,9 +2613,18 @@ dialog.md[open] {
 }
 
 .xtab td {
-    padding: 10px 12px;
+    padding: 12px;
     border-bottom: 1px solid var(--line);
-    vertical-align: top
+    vertical-align: middle;
+    transition: background .12s
+}
+
+.xtab tbody tr:hover td {
+    background: var(--hover)
+}
+
+.xtab tbody tr:hover td:first-child {
+    box-shadow: inset 3px 0 0 var(--accent)
 }
 
 .xtab .num {
@@ -2759,8 +2768,6 @@ footer {
     font-size: 13px;
     padding: 32px 0 44px
 }
-}
-
 
 /* Resumo */
 
@@ -4925,9 +4932,18 @@ dialog.md[open] {
 }
 
 .xtab td {
-    padding: 10px 12px;
+    padding: 12px;
     border-bottom: 1px solid var(--line);
-    vertical-align: top
+    vertical-align: middle;
+    transition: background .12s
+}
+
+.xtab tbody tr:hover td {
+    background: var(--hover)
+}
+
+.xtab tbody tr:hover td:first-child {
+    box-shadow: inset 3px 0 0 var(--accent)
 }
 
 .xtab .num {

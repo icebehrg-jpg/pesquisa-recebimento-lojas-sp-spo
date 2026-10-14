@@ -625,9 +625,10 @@ function buildPng(rows, tot, pfx, withMaps){
   y += 44;
   body.forEach((b,i) => {
     if(i % 2){ x.fillStyle = '#FAFBFC'; x.fillRect(P, y, W-2*P, b.h); }
-    x.fillStyle = '#1D2733'; x.font = `600 16px ${F}`; b.a.forEach((ln,k) => x.fillText(ln, P+12, y+30+k*LH));
-    x.textAlign = 'right'; x.fillText(String(b.r.n), P+cw[0]+cw[1]-12, y+30); x.textAlign = 'left';
-    x.font = `15px ${F}`; b.l.forEach((o,k) => { x.fillStyle = '#33404D'; if(o.first){ x.beginPath(); x.arc(X2+18, y+25+k*LH, 2.6, 0, 7); x.fill(); } x.fillText(o.ln, X2+30, y+30+k*LH); });
+    const ya = y + (b.h - b.a.length*LH)/2 - 4, yn = y + (b.h - LH)/2 - 4, yl = y + (b.h - b.l.length*LH)/2 - 4;
+    x.fillStyle = '#1D2733'; x.font = `600 16px ${F}`; b.a.forEach((ln,k) => x.fillText(ln, P+12, ya+20+k*LH));
+    x.textAlign = 'right'; x.fillText(String(b.r.n), P+cw[0]+cw[1]-12, yn+20); x.textAlign = 'left';
+    x.font = `15px ${F}`; const y0 = y; y = yl - 10; b.l.forEach((o,k) => { x.fillStyle = '#33404D'; if(o.first){ x.beginPath(); x.arc(X2+18, y+25+k*LH, 2.6, 0, 7); x.fill(); } x.fillText(o.ln, X2+30, y+30+k*LH); }); y = y0;
     if(withMaps){
       if(b.cv){
         const mx = X3, my = y + 14, sc = MW / b.cv.clientWidth;
