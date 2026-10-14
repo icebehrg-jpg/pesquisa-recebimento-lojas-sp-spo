@@ -1122,5 +1122,4 @@ try{ const t = localStorage.getItem('theme'); if(t) document.documentElement.dat
 $('#foot').textContent = `${STORES.length} lojas ativas em ${UFS.length} estados, ${REGS.length} regionais. Pesquisa por faixa horária de uma hora, das 05h às 23h, de segunda a sábado; domingo não tem recebimento. A loja 0173 S.SPMarket está fechada e não entra na pesquisa.`;
 show(location.hash.slice(1) || 'resumo');
 refreshAll();
-loadResp(););
 loadResp();
