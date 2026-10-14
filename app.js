@@ -710,29 +710,41 @@ function nearestOrder(pts){
   while(left.length){ let bi = 0; left.forEach((ix,k) => { if(hav(cur, pts[ix]) < hav(cur, pts[left[bi]])) bi = k; }); const ix = left.splice(bi,1)[0]; order.push(ix); cur = pts[ix]; }
   return order;
 }
-async function bestRoute(pts){
-  const key = pts.map(p => p.join(',')).join(';');
-  if(ROUTES.has(key)) return ROUTES.get(key);
+// Servidores públicos de rota (OSRM, sem chave). Tenta um e, se falhar, o próximo.
+const ROUTERS = [
+  'https://routing.openstreetmap.de/routed-car',
+  'https://router.project-osrm.org'
+];
+async function osrmCall(base, pts){
   const q = pts.map(p => `${p[1].toFixed(6)},${p[0].toFixed(6)}`).join(';');
   const url = pts.length === 2
-    ? `https://router.project-osrm.org/route/v1/driving/${q}?overview=full&geometries=geojson`
-    : `https://router.project-osrm.org/trip/v1/driving/${q}?source=first&roundtrip=false&destination=any&overview=full&geometries=geojson`;
-  let res;
+    ? `${base}/route/v1/driving/${q}?overview=full&geometries=geojson`
+    : `${base}/trip/v1/driving/${q}?source=first&roundtrip=false&destination=any&overview=full&geometries=geojson`;
+  const ac = new AbortController(), to = setTimeout(() => ac.abort(), 20000);
   try{
-    const ac = new AbortController(), to = setTimeout(() => ac.abort(), 12000);
-    const j = await (await fetch(url, {signal:ac.signal})).json(); clearTimeout(to);
+    const r = await fetch(url, {signal:ac.signal});
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
     if(j.code !== 'Ok') throw new Error(j.code);
     const tr = pts.length === 2 ? j.routes[0] : j.trips[0];
     const order = pts.length === 2 ? [1] : j.waypoints.map((w,i) => ({i, k:w.waypoint_index})).filter(x => x.i > 0).sort((a,b) => a.k-b.k).map(x => x.i);
-    res = {exact:true, order, line:tr.geometry.coordinates.map(c => [c[1], c[0]]), km:tr.distance/1000, min:tr.duration/60,
-           legs:tr.legs.map(l => ({km:l.distance/1000, min:l.duration/60}))};
-  }catch(e){
-    const order = nearestOrder(pts), seq = [0, ...order];
-    const legs = order.map((ix,k) => { const km = hav(pts[seq[k]], pts[ix]) * 1.3; return {km, min:km / 35 * 60}; });
-    res = {exact:false, order, line:seq.map(ix => pts[ix]), km:legs.reduce((a,l)=>a+l.km,0), min:legs.reduce((a,l)=>a+l.min,0), legs};
+    return {exact:true, order, line:tr.geometry.coordinates.map(c => [c[1], c[0]]), km:tr.distance/1000, min:tr.duration/60,
+            legs:tr.legs.map(l => ({km:l.distance/1000, min:l.duration/60}))};
+  } finally { clearTimeout(to); }
+}
+async function bestRoute(pts){
+  const key = pts.map(p => p.join(',')).join(';');
+  if(ROUTES.has(key)) return ROUTES.get(key);
+  for(const base of ROUTERS){
+    for(let tentativa = 0; tentativa < 2; tentativa++){
+      try{ const res = await osrmCall(base, pts); ROUTES.set(key, res); return res; }
+      catch(e){ if(tentativa === 0) await new Promise(r => setTimeout(r, 700)); }
+    }
   }
-  ROUTES.set(key, res);
-  return res;
+  // sem serviço de rotas: ordem pela loja mais próxima e estimativa (não guarda, para tentar de novo depois)
+  const order = nearestOrder(pts), seq = [0, ...order];
+  const legs = order.map((ix,k) => { const km = hav(pts[seq[k]], pts[ix]) * 1.25; return {km, min: km / (km > 60 ? 65 : 28) * 60}; });
+  return {exact:false, order, line:seq.map(ix => pts[ix]), km:legs.reduce((a,l)=>a+l.km,0), min:legs.reduce((a,l)=>a+l.min,0), legs};
 }
 const mapBlock = (id, h) => `<div class="mapbox"><div class="map" id="${id}" style="height:${h}px"></div><div class="mapinfo" id="${id}-i"><span class="ni-dot"></span>Calculando o melhor trajeto…</div></div>`;
 const ROUTE_DRAW = {};
@@ -793,7 +805,7 @@ async function drawRoute(id, stores, opts = {}){
   info.innerHTML = `<ol class="rsteps"><li class="cd"><b>Saída:</b> ${esc(CD.nome || 'CD')}</li>${r.order.map((ix,k) => { const s = withGeo[ix-1], l = r.legs[k];
       return `<li><b>${k+1}.</b> <button class="linkbtn" data-code="${s.code}">${s.code} ${esc(s.name)}</button> <span>${esc(s.city)}/${s.uf}</span><em>+${fmtKm(l.km)}, ${fmtMin(l.min)}</em></li>`; }).join('')}</ol>
     <p class="rtot"><b>${fmtKm(r.km)}</b> no total, cerca de <b>${fmtMin(r.min)}</b> de deslocamento.</p>
-    <p class="rnote"><span class="dotl"></span>Pontos cinza: demais lojas, só para referência (clique para abrir a ficha). ${r.exact ? 'Trajeto por ruas calculado pelo OSRM (OpenStreetMap), com perfil de carro e sem trânsito; não considera restrições para caminhão.' : 'O serviço de rotas não respondeu agora: o trajeto aparece em linha reta, com distância e tempo estimados.'}${miss.length ? ` Sem coordenadas: ${miss.map(s => s.code).join(', ')}.` : ''}</p>`;
+    <p class="rnote"><span class="dotl"></span>Pontos cinza: demais lojas, só para referência (clique para abrir a ficha). ${r.exact ? 'Trajeto por ruas calculado com OSRM sobre dados do OpenStreetMap, perfil de carro e sem trânsito; não considera restrições para caminhão.' : 'Os serviços de rotas não responderam agora: o trajeto aparece em linha reta, com distância e tempo estimados. Feche e abra o mapa de novo para tentar outra vez.'}${miss.length ? ` Sem coordenadas: ${miss.map(s => s.code).join(', ')}.` : ''}</p>`;
 }
 function openGroupMap(g, back){
   const info = groupInfo(g);
