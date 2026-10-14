@@ -1544,6 +1544,19 @@ h2 {
     font-size: 13.5px
 }
 
+.dotl {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #8A97A6;
+    opacity: .7;
+    border: 1px solid #fff;
+    box-shadow: 0 0 0 1px #c9d1d9;
+    margin-right: 6px;
+    vertical-align: 0
+}
+
 .maplibregl-map {
     font: inherit
 }
@@ -2621,7 +2634,88 @@ dialog.md[open] {
 
 .xact {
     display: flex;
-    justify-content: flex-end
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap
+}
+
+.xlist {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px
+}
+
+.xlist li {
+    line-height: 1.45
+}
+
+.xtab td.xmap,
+.xtab th.xmap {
+    width: 44%;
+    min-width: 300px
+}
+
+.xtab td.xmap .mapbox {
+    border-radius: 10px
+}
+
+.xtab td.xmap .mapinfo {
+    padding: 8px 12px;
+    gap: 4px;
+    font-size: 13px
+}
+
+dialog.md.wide {
+    width: min(1240px, calc(100% - 24px))
+}
+
+.simhead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px
+}
+
+.simhead h1 {
+    font-size: clamp(26px, 3.4vw, 38px);
+    max-width: none;
+    margin: 4px 0 6px
+}
+
+.simhead .sub {
+    margin: 0;
+    color: var(--muted)
+}
+
+.simact {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap
+}
+
+body.sim-mode .top .wrap>*:not(.brand) {
+    display: none
+}
+
+@media print {
+    body.sim-mode .top,
+    body.sim-mode .simact {
+        display: none!important
+    }
+    body.sim-mode main>section.wrap {
+        padding-top: 0
+    }
+    .xtab tr {
+        break-inside: avoid
+    }
+    .tblwrap {
+        border: 0;
+        overflow: visible
+    }
 }
 
 #gExt {

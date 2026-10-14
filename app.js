@@ -554,53 +554,104 @@ function simRows(){
     return {g, n:ss.length, lojas:ss.map(s => `${s.code} ${s.name}`)};
   });
 }
+function simTable(rows, pfx, mapH){
+  return `<div class="tblwrap"><table class="xtab"><thead><tr><th>Agrupamento</th><th class="num">Lojas</th><th>Lojas do agrupamento</th><th class="xmap">Rota saindo do CD</th></tr></thead>
+    <tbody>${rows.map((r,i) => `<tr><td><b>${esc(r.g)}</b></td><td class="num">${r.n}</td><td><ul class="xlist">${r.lojas.map(l => `<li>${esc(l)}</li>`).join('')}</ul></td>
+      <td class="xmap">${mapBlock(`${pfx}${i}`, mapH)}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td>Total</td><td class="num">${rows.reduce((a,r) => a + r.n, 0)}</td><td></td><td></td></tr></tfoot></table></div>`;
+}
+const simStores = g => STORES.filter(s => s.grp === g).sort((a,b) => pt(a.code,b.code));
 function openExtract(){
   const rows = simRows(), tot = rows.reduce((a,r) => a + r.n, 0);
   showMd(`<div class="md-head"><div><p class="meta" style="margin:0">Extração</p><h2 id="mdTitle">Agrupamentos abastecidos por Simulador</h2>
       <p>${rows.length ? `${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${tot} lojas.` : 'Nenhum agrupamento está marcado como Simulador.'}</p></div>${closeBtn()}</div>
-    ${rows.length ? `<div class="tblwrap"><table class="xtab"><thead><tr><th>Agrupamento</th><th class="num">Lojas</th><th>Lojas do agrupamento</th></tr></thead>
-      <tbody>${rows.map(r => `<tr><td><b>${esc(r.g)}</b></td><td class="num">${r.n}</td><td>${r.lojas.map(esc).join(', ')}</td></tr>`).join('')}</tbody>
-      <tfoot><tr><td>Total</td><td class="num">${tot}</td><td></td></tr></tfoot></table></div>
-      <div class="xact"><button class="fbtn" id="xPng" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Salvar como imagem</button></div>`
+    ${rows.length ? `<div class="xact"><a class="fbtn ghost" href="#simulador" target="_blank" rel="noopener" style="text-decoration:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3h7v7M10 14 21 3M21 14v7H3V3h7"/></svg>Exportar página</a>
+      <button class="fbtn" id="xPng" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Salvar como imagem</button></div>
+      ${simTable(rows, 'xm', 220)}`
       : `<div class="pendbox">Marque "Simulador" na chave de abastecimento dos agrupamentos para que eles apareçam aqui.</div>`}`);
-  const b = $('#xPng'); if(b) b.onclick = () => savePng(rows, tot);
+  md.classList.add('wide');
+  rows.forEach((r,i) => drawRoute(`xm${i}`, simStores(r.g), {compact:true, snap:true}));
+  const b = $('#xPng'); if(b) b.onclick = () => savePng(rows, tot, 'xm', b);
 }
-// Desenha a tabela num canvas e baixa como PNG (sem bibliotecas externas)
-function savePng(rows, tot){
-  const S = 2, W = 1400, P = 40, cw = [360, 110, W - 2*P - 470], LH = 22, F = '"Instrument Sans", "Segoe UI", Arial, sans-serif';
+/* Página exportada só com o resumo (#simulador) */
+function renderSimPage(){
+  while(PAGE_MAPS.length){ try{ PAGE_MAPS.pop().remove(); }catch(e){} }
+  const rows = simRows(), tot = rows.reduce((a,r) => a + r.n, 0), root = $('#simRoot');
+  const quando = new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace(',','');
+  root.innerHTML = `<header class="simhead"><div><p class="meta" style="margin:0">Janelas de recebimento das lojas</p><h1>Agrupamentos abastecidos por Simulador</h1>
+      <p class="sub">${RSTATE === 'loading' ? 'Carregando dados da planilha…' : rows.length ? `${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${tot} lojas. Gerado em ${quando}.` : 'Nenhum agrupamento está marcado como Simulador.'}</p></div>
+    <div class="simact"><button class="fbtn ghost" id="spPrint" type="button">Imprimir ou salvar PDF</button><button class="fbtn" id="spPng" type="button">Salvar como imagem</button></div></header>
+    ${rows.length ? simTable(rows, 'sp', 300) : ''}`;
+  rows.forEach((r,i) => drawRoute(`sp${i}`, simStores(r.g), {compact:true, snap:true, page:true}));
+  $('#spPrint').onclick = () => print();
+  $('#spPng').onclick = e => rows.length && savePng(rows, tot, 'sp', e.currentTarget);
+}
+// Desenha a tabela (com os mapas, quando disponíveis) num canvas e baixa como PNG
+const waitIdle = m => new Promise(res => { if(!m || m.loaded()) return res(); const to = setTimeout(res, 6000); m.once('idle', () => { clearTimeout(to); res(); }); });
+async function savePng(rows, tot, pfx, btn){
+  if(btn){ btn.disabled = true; btn.dataset.t = btn.innerHTML; btn.textContent = 'Gerando imagem…'; }
+  try{
+    await Promise.all(rows.map((_,i) => waitIdle(ROUTE_DRAW[pfx+i] && ROUTE_DRAW[pfx+i].map)));
+    let blob = await buildPng(rows, tot, pfx, true).catch(() => null);
+    if(!blob) blob = await buildPng(rows, tot, pfx, false);
+    const a = document.createElement('a'), d = new Date();
+    a.href = URL.createObjectURL(blob);
+    a.download = `agrupamentos-simulador-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.png`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }finally{ if(btn){ btn.disabled = false; btn.innerHTML = btn.dataset.t; } }
+}
+function buildPng(rows, tot, pfx, withMaps){
+  const S = 2, MW = 520, W = withMaps ? 1640 : 1240, P = 40, LH = 23, F = '"Instrument Sans", "Segoe UI", Arial, sans-serif';
+  const cw = [300, 90, withMaps ? W - 2*P - 390 - MW - 20 : W - 2*P - 390];
   const c = document.createElement('canvas'), x = c.getContext('2d');
   const wrap = (txt, w, font) => { x.font = font; const out = []; let line = '';
-    txt.split(/(?<=,) /).forEach(part => { const tryL = line ? line + ' ' + part : part;
-      if(x.measureText(tryL).width > w && line){ out.push(line); line = part; } else line = tryL; });
+    String(txt).split(' ').forEach(wd => { const tl = line ? line + ' ' + wd : wd; if(x.measureText(tl).width > w && line){ out.push(line); line = wd; } else line = tl; });
     if(line) out.push(line); return out; };
-  const body = rows.map(r => { const a = wrap(r.g, cw[0]-24, `600 16px ${F}`), l = wrap(r.lojas.join(', '), cw[2]-24, `15px ${F}`);
-    return {r, a, l, h: Math.max(a.length, l.length) * LH + 24}; });
-  const H = P + 90 + 44 + body.reduce((s,b) => s + b.h, 0) + 48 + P;
+  const body = rows.map((r,i) => {
+    const a = wrap(r.g, cw[0]-24, `600 16px ${F}`);
+    const l = r.lojas.flatMap(lj => wrap(lj, cw[2]-40, `15px ${F}`).map((ln,k) => ({ln, first:k===0})));
+    const R = ROUTE_DRAW[pfx+i], cv = withMaps && R && R.map ? R.map.getCanvas() : null;
+    const mh = cv ? Math.round(MW * cv.clientHeight / cv.clientWidth) : 0;
+    const info = R && R.r ? `${fmtKm(R.r.km)}, cerca de ${fmtMin(R.r.min)} saindo do ${CD ? CD.nome : 'CD'}` : '';
+    return {r, a, l, R, cv, mh, info, h: Math.max(a.length*LH, l.length*LH, withMaps ? mh + 30 : 0) + 28};
+  });
+  const H = P + 90 + 44 + body.reduce((s,b) => s + b.h, 0) + 52 + P;
   c.width = W*S; c.height = H*S; x.scale(S,S);
   x.fillStyle = '#FFFFFF'; x.fillRect(0,0,W,H);
   x.fillStyle = '#1D2733'; x.font = `600 28px ${F}`; x.fillText('Agrupamentos abastecidos por Simulador', P, P+30);
   x.fillStyle = '#5D6B7A'; x.font = `15px ${F}`;
   x.fillText(`${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${tot} lojas. Gerado em ${new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace(',','')}.`, P, P+60);
-  let y = P + 90;
+  let y = P + 90; const X2 = P + cw[0] + cw[1], X3 = X2 + cw[2] + 20;
   x.fillStyle = '#F2F5F7'; x.fillRect(P, y, W-2*P, 44);
   x.fillStyle = '#5D6B7A'; x.font = `600 14px ${F}`;
-  x.fillText('Agrupamento', P+12, y+27); x.textAlign = 'right'; x.fillText('Lojas', P+cw[0]+cw[1]-12, y+27); x.textAlign = 'left'; x.fillText('Lojas do agrupamento', P+cw[0]+cw[1]+12, y+27);
+  x.fillText('Agrupamento', P+12, y+27); x.textAlign = 'right'; x.fillText('Lojas', P+cw[0]+cw[1]-12, y+27); x.textAlign = 'left';
+  x.fillText('Lojas do agrupamento', X2+12, y+27); if(withMaps) x.fillText('Rota saindo do CD', X3, y+27);
   y += 44;
   body.forEach((b,i) => {
-    if(i % 2) { x.fillStyle = '#FAFBFC'; x.fillRect(P, y, W-2*P, b.h); }
-    x.fillStyle = '#1D2733'; x.font = `600 16px ${F}`; b.a.forEach((ln,k) => x.fillText(ln, P+12, y+28+k*LH));
-    x.textAlign = 'right'; x.fillText(String(b.r.n), P+cw[0]+cw[1]-12, y+28); x.textAlign = 'left';
-    x.fillStyle = '#33404D'; x.font = `15px ${F}`; b.l.forEach((ln,k) => x.fillText(ln, P+cw[0]+cw[1]+12, y+28+k*LH));
+    if(i % 2){ x.fillStyle = '#FAFBFC'; x.fillRect(P, y, W-2*P, b.h); }
+    x.fillStyle = '#1D2733'; x.font = `600 16px ${F}`; b.a.forEach((ln,k) => x.fillText(ln, P+12, y+30+k*LH));
+    x.textAlign = 'right'; x.fillText(String(b.r.n), P+cw[0]+cw[1]-12, y+30); x.textAlign = 'left';
+    x.font = `15px ${F}`; b.l.forEach((o,k) => { x.fillStyle = '#33404D'; if(o.first){ x.beginPath(); x.arc(X2+18, y+25+k*LH, 2.6, 0, 7); x.fill(); } x.fillText(o.ln, X2+30, y+30+k*LH); });
+    if(withMaps){
+      if(b.cv){
+        const mx = X3, my = y + 14, sc = MW / b.cv.clientWidth;
+        x.save(); x.beginPath(); x.roundRect ? x.roundRect(mx, my, MW, b.mh, 8) : x.rect(mx, my, MW, b.mh); x.clip();
+        x.drawImage(b.cv, mx, my, MW, b.mh);
+        const dot = (ll, txt, dark) => { const p = b.R.map.project([ll[1], ll[0]]); const px = mx + p.x*sc, py = my + p.y*sc;
+          x.beginPath(); x.arc(px, py, 11, 0, 7); x.fillStyle = dark ? '#1D2733' : '#2F5D7C'; x.fill(); x.lineWidth = 2; x.strokeStyle = '#fff'; x.stroke();
+          x.fillStyle = '#fff'; x.font = `700 ${dark?9:11}px ${F}`; x.textAlign = 'center'; x.fillText(txt, px, py+4); x.textAlign = 'left'; };
+        b.R.order.forEach((ix,k) => dot(b.R.pts[ix], String(k+1)));
+        dot(b.R.pts[0], 'CD', true);
+        x.restore(); x.strokeStyle = '#DCE3E9'; x.lineWidth = 1; x.strokeRect(mx, my, MW, b.mh);
+        x.fillStyle = '#5D6B7A'; x.font = `13px ${F}`; x.fillText(b.info, mx, my + b.mh + 20);
+      } else { x.fillStyle = '#8A97A6'; x.font = `13px ${F}`; x.fillText('Mapa indisponível', X3, y+30); }
+    }
     y += b.h; x.fillStyle = '#DCE3E9'; x.fillRect(P, y-1, W-2*P, 1);
   });
-  x.fillStyle = '#1D2733'; x.font = `700 16px ${F}`; x.fillText('Total', P+12, y+30);
-  x.textAlign = 'right'; x.fillText(String(tot), P+cw[0]+cw[1]-12, y+30); x.textAlign = 'left';
-  c.toBlob(blob => {
-    const a = document.createElement('a'), d = new Date();
-    a.href = URL.createObjectURL(blob);
-    a.download = `agrupamentos-simulador-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.png`;
-    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-  }, 'image/png');
+  x.fillStyle = '#1D2733'; x.font = `700 16px ${F}`; x.fillText('Total', P+12, y+32);
+  x.textAlign = 'right'; x.fillText(String(tot), P+cw[0]+cw[1]-12, y+32); x.textAlign = 'left';
+  if(withMaps){ x.fillStyle = '#8A97A6'; x.font = `12px ${F}`; x.fillText('Mapa: © OpenStreetMap, OpenFreeMap. Rotas: OSRM.', X3, y+32); }
+  return new Promise((res, rej) => { try{ c.toBlob(bl => bl ? res(bl) : rej(new Error('vazio')), 'image/png'); }catch(e){ rej(e); } });
 }
 $('#gExt').onclick = openExtract;
 document.addEventListener('click', e => { const b = e.target.closest('.abseg button'); if(!b) return; e.stopPropagation(); const box = b.closest('.abseg'); setAbast(box.dataset.ag, b.dataset.m, box); });
@@ -651,7 +702,7 @@ $('#mlist').addEventListener('click', e => { const b = e.target.closest('.mcard'
 /* ---------- Mapa e trajeto (OpenStreetMap + OSRM, sem chave) ---------- */
 const GEO_FIXED = {"0003": [-23.602001, -46.603943], "0007": [-23.5146, -46.69701], "0008": [-23.547634, -46.573853], "0009": [-23.583889, -46.682946], "0010": [-23.52522, -46.68197], "0011": [-23.478305, -46.609467], "0013": [-23.586532, -46.636697], "0015": [-23.703311, -46.553874], "0016": [-22.90367, -47.06952], "0019": [-23.476059, -46.52948], "0020": [-23.648667, -46.533617], "0021": [-21.178078, -47.808278], "0022": [-23.612188, -46.66689], "0023": [-23.588943, -46.631746], "0024": [-22.878208, -43.271774], "0025": [-23.54996, -46.44572], "0026": [-23.507501, -46.626704], "0027": [-22.904872, -43.182712], "0028": [-16.71275, -49.23402], "0029": [-22.34209, -49.0493], "0030": [-23.566149, -46.503635], "0031": [-23.563399, -46.655262], "0032": [-23.621545, -46.699664], "0033": [-23.580197, -46.711388], "0034": [-19.940074, -43.932139], "0035": [-22.320287, -49.072253], "0036": [-23.71711, -46.54877], "0037": [-23.609068, -46.756552], "0038": [-23.67445, -46.67801], "0040": [-23.50045, -46.84122], "0041": [-20.811301, -49.382429], "0043": [-23.44582, -46.72255], "0045": [-23.524517, -46.547375], "0046": [-22.704012, -47.649764], "0047": [-23.532251, -46.730392], "0049": [-23.19478, -45.885457], "0050": [-25.438202, -49.266478], "0051": [-23.504454, -47.476822], "0052": [-22.21404, -49.952058], "0053": [-25.44934, -49.30422], "0055": [-22.89197, -47.027293], "0056": [-23.64574, -46.70081], "0057": [-23.523164, -46.593986], "0058": [-22.878875, -43.467141], "0059": [-15.78806, -47.88245], "0060": [-23.50695, -46.70358], "0061": [-23.522405, -46.608765], "0062": [-23.6643, -46.460625], "0063": [-23.30409, -45.962213], "0064": [-23.546879, -46.636782], "0065": [-23.509364, -46.194409], "0066": [-23.68567, -46.62533], "0067": [-23.539012, -46.765448], "0068": [-23.650728, -46.660148], "0069": [-23.592981, -46.837834], "0070": [-23.116974, -47.219709], "0071": [-23.613437, -46.577893], "0073": [-21.206512, -47.765686], "0074": [-23.001421, -43.338245], "0075": [-22.797494, -43.35312], "0076": [-23.49456, -46.428036], "0077": [-23.542278, -46.318424], "0078": [-23.492003, -47.445062], "0079": [-23.480768, -46.611386], "0081": [-22.919432, -43.250095], "0082": [-30.049527, -51.228753], "0083": [-23.99763, -46.406236], "0084": [-23.57246, -46.6957], "0085": [-23.579756, -46.594417], "0086": [-22.8962, -43.12293], "0087": [-23.99248, -46.272234], "0088": [-22.57095, -47.407966], "0090": [-26.25393, -48.85325], "0091": [-23.5727, -46.7111], "0092": [-19.920802, -43.920289], "0093": [-23.562019, -46.551481], "0094": [-23.516227, -46.855518], "0095": [-21.73918, -43.37143], "0096": [-23.505419, -46.846202], "0098": [-22.7484, -47.3672], "0099": [-23.191693, -46.902913], "0100": [-22.024114, -47.889805], "0102": [-22.82174, -43.045899], "0103": [-22.85059, -43.31101], "0105": [-8.086329, -34.894133], "0106": [-25.094793, -50.152244], "0107": [-18.909879, -48.260615], "0108": [-22.873024, -42.035875], "0109": [-12.971364, -38.474561], "0110": [-23.31228, -51.14694], "0111": [-23.54068, -46.47018], "0112": [-23.54728, -46.64957], "0113": [-19.76612, -47.95197], "0114": [-21.22522, -47.83543], "0115": [-22.78739, -43.28569], "0116": [-22.96525, -43.18001], "0117": [-22.88582, -43.40257], "0118": [-23.53602, -47.46443], "0119": [-23.66779, -46.53356], "0120": [-15.84132, -48.04402], "0121": [-21.75451, -41.34907], "0122": [-22.97107, -43.37238], "0123": [-19.91725, -43.95433], "0124": [-23.63491, -46.7367], "0125": [-23.461331, -46.527814], "0126": [-22.927065, -43.575446], "0127": [-22.99641, -43.25943], "0128": [-23.61728, -46.70468], "0130": [-23.50658, -46.71854], "0131": [-20.86645, -49.41441], "0132": [-19.88057, -44.03816], "0133": [-23.01112, -43.46097], "0134": [-21.78056, -43.35992], "0136": [-23.53614, -46.77796], "0137": [-20.35204, -40.29771], "0138": [-23.59529, -46.68668], "0139": [-21.79317, -48.17637], "0140": [-27.614597, -48.645527], "0141": [-26.92066, -49.06992], "0142": [-22.88643, -43.28349], "0143": [-26.96362, -48.63974], "0145": [-23.02277, -45.58189], "0146": [-15.788661, -47.883314], "0147": [-3.74123, -38.47233], "0148": [-21.212166, -50.468998], "0149": [-19.8903, -43.96801], "0150": [-22.522475, -44.078243], "0151": [-23.66747, -46.71276], "0152": [-3.75733, -38.488057], "0153": [-23.00302, -44.300008], "0155": [-22.120358, -51.397157], "0156": [-22.99924, -43.35617], "0157": [-30.02496, -51.16225], "0158": [-8.12006, -34.90503], "0159": [-30.084494, -51.245297], "0161": [-22.764102, -43.465905], "0162": [-23.55673, -46.66249], "0163": [-22.88446, -43.55754], "0164": [-12.980284, -38.456889], "0165": [-23.68362, -46.55725], "0166": [-3.72744, -38.56752], "0167": [-16.74177, -49.27668], "0168": [-8.29523, -35.95196], "0169": [-29.17669, -51.21993], "0170": [-15.79549, -47.89267], "0172": [-23.19985, -45.8812], "0174": [-23.57037, -46.66133], "0175": [-23.26417, -47.28024], "0176": [-15.5772, -56.071514], "0178": [-20.34354, -40.40027], "0179": [-12.97806, -38.45543], "0181": [-5.84171, -35.21082], "0183": [-10.94528, -37.04809], "0184": [-22.36859, -46.95364], "0185": [-8.03791, -34.87202], "0186": [-20.31351, -40.28865], "0187": [-29.91581, -51.16516], "0188": [-23.34275, -51.18705], "0189": [-23.44339, -46.54005], "0190": [-23.63622, -46.67027], "0191": [-23.42017, -51.96954], "0192": [-7.99373, -34.84389], "0193": [-9.55868, -35.74631], "0194": [-7.23544, -35.87013], "0195": [-23.5623, -46.6868], "0196": [-23.58994, -46.6188], "0197": [-7.16207, -34.83055], "0198": [-7.09889, -34.84483], "0199": [-23.614592, -46.638594], "0200": [-23.55253, -46.62103], "0201": [-15.5897, -56.11826], "0202": [-8.74815, -63.87579], "0203": [-23.51977, -46.65276], "0204": [-3.76473, -38.57445], "0206": [-25.47784, -49.29076], "0207": [-16.71429, -49.26661], "0208": [-2.52741, -44.2553], "0209": [-28.27102, -52.38545], "0210": [-14.87676, -40.81731], "0211": [-12.936688, -38.394585], "0212": [-23.55399, -46.65271], "0213": [-22.117569, -51.405059], "0214": [-9.62746, -35.69886], "0215": [-5.80935, -35.20406], "0216": [-31.76133, -52.31809], "0217": [-22.92671, -43.239058], "0218": [-22.95596, -43.33719], "0219": [-25.42914, -49.21427], "0220": [-23.51599, -46.17952], "0221": [-1.390294, -48.465665], "0222": [-22.3919, -41.80726], "0223": [-5.07695, -42.8022], "0224": [-22.83028, -47.26605], "0225": [-1.38594, -48.40912], "0226": [-14.79664, -39.27431], "0227": [-22.86427, -47.02153], "0228": [-16.32397, -48.9491], "0230": [-23.19107, -46.87127], "0231": [-15.72087, -47.88589], "0232": [-10.94326, -37.05982], "0234": [-2.53357, -44.22505], "0236": [-23.94637, -46.3306], "0238": [-12.888337, -38.321257], "0239": [-27.58523, -48.61414], "0241": [-27.07015, -52.62631], "0242": [-22.6625, -50.41867], "0243": [-23.59732, -46.48734], "0244": [-19.82143, -43.94744], "0245": [-22.93194, -47.0768], "0246": [-22.95353, -43.19096]}, CD_FIXED = [-23.509183754401036, -46.9267730548887];
 let GEO = {...GEO_FIXED}, CD = {nome:'CD Barueri', lat:CD_FIXED[0], lng:CD_FIXED[1]};
-const ROUTES = new Map(), MAPS = [];
+const ROUTES = new Map(), MAPS = [], PAGE_MAPS = [];
 const hav = (a, b) => { const R = 6371, r = x => x * Math.PI / 180, dl = r(b[0]-a[0]), dn = r(b[1]-a[1]);
   const q = Math.sin(dl/2)**2 + Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2; return 2*R*Math.asin(Math.sqrt(q)); };
 const fmtMin = m => m < 60 ? `${Math.round(m)} min` : `${Math.floor(m/60)} h ${String(Math.round(m%60)).padStart(2,'0')} min`;
@@ -687,7 +738,8 @@ async function bestRoute(pts){
   return res;
 }
 const mapBlock = (id, h) => `<div class="mapbox"><div class="map" id="${id}" style="height:${h}px"></div><div class="mapinfo" id="${id}-i"><span class="ni-dot"></span>Calculando o melhor trajeto…</div></div>`;
-async function drawRoute(id, stores){
+const ROUTE_DRAW = {};
+async function drawRoute(id, stores, opts = {}){
   const el = document.getElementById(id), info = document.getElementById(id+'-i'); if(!el) return;
   const fail = msg => { el.remove(); info.innerHTML = `<span class="mapmsg">${msg}</span>`; };
   if(!window.maplibregl) return fail('Mapa indisponível: não foi possível carregar a biblioteca do mapa.');
@@ -699,15 +751,19 @@ async function drawRoute(id, stores){
   if(!document.body.contains(el)) return;
   const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2F5D7C';
   // Mapa vetorial gratuito, sem chave e sem limite de uso: OpenFreeMap (dados do OpenStreetMap) com MapLibre
-  const map = new maplibregl.Map({container:el, style:'https://tiles.openfreemap.org/styles/liberty', attributionControl:false, dragRotate:false, pitchWithRotate:false});
-  MAPS.push(map);
+  const map = new maplibregl.Map({container:el, style:'https://tiles.openfreemap.org/styles/liberty', attributionControl:false, dragRotate:false, pitchWithRotate:false, preserveDrawingBuffer:!!opts.snap});
+  (opts.page ? PAGE_MAPS : MAPS).push(map);
+  ROUTE_DRAW[id] = {map, pts, order:r.order, withGeo, r};
   map.addControl(new maplibregl.AttributionControl({compact:true}), 'bottom-right');
   map.addControl(new maplibregl.NavigationControl({showCompass:false}), 'top-left');
   map.touchZoomRotate.disableRotation();
   const lineLL = r.line.map(p => [p[1], p[0]]);
   const bounds = lineLL.reduce((b,c) => b.extend(c), new maplibregl.LngLatBounds(lineLL[0], lineLL[0]));
   pts.forEach(p => bounds.extend([p[1], p[0]]));
-  map.fitBounds(bounds, {padding:44, maxZoom:14, duration:0});
+  const fit = () => { map.resize(); map.fitBounds(bounds, {padding:opts.compact ? 30 : 44, maxZoom:14, duration:0}); };
+  fit();
+  // o mapa pode nascer antes de a tabela/modal terminar de se ajustar: reenquadra quando o tamanho muda
+  if(window.ResizeObserver){ let w0 = el.clientWidth; const ro = new ResizeObserver(() => { if(Math.abs(el.clientWidth - w0) > 4){ w0 = el.clientWidth; fit(); } }); ro.observe(el); map.on('remove', () => ro.disconnect()); }
   map.on('load', () => {
     // demais lojas, em pontos claros, só para referência
     const inRoute = new Set(withGeo.map(s => s.code));
@@ -731,7 +787,12 @@ async function drawRoute(id, stores){
   };
   marker(pts[0], 'CD', 'cd', CD.nome || 'CD');
   r.order.forEach((ix,k) => { const s = withGeo[ix-1]; marker(pts[ix], k+1, 'st', `${k+1}. ${s.code} ${s.name}`); });
-  setTimeout(() => map.resize(), 80);
+  setTimeout(fit, 80); map.once('load', fit);
+  if(opts.compact){
+    info.innerHTML = `<p class="rtot" style="margin:0"><b>${fmtKm(r.km)}</b>, cerca de <b>${fmtMin(r.min)}</b> saindo do ${esc(CD.nome || 'CD')}${r.exact ? '' : ' (estimado em linha reta)'}.</p>
+      <p class="rnote" style="margin:0">Ordem: ${r.order.map((ix,k) => `${k+1}. ${esc(withGeo[ix-1].name)}`).join(' → ')}${miss.length ? `. Sem coordenadas: ${miss.map(s => s.code).join(', ')}` : ''}.</p>`;
+    return;
+  }
   info.innerHTML = `<ol class="rsteps"><li class="cd"><b>Saída:</b> ${esc(CD.nome || 'CD')}</li>${r.order.map((ix,k) => { const s = withGeo[ix-1], l = r.legs[k];
       return `<li><b>${k+1}.</b> <button class="linkbtn" data-code="${s.code}">${s.code} ${esc(s.name)}</button> <span>${esc(s.city)}/${s.uf}</span><em>+${fmtKm(l.km)}, ${fmtMin(l.min)}</em></li>`; }).join('')}</ol>
     <p class="rtot"><b>${fmtKm(r.km)}</b> no total, cerca de <b>${fmtMin(r.min)}</b> de deslocamento.</p>
@@ -747,6 +808,7 @@ function openGroupMap(g){
 /* ---------- Modais ---------- */
 const md = $('#md');
 function showMd(html){
+  md.classList.remove('wide');
   while(MAPS.length){ try{ MAPS.pop().remove(); }catch(e){} }
   $('#mdIn').innerHTML = html; $('#mdClose').onclick = () => md.close(); tip.classList.remove('on');
   if(!md.open) md.showModal(); md.scrollTop = 0;
@@ -1075,6 +1137,7 @@ const PAGES = ['resumo','regionais','lojas','grupos','motivos'];
 let cur = 'resumo';
 function refreshAll(){
   dstat();
+  if(cur === 'simulador'){ renderSimPage(); return; }
   if(cur === 'responder'){
     if(!/[?&]loja=/.test(location.hash)) openForm(location.hash.slice(1));
     else if(F && !F.sent){
@@ -1088,6 +1151,14 @@ function refreshAll(){
 function show(id, push){
   const raw = String(id || ''), base = raw.split('?')[0];
   if(md.open) md.close();
+  if(base === 'simulador'){
+    cur = 'simulador'; document.body.classList.add('form-mode', 'sim-mode');
+    document.querySelectorAll('main>section').forEach(s => s.classList.toggle('active', s.id === 'simulador'));
+    document.title = 'Agrupamentos abastecidos por Simulador';
+    renderSimPage(); scrollTo({top:0, behavior:'instant'}); return;
+  }
+  document.body.classList.remove('sim-mode');
+  while(PAGE_MAPS.length){ try{ PAGE_MAPS.pop().remove(); }catch(e){} }
   if(base === 'responder'){
     cur = 'responder'; document.body.classList.add('form-mode');
     document.querySelectorAll('main>section').forEach(s => s.classList.toggle('active', s.id === 'responder'));
