@@ -106,15 +106,10 @@ function restrAt(code, i, h) {
 }
 // "pode receber" para os cálculos: a loja recebe e, se a opção estiver ligada, o caminhão pode circular
 const ok = (code, i, h) => RESP[code].d[i][h] === 'S' && !(TR && restrAt(code, i, h));
-const conflictN = code => {
-    const r = RESP[code];
-    if (!r || !RESTR[code]) return 0;
-    let n = 0;
-    for (let i = 0; i < 6; i++)
+const conflictN = code => { const r = RESP[code]; if (!r || !RESTR[code]) return 0; let n = 0; for (let i = 0; i < 6; i++)
         for (let h = 0; h < NH; h++)
             if (r.d[i][h] === 'S' && restrAt(code, i, h)) n++;
-    return n;
-};
+    return n; };
 const hhf = x => String(Math.floor(x)).padStart(2, '0') + 'h' + (x % 1 ? String(Math.round(x % 1 * 60)).padStart(2, '0') : '');
 
 function rulesTxt(code) {
@@ -126,13 +121,10 @@ function rulesTxt(code) {
     }).join('; ');
 }
 
-function setTR(on) {
-    TR = on;
-    const b = $('#gTr');
+function setTR(on) { TR = on; const b = $('#gTr');
     b.setAttribute('aria-pressed', on);
     b.classList.toggle('on', on);
-    refreshAll();
-}
+    refreshAll(); }
 
 /* ---------- Respostas (planilha) ---------- */
 let RESP = {},
@@ -153,11 +145,8 @@ function parseResp(lojas) {
     return out;
 }
 async function loadResp() {
-    if (!FORM_ENDPOINT) {
-        RSTATE = 'off';
-        refreshAll();
-        return;
-    }
+    if (!FORM_ENDPOINT) { RSTATE = 'off';
+        refreshAll(); return; }
     RSTATE = 'loading';
     dstat();
     try {
@@ -167,10 +156,8 @@ async function loadResp() {
         RESP = parseResp(j.lojas);
         DEMO = false;
         RSTATE = 'ok';
-        if (Array.isArray(j.restricoes) && j.restricoes.length) {
-            RESTR = buildRestr(j.restricoes);
-            RZSRC = 'planilha';
-        }
+        if (Array.isArray(j.restricoes) && j.restricoes.length) { RESTR = buildRestr(j.restricoes);
+            RZSRC = 'planilha'; }
         if (j.coords) GEO = {...GEO_FIXED, ...j.coords };
         if (j.abastecimento) ABAST = j.abastecimento;
         if (j.cd) CD = j.cd;
@@ -215,33 +202,20 @@ function makeDemo() {
 
 function setDemo(on) {
     DEMO = on;
-    if (on) {
-        RESP = parseResp(makeDemo());
-        RSTATE = 'demo';
-    } else {
-        RESP = {};
-        RSTATE = FORM_ENDPOINT ? 'loading' : 'off';
-        if (FORM_ENDPOINT) { loadResp(); return; }
-    }
+    if (on) { RESP = parseResp(makeDemo());
+        RSTATE = 'demo'; } else { RESP = {};
+        RSTATE = FORM_ENDPOINT ? 'loading' : 'off'; if (FORM_ENDPOINT) { loadResp(); return; } }
     refreshAll();
 }
 
 function dstat() {
     const el = $('#dstat'),
         n = Object.keys(RESP).length;
-    if (RSTATE === 'demo') {
-        el.innerHTML = `<span class="demo-flag">Dados de exemplo</span><span>Números ilustrativos, não são respostas reais.</span><button class="linkbtn" id="dsx">Sair do exemplo</button>`;
-        $('#dsx').onclick = () => setDemo(false);
-        return;
-    }
+    if (RSTATE === 'demo') { el.innerHTML = `<span class="demo-flag">Dados de exemplo</span><span>Números ilustrativos, não são respostas reais.</span><button class="linkbtn" id="dsx">Sair do exemplo</button>`;
+        $('#dsx').onclick = () => setDemo(false); return; }
     if (RSTATE === 'loading') { el.innerHTML = '<span class="dot"></span>Carregando respostas…'; return; }
-    if (RSTATE === 'ok') {
-        el.innerHTML = `<span class="dot ok"></span><span>${n} de ${STORES.length} lojas responderam. Atualizado às ${RAT}.</span><button class="linkbtn" id="dsr">Atualizar</button>${n?'':'<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>'}`;
-        $('#dsr').onclick = loadResp;
-        const dd = $('#dsd');
-        if (dd) dd.onclick = () => setDemo(true);
-        return;
-    }
+    if (RSTATE === 'ok') { el.innerHTML = `<span class="dot ok"></span><span>${n} de ${STORES.length} lojas responderam. Atualizado às ${RAT}.</span><button class="linkbtn" id="dsr">Atualizar</button>${n?'':'<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>'}`;
+        $('#dsr').onclick = loadResp; const dd = $('#dsd'); if (dd) dd.onclick = () => setDemo(true); return; }
     const msg = RSTATE === 'err' ? 'Não foi possível carregar as respostas.' : 'A planilha de respostas ainda não foi conectada.';
     el.innerHTML = `<span class="dot err"></span><span>${msg}</span>${RSTATE==='err'?'<button class="linkbtn" id="dsr">Tentar de novo</button>':''}<button class="linkbtn" id="dsd">Ver com dados de exemplo</button>`;
     const r = $('#dsr');
@@ -261,26 +235,19 @@ function syncChip(sel) {
 $('#gReg').innerHTML = '<option value="">Todos</option>' + REGS.map(r => `<option>${esc(r)}</option>`).join('');
 $('#gUf').innerHTML = '<option value="">Todas</option>' + UFS.map(u => `<option>${u}</option>`).join('');
 
-function setG(k, v) {
-    G[k] = v;
-    const el = $(k === 'reg' ? '#gReg' : '#gUf');
+function setG(k, v) { G[k] = v; const el = $(k === 'reg' ? '#gReg' : '#gUf');
     el.value = v;
     syncChip(el);
     $('#gClear').hidden = !(G.reg || G.uf);
-    refreshAll();
-}
+    refreshAll(); }
 $('#gReg').onchange = e => setG('reg', e.target.value);
 $('#gUf').onchange = e => setG('uf', e.target.value);
-$('#gClear').onclick = () => {
-    G.reg = '';
+$('#gClear').onclick = () => { G.reg = '';
     G.uf = '';
-    ['#gReg', '#gUf'].forEach(id => {
-        $(id).value = '';
-        syncChip($(id));
-    });
+    ['#gReg', '#gUf'].forEach(id => { $(id).value = '';
+        syncChip($(id)); });
     $('#gClear').hidden = true;
-    refreshAll();
-};
+    refreshAll(); };
 [$('#gReg'), $('#gUf')].forEach(syncChip);
 $('#gTr').onclick = () => setTR(!TR);
 
@@ -293,44 +260,29 @@ function stats(list) {
     resp.forEach(s => {
         const r = RESP[s.code];
         let all = true;
-        r.d.forEach((row, i) => {
-            for (let h = 0; h < NH; h++) {
-                if (ok(s.code, i, h)) {
-                    yes[i][h]++;
-                    ys++;
-                } else all = false;
-            }
-        });
+        r.d.forEach((row, i) => { for (let h = 0; h < NH; h++) { if (ok(s.code, i, h)) { yes[i][h]++;
+                    ys++; } else all = false; } });
         if (all) full++;
     });
     return { list, resp, n: resp.length, yes, ys, cells: resp.length * NC, full };
 }
 const scopeLabel = () => [G.reg && `regional ${G.reg}`, G.uf && `UF ${G.uf}`].filter(Boolean).join(', ');
-const storeAvail = code => {
-    let n = 0;
-    for (let i = 0; i < 6; i++)
+const storeAvail = code => { let n = 0; for (let i = 0; i < 6; i++)
         for (let h = 0; h < NH; h++)
             if (ok(code, i, h)) n++;
-    return n;
-};
+    return n; };
 
 function winLabel(keys) {
     const byDay = DAYS.map(() => []);
-    keys.forEach(k => {
-        const [i, h] = k.split('|').map(Number);
-        byDay[i].push(h);
-    });
+    keys.forEach(k => { const [i, h] = k.split('|').map(Number);
+        byDay[i].push(h); });
     const dayTxt = byDay.map(hs => {
         hs.sort((a, b) => a - b);
         const rs = [];
         let a = null,
             p = null;
-        hs.forEach(h => {
-            if (a === null) { a = p = h; } else if (h === p + 1) { p = h; } else {
-                rs.push([a, p]);
-                a = p = h;
-            }
-        });
+        hs.forEach(h => { if (a === null) { a = p = h; } else if (h === p + 1) { p = h; } else { rs.push([a, p]);
+                a = p = h; } });
         if (a !== null) rs.push([a, p]);
         return rs.map(([x, y]) => x === 0 && y === NH - 1 ? 'dia todo' : `${hh(x)}–${String(H0+y+1).padStart(2,'0')}h`).join(', ');
     });
@@ -709,6 +661,18 @@ async function drawRoute(id, stores){
   pts.forEach(p => bounds.extend([p[1], p[0]]));
   map.fitBounds(bounds, {padding:44, maxZoom:14, duration:0});
   map.on('load', () => {
+    // demais lojas, em pontos claros, só para referência
+    const inRoute = new Set(withGeo.map(s => s.code));
+    map.addSource('outras', {type:'geojson', data:{type:'FeatureCollection', features:STORES.filter(s => GEO[s.code] && !inRoute.has(s.code)).map(s => ({type:'Feature',
+      properties:{code:s.code, label:`${s.code} ${s.name}`, sub:`${s.city}/${s.uf}${s.grp ? `, ${s.grp}` : ''}`},
+      geometry:{type:'Point', coordinates:[Number(GEO[s.code][1]), Number(GEO[s.code][0])]}}))}});
+    map.addLayer({id:'outras', type:'circle', source:'outras', paint:{'circle-radius':['interpolate',['linear'],['zoom'],4,3.5,10,6,14,8],
+      'circle-color':'#8A97A6', 'circle-opacity':.55, 'circle-stroke-color':'#ffffff', 'circle-stroke-width':1.2, 'circle-stroke-opacity':.8}});
+    const pop = new maplibregl.Popup({closeButton:false, closeOnClick:false, offset:10});
+    map.on('mouseenter', 'outras', e => { map.getCanvas().style.cursor = 'pointer'; const p = e.features[0].properties;
+      pop.setLngLat(e.features[0].geometry.coordinates).setHTML(`<b>${esc(p.label)}</b><br><span style="color:#5D6B7A">${esc(p.sub)}</span>`).addTo(map); });
+    map.on('mouseleave', 'outras', () => { map.getCanvas().style.cursor = ''; pop.remove(); });
+    map.on('click', 'outras', e => openStore(e.features[0].properties.code));
     map.addSource('rota', {type:'geojson', data:{type:'Feature', geometry:{type:'LineString', coordinates:lineLL}}});
     map.addLayer({id:'rota-borda', type:'line', source:'rota', layout:{'line-join':'round','line-cap':'round'}, paint:{'line-color':'#ffffff','line-width':8,'line-opacity':.9}});
     map.addLayer({id:'rota', type:'line', source:'rota', layout:{'line-join':'round','line-cap':'round'}, paint:{'line-color':accent,'line-width':4.5, ...(r.exact ? {} : {'line-dasharray':[2,2]})}});
@@ -723,7 +687,7 @@ async function drawRoute(id, stores){
   info.innerHTML = `<ol class="rsteps"><li class="cd"><b>Saída:</b> ${esc(CD.nome || 'CD')}</li>${r.order.map((ix,k) => { const s = withGeo[ix-1], l = r.legs[k];
       return `<li><b>${k+1}.</b> <button class="linkbtn" data-code="${s.code}">${s.code} ${esc(s.name)}</button> <span>${esc(s.city)}/${s.uf}</span><em>+${fmtKm(l.km)}, ${fmtMin(l.min)}</em></li>`; }).join('')}</ol>
     <p class="rtot"><b>${fmtKm(r.km)}</b> no total, cerca de <b>${fmtMin(r.min)}</b> de deslocamento.</p>
-    <p class="rnote">${r.exact ? 'Trajeto por ruas calculado pelo OSRM (OpenStreetMap), com perfil de carro e sem trânsito; não considera restrições para caminhão.' : 'O serviço de rotas não respondeu agora: o trajeto aparece em linha reta, com distância e tempo estimados.'}${miss.length ? ` Sem coordenadas: ${miss.map(s => s.code).join(', ')}.` : ''}</p>`;
+    <p class="rnote"><span class="dotl"></span>Pontos cinza: demais lojas, só para referência (clique para abrir a ficha). ${r.exact ? 'Trajeto por ruas calculado pelo OSRM (OpenStreetMap), com perfil de carro e sem trânsito; não considera restrições para caminhão.' : 'O serviço de rotas não respondeu agora: o trajeto aparece em linha reta, com distância e tempo estimados.'}${miss.length ? ` Sem coordenadas: ${miss.map(s => s.code).join(', ')}.` : ''}</p>`;
 }
 function openGroupMap(g){
   const info = groupInfo(g);
