@@ -555,9 +555,9 @@ function simRows(){
   });
 }
 function simTable(rows, pfx, mapH){
-  return `<div class="tblwrap"><table class="xtab"><thead><tr><th>Agrupamento</th><th class="num">Lojas</th><th>Lojas do agrupamento</th><th class="xmap">Rota saindo do CD</th></tr></thead>
+  return `<div class="tblwrap"><table class="xtab"><thead><tr><th>Agrupamento</th><th class="num">Lojas</th><th>Lojas do agrupamento</th><th>Rota</th></tr></thead>
     <tbody>${rows.map((r,i) => `<tr><td><b>${esc(r.g)}</b></td><td class="num">${r.n}</td><td><ul class="xlist">${r.lojas.map(l => `<li>${esc(l)}</li>`).join('')}</ul></td>
-      <td class="xmap">${mapBlock(`${pfx}${i}`, mapH)}</td></tr>`).join('')}</tbody>
+      <td class="xroute"><button type="button" class="linkbtn" data-gmap="${esc(r.g)}" data-back="${pfx}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-2px;margin-right:4px"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Ver rota no mapa</button></td></tr>`).join('')}</tbody>
     <tfoot><tr><td>Total</td><td class="num">${rows.reduce((a,r) => a + r.n, 0)}</td><td></td><td></td></tr></tfoot></table></div>`;
 }
 const simStores = g => STORES.filter(s => s.grp === g).sort((a,b) => pt(a.code,b.code));
@@ -567,10 +567,8 @@ function openExtract(){
       <p>${rows.length ? `${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${tot} lojas.` : 'Nenhum agrupamento está marcado como Simulador.'}</p></div>${closeBtn()}</div>
     ${rows.length ? `<div class="xact"><a class="fbtn ghost" href="#simulador" target="_blank" rel="noopener" style="text-decoration:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3h7v7M10 14 21 3M21 14v7H3V3h7"/></svg>Exportar página</a>
       <button class="fbtn" id="xPng" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Salvar como imagem</button></div>
-      ${simTable(rows, 'xm', 220)}`
+      ${simTable(rows, 'xm')}`
       : `<div class="pendbox">Marque "Simulador" na chave de abastecimento dos agrupamentos para que eles apareçam aqui.</div>`}`);
-  md.classList.add('wide');
-  rows.forEach((r,i) => drawRoute(`xm${i}`, simStores(r.g), {compact:true, snap:true}));
   const b = $('#xPng'); if(b) b.onclick = () => savePng(rows, tot, 'xm', b);
 }
 /* Página exportada só com o resumo (#simulador) */
@@ -581,9 +579,9 @@ function renderSimPage(){
   root.innerHTML = `<header class="simhead"><div><p class="meta" style="margin:0">Janelas de recebimento das lojas</p><h1>Agrupamentos abastecidos por Simulador</h1>
       <p class="sub">${RSTATE === 'loading' ? 'Carregando dados da planilha…' : rows.length ? `${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${tot} lojas. Gerado em ${quando}.` : 'Nenhum agrupamento está marcado como Simulador.'}</p></div>
     <div class="simact"><button class="fbtn ghost" id="spPrint" type="button">Imprimir ou salvar PDF</button><button class="fbtn" id="spPng" type="button">Salvar como imagem</button></div></header>
-    ${rows.length ? simTable(rows, 'sp', 300) : ''}`;
-  rows.forEach((r,i) => drawRoute(`sp${i}`, simStores(r.g), {compact:true, snap:true, page:true}));
+    ${rows.length ? simTable(rows, 'sp') : ''}`;
   $('#spPrint').onclick = () => print();
+  root.onclick = e => { const gm = e.target.closest('[data-gmap]'); if(gm) openGroupMap(gm.dataset.gmap); };
   $('#spPng').onclick = e => rows.length && savePng(rows, tot, 'sp', e.currentTarget);
 }
 // Desenha a tabela (com os mapas, quando disponíveis) num canvas e baixa como PNG
@@ -591,9 +589,7 @@ const waitIdle = m => new Promise(res => { if(!m || m.loaded()) return res(); co
 async function savePng(rows, tot, pfx, btn){
   if(btn){ btn.disabled = true; btn.dataset.t = btn.innerHTML; btn.textContent = 'Gerando imagem…'; }
   try{
-    await Promise.all(rows.map((_,i) => waitIdle(ROUTE_DRAW[pfx+i] && ROUTE_DRAW[pfx+i].map)));
-    let blob = await buildPng(rows, tot, pfx, true).catch(() => null);
-    if(!blob) blob = await buildPng(rows, tot, pfx, false);
+    const blob = await buildPng(rows, tot, pfx, false);
     const a = document.createElement('a'), d = new Date();
     a.href = URL.createObjectURL(blob);
     a.download = `agrupamentos-simulador-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.png`;
@@ -798,11 +794,12 @@ async function drawRoute(id, stores, opts = {}){
     <p class="rtot"><b>${fmtKm(r.km)}</b> no total, cerca de <b>${fmtMin(r.min)}</b> de deslocamento.</p>
     <p class="rnote"><span class="dotl"></span>Pontos cinza: demais lojas, só para referência (clique para abrir a ficha). ${r.exact ? 'Trajeto por ruas calculado pelo OSRM (OpenStreetMap), com perfil de carro e sem trânsito; não considera restrições para caminhão.' : 'O serviço de rotas não respondeu agora: o trajeto aparece em linha reta, com distância e tempo estimados.'}${miss.length ? ` Sem coordenadas: ${miss.map(s => s.code).join(', ')}.` : ''}</p>`;
 }
-function openGroupMap(g){
+function openGroupMap(g, back){
   const info = groupInfo(g);
-  showMd(`<div class="md-head"><div><p class="meta" style="margin:0">Rota do agrupamento, saindo do ${esc(CD ? CD.nome : 'CD Barueri')}</p><h2 id="mdTitle">${esc(grpName(g))}</h2>
+  showMd(`${back ? `<button type="button" class="linkbtn backx" id="mdBack">← Voltar para a extração</button>` : ''}<div class="md-head"><div><p class="meta" style="margin:0">Rota do agrupamento, saindo do ${esc(CD ? CD.nome : 'CD Barueri')}</p><h2 id="mdTitle">${esc(grpName(g))}</h2>
     <p>${info.ss.length} lojas, na ordem de menor deslocamento.</p></div>${closeBtn()}</div>${mapBlock('mapG', 440)}`);
   drawRoute('mapG', info.ss);
+  const bk = $('#mdBack'); if(bk) bk.onclick = openExtract;
 }
 
 /* ---------- Modais ---------- */
@@ -815,7 +812,7 @@ function showMd(html){
   const t = $('#mdTitle'); if(t){ t.tabIndex = -1; t.focus({preventScroll:true}); }
 }
 md.addEventListener('click', e => { if(e.target === md) md.close(); });
-$('#mdIn').addEventListener('click', e => { const gm = e.target.closest('[data-gmap]'); if(gm){ openGroupMap(gm.dataset.gmap); return; } const c = e.target.closest('[data-code]'); if(c && !c.closest('.md-head')) openStore(c.dataset.code); });
+$('#mdIn').addEventListener('click', e => { const gm = e.target.closest('[data-gmap]'); if(gm){ openGroupMap(gm.dataset.gmap, gm.dataset.back === 'xm'); return; } const c = e.target.closest('[data-code]'); if(c && !c.closest('.md-head')) openStore(c.dataset.code); });
 function openStore(code){
   const s = byCode[code], r = RESP[code];
   let body;
