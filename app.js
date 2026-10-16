@@ -455,13 +455,13 @@ async function extrairGrade(btn){
   try{
     await loadExcelJS();
     const lojas = STORES.filter(inScope).slice()
-      .sort((a,b) => (a.grp ? 0 : 1) - (b.grp ? 0 : 1) || pt(a.grp, b.grp) || pt(a.code, b.code));
+      .sort((a,b) => pt(a.name, b.name) || pt(a.code, b.code));
     const wb = new ExcelJS.Workbook();
     // Modelo: uma linha por loja; para cada dia, 18 colunas de hora (5 a 22); verde recebe, vermelho não recebe
     const ws = wb.addWorksheet('Grade', {views:[{state:'frozen', xSplit:1, ySplit:2}]});
     const fill = argb => ({type:'pattern', pattern:'solid', fgColor:{argb}});
     const F = {cab:fill('FF262626'), sim:fill('FFCCFFCC'), nao:fill('FFFF7C80'), sem:fill('FFEDEDED')};
-    const branco = {style:'thin', color:{argb:'FFFFFFFF'}}, divisa = {style:'medium', color:{argb:'FF262626'}};
+    const branco = {style:'thin', color:{argb:'FFFFFFFF'}}, divisa = {style:'medium', color:{argb:'FF262626'}}, tracejado = {style:'dashed', color:{argb:'FF8A97A6'}};
     const fCab = {name:'Arial', size:10, bold:true, color:{argb:'FFFFFFFF'}}, fHora = {...fCab, size:8}, fLoja = {name:'Arial', size:10};
     const col0 = di => 2 + di * NH;                       // primeira coluna de cada dia
     const ULT = 1 + 6 * NH;
@@ -481,12 +481,12 @@ async function extrairGrade(btn){
     // uma linha por loja
     lojas.forEach((s, k) => {
       const r = 3 + k, resp = RESP[s.code];
-      const a = ws.getCell(r, 1); a.value = `${s.code} - ${s.name}`; a.font = fLoja; a.alignment = {vertical:'middle'};
+      const a = ws.getCell(r, 1); a.value = `${s.code} - ${s.name}`; a.font = fLoja; a.alignment = {vertical:'middle'}; a.border = {bottom:tracejado};
       DAYS.forEach((_, di) => {
         for(let h=0;h<NH;h++){
           const c = ws.getCell(r, col0(di) + h);
           c.fill = !resp ? F.sem : resp.d[di][h] === 'S' ? F.sim : F.nao;
-          if(h === 0) c.border = {left:divisa};
+          c.border = {bottom:tracejado, ...(h === 0 ? {left:divisa} : {})};
         }
       });
     });
