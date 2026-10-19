@@ -345,57 +345,67 @@ async function extrairGrade(btn){
   try{
     await loadExcelJS();
     const lojas = STORES.filter(inScope).slice()
-      .sort((a,b) => pt(a.name, b.name) || pt(a.code, b.code));
+      .sort((a,b) => (a.grp ? 0 : 1) - (b.grp ? 0 : 1) || pt(a.grp, b.grp) || ((a.op && a.op.ordem) || 99) - ((b.op && b.op.ordem) || 99) || pt(a.name, b.name));
     const wb = new ExcelJS.Workbook();
-    // Modelo: uma linha por loja; para cada dia, 18 colunas de hora (5 a 22); verde recebe, vermelho não recebe
-    const ws = wb.addWorksheet('Grade', {views:[{state:'frozen', xSplit:1, ySplit:2}]});
+    // Resumo por períodos: Agrupamento | Loja | Caminhão | Altura | dias da semana | Manhã, Tarde, Noite
+    const ws = wb.addWorksheet('Resumo', {views:[{state:'frozen', xSplit:2, ySplit:2}], pageSetup:{orientation:'landscape', fitToPage:true, fitToWidth:1, fitToHeight:0, paperSize:9}});
     const fill = argb => ({type:'pattern', pattern:'solid', fgColor:{argb}});
-    const F = {cab:fill('FF262626'), sim:fill('FFCCFFCC'), nao:fill('FFFF7C80'), sem:fill('FFEDEDED')};
-    const branco = {style:'thin', color:{argb:'FFFFFFFF'}}, divisa = {style:'medium', color:{argb:'FF262626'}}, tracejado = {style:'dashed', color:{argb:'FF8A97A6'}};
-    const fCab = {name:'Arial', size:10, bold:true, color:{argb:'FFFFFFFF'}}, fHora = {...fCab, size:8}, fLoja = {name:'Arial', size:10};
-    const col0 = di => 2 + di * NH;                       // primeira coluna de cada dia
-    const ULT = 1 + 6 * NH;
-    // cabeçalho
-    const c11 = ws.getCell(1,1); c11.fill = F.cab; c11.border = {left:branco, top:branco, bottom:branco};
-    const c21 = ws.getCell(2,1); c21.value = 'Loja'; c21.fill = F.cab; c21.font = fCab; c21.alignment = {horizontal:'center', vertical:'middle'}; c21.border = {left:branco, top:branco};
-    DAYS.forEach((dia, di) => {
-      ws.mergeCells(1, col0(di), 1, col0(di) + NH - 1);
-      const t = ws.getCell(1, col0(di)); t.value = dia; t.fill = F.cab; t.font = fCab; t.alignment = {horizontal:'center', vertical:'middle'};
-      for(let h=0;h<NH;h++){
-        const c = ws.getCell(2, col0(di) + h);
-        c.value = H0 + h; c.fill = F.cab; c.font = fHora; c.alignment = {horizontal:'center', vertical:'middle'};
-        c.border = {top:branco, right:branco, ...(h === 0 ? {left:divisa} : {})};
-        ws.getCell(1, col0(di) + h).border = {bottom:branco, ...(h === 0 ? {left:divisa} : {})};
-      }
-    });
-    // uma linha por loja
-    lojas.forEach((s, k) => {
-      const r = 3 + k, resp = RESP[s.code];
-      const a = ws.getCell(r, 1); a.value = `${s.code} - ${s.name}`; a.font = fLoja; a.alignment = {vertical:'middle'}; a.border = {bottom:tracejado};
-      DAYS.forEach((_, di) => {
-        for(let h=0;h<NH;h++){
-          const c = ws.getCell(r, col0(di) + h);
-          c.fill = !resp ? F.sem : resp.d[di][h] === 'S' ? F.sim : F.nao;
-          c.border = {bottom:tracejado, ...(h === 0 ? {left:divisa} : {})};
-        }
+    const fonte = (argb, bold = true, size = 10) => ({name:'Arial', size, bold, color:{argb}});
+    const fino = {style:'thin', color:{argb:'FFE3E7EB'}}, grosso = {style:'medium', color:{argb:'FF8A97A6'}};
+    const C = {cab:fill('FFF2F5F7'), dOn:fill('FFDCEFEA'), off:fill('FFF5F5F5'), m:fill('FFFCE8C3'), t:fill('FFF9D6C3'), n:fill('FFDCDDF2'), grp:fill('FFE8F0F6')};
+    const DL = ['S','T','Q','Q','S','S','D'], DN = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+    const PERS = [['Manhã','M',C.m,'FF8A5A00'], ['Tarde','T',C.t,'FFA3461C'], ['Noite','N',C.n,'FF3A3F8F']];
+    const NC = 4 + 7 + 3;
+    // cabeçalho em duas linhas
+    ['Agrupamento','Loja','Caminhão','Altura'].forEach((t,k) => { ws.mergeCells(1,k+1,2,k+1); ws.getCell(1,k+1).value = t; });
+    ws.mergeCells(1,5,1,11); ws.getCell(1,5).value = 'Dias da semana';
+    ws.mergeCells(1,12,1,14); ws.getCell(1,12).value = 'Horários';
+    DN.forEach((d,k) => ws.getCell(2,5+k).value = d);
+    PERS.forEach(([n],k) => ws.getCell(2,12+k).value = n);
+    for(let r=1;r<=2;r++) for(let c=1;c<=NC;c++){ const cl = ws.getCell(r,c); cl.fill = C.cab; cl.font = fonte('FF33404D'); cl.alignment = {horizontal:'center', vertical:'middle'}; cl.border = {bottom:fino}; }
+    ws.getRow(1).height = 20; ws.getRow(2).height = 20;
+    // linhas
+    let r = 3, g0 = null, gIni = 3;
+    const fechaGrupo = fim => { if(fim > gIni) ws.mergeCells(gIni, 1, fim, 1); };
+    lojas.forEach(s => {
+      const g = s.grp || 'Sem agrupamento';
+      if(g !== g0){ if(g0 !== null) fechaGrupo(r-1); g0 = g; gIni = r; }
+      const resp = RESP[s.code], per = periodos(s.code);
+      const row = ws.getRow(r); row.height = 18;
+      row.getCell(1).value = g; row.getCell(2).value = `${s.code} - ${s.name}${resp ? '' : ' (sem resposta)'}`;
+      row.getCell(3).value = s.truck || '–'; row.getCell(4).value = s.ativo || '–';
+      for(let c=1;c<=4;c++){ const cl = row.getCell(c); cl.font = c === 1 ? fonte('FF2F5D7C') : fonte(resp || c > 2 ? 'FF1D2733' : 'FF8A97A6', c === 1, 10); cl.alignment = {vertical:'middle', horizontal: c <= 2 ? 'left' : 'center', wrapText: c === 1}; }
+      row.getCell(1).fill = C.grp; row.getCell(1).alignment = {vertical:'middle', horizontal:'center', wrapText:true};
+      DL.forEach((l,k) => {
+        const on = resp && k < 6 && resp.d[k].includes('S'), cl = row.getCell(5+k);
+        cl.value = l; cl.fill = on ? C.dOn : C.off; cl.font = fonte(on ? 'FF2E7D6B' : 'FFC2C8CE'); cl.alignment = {horizontal:'center', vertical:'middle'};
       });
+      PERS.forEach(([n,l,f,cor],k) => {
+        const on = per && per[k].on, cl = row.getCell(12+k);
+        cl.value = l; cl.fill = on ? f : C.off; cl.font = fonte(on ? cor : 'FFC2C8CE'); cl.alignment = {horizontal:'center', vertical:'middle'};
+        if(on) cl.note = `${n}: ${dayList(per[k].dias)}`;
+      });
+      for(let c=1;c<=NC;c++) ws.getCell(r,c).border = {bottom:fino, ...(r === gIni ? {top:grosso} : {})};
+      r++;
     });
-    ws.getColumn(1).width = 30;
-    for(let c=2;c<=ULT;c++) ws.getColumn(c).width = 2.6;
-    // legenda à direita
-    const L = ULT + 2;
-    ws.getColumn(L).width = 3; ws.getColumn(L+1).width = 34;
-    ws.getCell(1, L).value = 'Legenda'; ws.getCell(1, L).font = {name:'Arial', size:10, bold:true};
-    [['Recebe', F.sim], ['Não recebe', F.nao], ['Loja ainda não respondeu', F.sem]]
-      .forEach(([txt, f], i) => { ws.getCell(2+i, L).fill = f; const c = ws.getCell(2+i, L+1); c.value = txt; c.font = fLoja; });
-    const info = ws.getCell(6, L+1);
-    info.value = `Gerado em ${new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace(',','')}${scopeLabel() ? `, ${scopeLabel()}` : ''}${RSTATE === 'demo' ? '. DADOS DE EXEMPLO' : ''}.`;
-    info.font = {name:'Arial', size:9, color:{argb:'FF5D6B7A'}};
+    if(g0 !== null) fechaGrupo(r-1);
+    ws.getColumn(1).width = 28; ws.getColumn(2).width = 40; ws.getColumn(3).width = 11; ws.getColumn(4).width = 14;
+    for(let c=5;c<=11;c++) ws.getColumn(c).width = 5.5;
+    for(let c=12;c<=14;c++) ws.getColumn(c).width = 8.5;
+    // legenda
+    const L = NC + 2;
+    ws.getColumn(L).width = 4; ws.getColumn(L+1).width = 44;
+    ws.getCell(1, L).value = 'Legenda'; ws.getCell(1, L).font = fonte('FF1D2733');
+    [['Dia colorido: a loja recebe em algum horário do dia', C.dOn], ['Manhã: recebe em alguma faixa das 05h às 11h', C.m], ['Tarde: recebe em alguma faixa das 11h às 17h', C.t], ['Noite: recebe em alguma faixa das 17h às 23h', C.n], ['Cinza: não recebe (domingo não tem recebimento)', C.off]]
+      .forEach(([txt, f], k) => { ws.getCell(2+k, L).fill = f; const c = ws.getCell(2+k, L+1); c.value = txt; c.font = fonte('FF33404D', false); });
+    const info = ws.getCell(8, L+1);
+    info.value = `Fonte: pesquisa das lojas. Gerado em ${new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace(',','')}${scopeLabel() ? `, ${scopeLabel()}` : ''}${RSTATE === 'demo' ? '. DADOS DE EXEMPLO' : ''}.`;
+    info.font = fonte('FF5D6B7A', false, 9);
     const buf = await wb.xlsx.writeBuffer();
     const blob = new Blob([buf], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
     const a = document.createElement('a'), d = new Date();
     a.href = URL.createObjectURL(blob);
-    a.download = `grade-recebimento-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.xlsx`;
+    a.download = `resumo-recebimento-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
   }catch(e){
     alert('Não foi possível gerar a planilha agora. Verifique a internet e tente de novo.');
@@ -452,7 +462,7 @@ function groupTable(info, hl){
   const {ss, common, g} = info;
   return `<div class="tblwrap" style="border:0;border-radius:0"><table class="gtab${hl?' focus':''}"><thead><tr><th>Loja</th>${DS.map(d=>`<th>${d}</th>`).join('')}<th>Faixas</th></tr></thead>
   <tbody>${ss.map(s => { const r = RESP[s.code], extra = [s.truck, s.ativo].filter(Boolean).join(', ');
-    return `<tr data-code="${s.code}" class="${s.code===hl?'hl':''}"><td><div class="ln">${s.op && s.op.ordem ? `<span class="ordn" title="Ordem no agrupamento">${s.op.ordem}</span>` : ''}<small>${s.code}</small><b>${esc(s.name)}</b>${s.code===hl?'<span class="thisone">esta loja</span>':''}</div>
+    return `<tr data-code="${s.code}" class="${s.code===hl?'hl':''}"><td><div class="ln"><small>${s.code}</small><b>${esc(s.name)}</b>${s.code===hl?'<span class="thisone">esta loja</span>':''}</div>
       <div class="gsub" style="padding-left:44px">${esc(s.city)}/${s.uf}, ${esc(s.reg)}</div><div class="ltags">${storeTags(s, false)}</div></td>
       ${r ? DAYS.map((_,i) => `<td>${dbarHTML(s.code,i)}</td>`).join('') : `<td colspan="6"><div class="dbar pend"></div></td>`}
       <td class="pc">${r ? pct(storeAvail(s.code),NC)+'%' : 'Sem resposta'}</td></tr>`; }).join('')}</tbody>
