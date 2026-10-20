@@ -60,7 +60,10 @@
     <h2>Lojas</h2>
     <p class="lead">A semana de cada loja em faixas de uma hora, das 05h às 23h. Passe o mouse para ver a faixa e o motivo; clique na loja para abrir a ficha.</p>
     <div class="toolbar">
-      <label class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="lq" type="search" placeholder="Buscar loja, cidade ou código" aria-label="Buscar loja"></label>
+      <div class="msel" id="lms">
+        <div class="msbox"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="mschips" id="lchips"></span><input id="lq" type="text" placeholder="Buscar ou selecionar lojas" aria-label="Buscar ou selecionar lojas" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="lmsList"><button type="button" class="msclear" id="lmsClear" hidden aria-label="Limpar seleção">×</button></div>
+        <ul class="mslist" id="lmsList" role="listbox" aria-multiselectable="true" hidden></ul>
+      </div>
       <label class="fchip"><span class="fl">Situação</span><b class="fv"></b><select id="lStatus" aria-label="Situação">
         <option value="">Todas</option><option value="resp">Responderam</option><option value="pend">Sem resposta</option><option value="restr">Com restrição</option><option value="full">Sem restrição</option><option value="zona">Em zona de trânsito</option><option value="conf">Recebe em horário restrito</option></select></label>
       <label class="fchip"><span class="fl">Recebe de</span><b class="fv"></b><select id="lPer" aria-label="Filtrar por período"><option value="">Qualquer período</option><option value="0">Manhã</option><option value="1">Tarde</option><option value="2">Noite</option></select></label>

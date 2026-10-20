@@ -298,7 +298,7 @@ $('#rtable').addEventListener('click', e => {
 });
 
 /* ---------- Lojas ---------- */
-const LS = {q:'', status:'', sort:'code', per:''};
+const LS = {q:'', status:'', sort:'code', per:'', sel:new Set()};
 function barBg(code, i){
   const row = RESP[code].d[i], st = [];
   for(let h=0;h<NH;h++){ const c = row[h]==='S' ? 'var(--sim)' : 'var(--nao)'; st.push(`${c} ${(h*100/NH).toFixed(3)}% ${((h+1)*100/NH).toFixed(3)}%`); }
@@ -314,11 +314,12 @@ function rzMarks(code, i){
 const dbarHTML = (code, i, cls='') => `<div class="dbar${cls}" data-c="${code}" data-i="${i}" style="background:${barBg(code,i)}">${rzMarks(code,i)}</div>`;
 function renderLojas(){
   const q = LS.q.trim().toLowerCase();
-  let rows = STORES.filter(inScope).filter(s => !q || s.name.toLowerCase().includes(q) || s.code.includes(q) || s.city.toLowerCase().includes(q));
+  // com lojas selecionadas, a lista mostra só elas; sem seleção, o texto digitado filtra a lista
+  let rows = STORES.filter(inScope).filter(s => LS.sel.size ? LS.sel.has(s.code) : storeMatch(s, q));
   rows = rows.filter(s => { const r = RESP[s.code];
+    if(LS.per){ const p = periodos(s.code); if(!p || !p[+LS.per].on) return false; }
     if(LS.status === 'resp') return !!r; if(LS.status === 'pend') return !r;
     if(LS.status === 'restr') return r && storeAvail(s.code) < NC; if(LS.status === 'full') return r && storeAvail(s.code) === NC;
-    if(LS.per){ const p = periodos(s.code); if(!p || !p[+LS.per].on) return false; }
     if(LS.status === 'zona') return !!RESTR[s.code]; if(LS.status === 'conf') return conflictN(s.code) > 0; return true; });
   const av = s => RESP[s.code] ? storeAvail(s.code) : 999;
   rows.sort(LS.sort==='low' ? (a,b) => av(a)-av(b) || pt(a.code,b.code) : LS.sort==='reg' ? (a,b) => pt(a.reg,b.reg) || pt(a.code,b.code) : (a,b) => pt(a.code,b.code));
@@ -331,7 +332,42 @@ function renderLojas(){
       <td class="pc">${r ? `${pct(storeAvail(s.code), NC)}%<small>${storeAvail(s.code)} de ${NC}</small>` : '<span class="pending-txt">Sem resposta</span>'}</td></tr>`; }).join('')
     : `<tr><td colspan="8" class="empty">Nenhuma loja com esses filtros.</td></tr>`}</tbody>`;
 }
-$('#lq').oninput = e => { LS.q = e.target.value; renderLojas(); };
+const storeMatch = (s, q) => !q || s.name.toLowerCase().includes(q) || s.code.includes(q) || s.city.toLowerCase().includes(q);
+/* Busca + seleção múltipla de lojas */
+(() => {
+  const inp = $('#lq'), list = $('#lmsList'), chips = $('#lchips'), clr = $('#lmsClear'), box = $('#lms');
+  let act = 0, opts = [];
+  const paint = () => {
+    chips.innerHTML = [...LS.sel].map(c => `<span class="mschip">${c}<button type="button" data-rm="${c}" aria-label="Tirar ${c}">×</button></span>`).join('');
+    clr.hidden = !LS.sel.size && !inp.value;
+    inp.placeholder = LS.sel.size ? 'Adicionar loja' : 'Buscar ou selecionar lojas';
+  };
+  const open = () => {
+    const q = inp.value.trim().toLowerCase();
+    opts = STORES.filter(inScope).filter(s => storeMatch(s, q)).slice(0, 60);
+    act = Math.min(act, Math.max(0, opts.length - 1));
+    list.innerHTML = opts.length ? opts.map((s,i) => `<li role="option" data-c="${s.code}" aria-selected="${LS.sel.has(s.code)}" class="${i === act ? 'act' : ''}"><span class="msck"></span><small>${s.code}</small>${esc(s.name)}<em>${esc(s.city)}/${s.uf}</em></li>`).join('')
+      : '<li class="msnone">Nenhuma loja encontrada</li>';
+    list.hidden = false; inp.setAttribute('aria-expanded', 'true');
+  };
+  const close = () => { list.hidden = true; inp.setAttribute('aria-expanded', 'false'); };
+  const toggle = c => { LS.sel.has(c) ? LS.sel.delete(c) : LS.sel.add(c); paint(); renderLojas(); open(); };
+  inp.oninput = () => { LS.q = inp.value; act = 0; paint(); renderLojas(); open(); };
+  inp.onfocus = open;
+  inp.onkeydown = e => {
+    if(e.key === 'ArrowDown'){ e.preventDefault(); act = Math.min(act + 1, opts.length - 1); open(); list.querySelector('.act')?.scrollIntoView({block:'nearest'}); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); act = Math.max(act - 1, 0); open(); list.querySelector('.act')?.scrollIntoView({block:'nearest'}); }
+    else if(e.key === 'Enter' && opts[act]){ e.preventDefault(); toggle(opts[act].code); }
+    else if(e.key === 'Backspace' && !inp.value && LS.sel.size){ LS.sel.delete([...LS.sel].pop()); paint(); renderLojas(); open(); }
+    else if(e.key === 'Escape'){ close(); }
+  };
+  list.onmousedown = e => { e.preventDefault(); const li = e.target.closest('li[data-c]'); if(li) toggle(li.dataset.c); };
+  chips.onclick = e => { const b = e.target.closest('[data-rm]'); if(b){ LS.sel.delete(b.dataset.rm); paint(); renderLojas(); inp.focus(); } };
+  clr.onclick = () => { LS.sel.clear(); inp.value = LS.q = ''; paint(); renderLojas(); inp.focus(); };
+  document.addEventListener('mousedown', e => { if(!e.composedPath().includes(box)) close(); });
+  box.querySelector('.msbox').onclick = e => { if(e.target === e.currentTarget) inp.focus(); };
+  paint();
+})();
 
 /* ---------- Extrair grade (Excel colorido) ---------- */
 // Carrega o ExcelJS só quando precisa: primeiro o arquivo local do projeto, depois o cdnjs
@@ -344,7 +380,7 @@ async function extrairGrade(btn){
   const old = btn.innerHTML; btn.disabled = true; btn.textContent = 'Gerando planilha…';
   try{
     await loadExcelJS();
-    const lojas = STORES.filter(inScope).slice()
+    const lojas = STORES.filter(inScope).filter(s => LS.sel.size ? LS.sel.has(s.code) : storeMatch(s, LS.q.trim().toLowerCase())).slice()
       .sort((a,b) => (a.grp ? 0 : 1) - (b.grp ? 0 : 1) || pt(a.grp, b.grp) || ((a.op && a.op.ordem) || 99) - ((b.op && b.op.ordem) || 99) || pt(a.name, b.name));
     const wb = new ExcelJS.Workbook();
     // Resumo por períodos: Agrupamento | Loja | Caminhão | Altura | dias da semana | Manhã, Tarde, Noite
@@ -401,6 +437,24 @@ async function extrairGrade(btn){
     const info = ws.getCell(8, L+1);
     info.value = `Fonte: pesquisa das lojas. Gerado em ${agora()}${scopeLabel() ? `, ${scopeLabel()}` : ''}${RSTATE === 'demo' ? '. DADOS DE EXEMPLO' : ''}.`;
     info.font = fonte('FF5D6B7A', false, 9);
+    // Aba "Por loja": Loja | Altura | Caminhão | SEG a SÁB com as faixas que recebe (ex.: 05-10h, 19-22h)
+    const w2 = wb.addWorksheet('Por loja', {views:[{state:'frozen', xSplit:1, ySplit:1}], pageSetup:{orientation:'landscape', fitToPage:true, fitToWidth:1, fitToHeight:0, paperSize:9}});
+    const DS6 = ['SEG','TER','QUA','QUI','SEX','SÁB'];
+    w2.getRow(1).values = ['Loja','Altura','Caminhão', ...DS6];
+    w2.getRow(1).eachCell(cl => { cl.fill = C.cab; cl.font = fonte('FF33404D'); cl.alignment = {horizontal:'center', vertical:'middle'}; cl.border = {bottom:fino}; });
+    w2.getRow(1).height = 22;
+    lojas.slice().sort((a,b) => pt(a.name, b.name) || pt(a.code, b.code)).forEach((s, k) => {
+      const resp = RESP[s.code], row = w2.getRow(2 + k);
+      row.values = [`${s.code} - ${s.name}`, s.ativo || '–', s.truck || '–', ...DS6.map((_, di) => resp ? (faixasTxt(resp.d[di]) || 'Não recebe') : 'Sem resposta')];
+      row.eachCell((cl, c) => {
+        cl.font = fonte(c <= 1 ? 'FF1D2733' : 'FF33404D', false, 10); cl.border = {bottom:fino};
+        cl.alignment = {vertical:'middle', horizontal: c === 1 ? 'left' : 'center', wrapText: c > 3};
+        if(c > 3){ const on = resp && resp.d[c-4].includes('S'); cl.fill = on ? C.dOn : C.off; cl.font = fonte(on ? 'FF2E7D6B' : 'FFA0A8B0', on, 10); }
+      });
+    });
+    w2.getColumn(1).width = 32; w2.getColumn(2).width = 14; w2.getColumn(3).width = 11;
+    for(let c = 4; c <= 9; c++) w2.getColumn(c).width = 17;
+    w2.autoFilter = {from:'A1', to:'I1'};
     const buf = await wb.xlsx.writeBuffer();
     baixar(new Blob([buf], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), `resumo-recebimento-${hoje()}.xlsx`);
   }catch(e){
@@ -898,6 +952,10 @@ function makeF(s, code, slug, token, blank){
   return f;
 }
 const touch = () => { if(F) F.touched = true; };
+const faixasTxt = d => { const out = []; let i = 0;
+  while(i < d.length){ if(d[i] !== 'S'){ i++; continue; } let j = i; while(j + 1 < d.length && d[j+1] === 'S') j++;
+    out.push(`${String(H0 + i).padStart(2,'0')}-${String(H0 + j + 1).padStart(2,'0')}h`); i = j + 1; }
+  return out.join(', '); };
 const hoje = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const agora = () => new Date().toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}).replace(',', '');
 function baixar(blob, nome){ const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nome; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000); }
