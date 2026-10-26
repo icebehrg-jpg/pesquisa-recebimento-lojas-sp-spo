@@ -528,7 +528,7 @@ function groupTable(info, hl){
   return `<div class="tblwrap" style="border:0;border-radius:0"><table class="gtab${hl?' focus':''}"><thead><tr><th>Loja</th>${DS.map(d=>`<th>${d}</th>`).join('')}<th>Faixas</th></tr></thead>
   <tbody>${ss.map(s => { const r = RESP[s.code], extra = [s.truck, s.ativo].filter(Boolean).join(', ');
     return `<tr data-code="${s.code}" class="${s.code===hl?'hl':''}"><td><div class="ln"><small>${s.code}</small><b>${esc(s.name)}</b>${s.code===hl?'<span class="thisone">esta loja</span>':''}</div>
-      <div class="gsub" style="padding-left:44px">${esc(s.city)}/${s.uf}, ${esc(s.reg)}</div><div class="ltags">${storeTags(s, false)}</div></td>
+      ${veicTag(s) ? `<div class="ltags">${veicTag(s)}</div>` : ''}</td>
       ${r ? DAYS.map((_,i) => `<td>${dbarHTML(s.code,i)}</td>`).join('') : `<td colspan="6"><div class="dbar pend"></div></td>`}
       <td class="pc">${r ? pct(storeAvail(s.code),NC)+'%' : 'Sem resposta'}</td></tr>`; }).join('')}</tbody>
   <tfoot>${(() => { const R = routeInfo(info); return R ? `<tr class="rrow"><td>Rota em sequência<div class="gsub">1 hora por loja, horas seguidas</div></td>${R.union.map((row,i) => `<td><div class="cbar rbar" data-g="${esc(g)}" data-i="${i}" style="background:${rbarBg(row)}"></div></td>`).join('')}<td class="pc">${R.days} de 6 dias</td></tr>` : ''; })()}
@@ -550,11 +550,20 @@ function groupNote(info){
 }
 function groupNoteFull(info){ return groupNote(info) + routeNote(info);
 }
-function groupBlockers(info){
-  const items = info.resp.filter(s => RESP[s.code].reasons.length);
-  if(!items.length || !info.resp.length) return '';
-  return `<details class="gblock"><summary>O que impede uma janela maior<span style="font-weight:400;color:var(--muted);font-size:13px">${items.length} ${items.length>1?'lojas com restrição':'loja com restrição'}</span><span class="tg"><span class="o">Expandir</span><span class="c">Fechar</span></span></summary>
-    <ul class="gbl">${items.map(s => RESP[s.code].reasons.map(x => `<li><div class="ln" style="flex-wrap:wrap"><button class="bs" data-code="${s.code}"><small>${s.code}</small>${esc(s.name)}</button><span class="wins">${winLabel(x.keys).map(w=>`<span>${w}</span>`).join('')}</span></div><p>${esc(x.txt)}</p></li>`).join('')).join('')}</ul></details>`;
+function groupBlockers(info){ return groupComments(info); }
+// Comentários das lojas do agrupamento, recolhidos: janela em comum, justificativas da pesquisa, observação da grade e empilhadeira
+function groupComments(info){
+  const lojas = info.ss.map(s => {
+    const r = RESP[s.code], o = s.op || {}, itens = [];
+    if(r) r.reasons.forEach(x => itens.push(`<li><span class="wins">${winLabel(x.keys).map(w => `<span>${w}</span>`).join('')}</span><p>${esc(x.txt)}</p></li>`));
+    if(o.obs) itens.push(`<li><span class="ctag">Observação da grade</span><p>${esc(o.obs)}</p></li>`);
+    if(o.empm) itens.push(`<li><span class="ctag">Empilhadeira: ${esc(o.emp || '')}</span><p>${esc(o.empm)}</p></li>`);
+    return itens.length ? `<div class="cstore"><button class="bs" data-code="${s.code}"><small>${s.code}</small>${esc(s.name)}</button><ul>${itens.join('')}</ul></div>` : '';
+  }).filter(Boolean);
+  const nota = groupNoteFull(info);
+  if(!lojas.length && !nota) return '';
+  return `<details class="gblock gcom"><summary>Comentários das lojas<span style="font-weight:400;color:var(--muted);font-size:13px">${lojas.length ? `${lojas.length} ${lojas.length>1?'lojas comentaram':'loja comentou'}` : 'janela do agrupamento'}</span><span class="tg"><span class="o">Abrir</span><span class="c">Fechar</span></span></summary>
+    ${nota ? `<p class="gnote" style="margin:0 0 12px">${nota}</p>` : ''}${lojas.join('')}</details>`;
 }
 const GS = {q:'', sort:'name', ab:''};
 /* Modo de abastecimento por agrupamento (Min e Max ou Simulador), salvo na planilha */
@@ -601,10 +610,47 @@ function openExtract(){
   showMd(`<div class="md-head"><div><p class="meta" style="margin:0">Extração</p><h2 id="mdTitle">Agrupamentos abastecidos por Simulador</h2>
       <p>${rows.length ? `${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${tot} lojas.` : 'Nenhum agrupamento está marcado como Simulador.'}</p></div>${closeBtn()}</div>
     ${rows.length ? `<div class="xact"><a class="fbtn ghost" href="#simulador" target="_blank" rel="noopener" style="text-decoration:none"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3h7v7M10 14 21 3M21 14v7H3V3h7"/></svg>Exportar página</a>
+      <button class="fbtn ghost" id="xXls" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg>Exportar Excel</button>
       <button class="fbtn" id="xPng" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Salvar como imagem</button></div>
       ${simTable(rows, 'xm')}`
       : `<div class="pendbox">Marque "Simulador" na chave de abastecimento dos agrupamentos para que eles apareçam aqui.</div>`}`);
   const b = $('#xPng'); if(b) b.onclick = () => savePng(rows, tot, b);
+  const bx = $('#xXls'); if(bx) bx.onclick = () => simXlsx(rows, bx);
+}
+// Excel igual à tabela da tela: uma linha por loja, agrupamento e dados do grupo mesclados
+async function simXlsx(rows, btn){
+  const old = btn.innerHTML; btn.disabled = true; btn.textContent = 'Gerando Excel…';
+  try{
+    await loadExcelJS();
+    const wb = new ExcelJS.Workbook(), ws = wb.addWorksheet('Simulador', {views:[{state:'frozen', ySplit:3}], pageSetup:{orientation:'portrait', fitToPage:true, fitToWidth:1, fitToHeight:0, paperSize:9}});
+    const fill = c => ({type:'pattern', pattern:'solid', fgColor:{argb:c}}), fonte = (c, b = false, s = 10) => ({name:'Arial', size:s, bold:b, color:{argb:c}});
+    const fino = {style:'thin', color:{argb:'FFDCE3E9'}}, grosso = {style:'medium', color:{argb:'FF8A97A6'}};
+    ws.mergeCells('A1:F1'); ws.getCell('A1').value = 'Agrupamentos abastecidos por Simulador'; ws.getCell('A1').font = fonte('FF1D2733', true, 14);
+    ws.mergeCells('A2:F2'); ws.getCell('A2').value = `${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${rows.reduce((a,r)=>a+r.n,0)} lojas. Gerado em ${agora()}.`; ws.getCell('A2').font = fonte('FF5D6B7A');
+    ws.getRow(3).values = ['Agrupamento','Envio','Tipo de abastecimento','Lojas','Loja','Caminhão'];
+    ws.getRow(3).eachCell(c => { c.fill = fill('FF1F3A4D'); c.font = fonte('FFFFFFFF', true); c.alignment = {horizontal:'center', vertical:'middle'}; });
+    ws.getRow(3).height = 22;
+    let r = 4;
+    rows.forEach(g => {
+      const ss = simStores(g.g), r0 = r, gi = GRP_INFO[g.g];
+      ss.forEach(s => {
+        const row = ws.getRow(r);
+        row.values = [g.g, gi ? envioTxt(gi).replace('Envio: ', '').replace(/^./, m => m.toUpperCase()) : '', gi ? gi.tipo : '', ss.length, `${s.code} ${s.name}`, s.truck || '–'];
+        row.eachCell((c, k) => { c.font = fonte('FF1D2733', k === 1); c.alignment = {vertical:'middle', horizontal: k === 4 || k === 6 ? 'center' : 'left', wrapText: k <= 3}; c.border = {bottom:fino}; });
+        const v = VEIC[s.truck]; if(v){ const cl = row.getCell(6); cl.fill = fill('FF' + v.x[0].slice(2)); cl.font = fonte(v.x[1], true); }
+        r++;
+      });
+      for(const c of [1,2,3,4]){ if(r - 1 > r0) ws.mergeCells(r0, c, r - 1, c); const cl = ws.getCell(r0, c); cl.alignment = {vertical:'middle', horizontal: c === 4 ? 'center' : 'left', wrapText:true}; }
+      ws.getCell(r0, 1).fill = fill('FFE8F0F6');
+      if(gi){ ws.getCell(r0, 3).fill = fill(/min/i.test(gi.tipo) ? 'FFFCE8C3' : 'FFDCEFEA'); }
+      for(let c = 1; c <= 6; c++) ws.getCell(r0, c).border = {...ws.getCell(r0, c).border, top:grosso};
+    });
+    ws.getCell(r, 4).value = {formula:`SUM(D4:D${r-1})`}; ws.getCell(r, 3).value = 'Total de lojas'; [3,4].forEach(c => ws.getCell(r, c).font = fonte('FF1D2733', true));
+    [32, 22, 20, 8, 38, 11].forEach((w, k) => ws.getColumn(k + 1).width = w);
+    ws.autoFilter = {from:'A3', to:'F3'};
+    baixar(new Blob([await wb.xlsx.writeBuffer()], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), `agrupamentos-simulador-${hoje()}.xlsx`);
+  }catch(e){ alert('Não foi possível gerar o Excel agora. Verifique a internet e tente de novo.'); }
+  finally{ btn.disabled = false; btn.innerHTML = old; }
 }
 /* Página exportada só com o resumo (#simulador) */
 function renderSimPage(){
@@ -612,11 +658,12 @@ function renderSimPage(){
   const quando = agora();
   root.innerHTML = `<header class="simhead"><div><p class="meta" style="margin:0">Janelas de recebimento das lojas</p><h1>Agrupamentos abastecidos por Simulador</h1>
       <p class="sub">${RSTATE === 'loading' ? 'Carregando dados da planilha…' : rows.length ? `${rows.length} ${rows.length>1?'agrupamentos':'agrupamento'}, ${tot} lojas. Gerado em ${quando}.` : 'Nenhum agrupamento está marcado como Simulador.'}</p></div>
-    <div class="simact"><button class="fbtn ghost" id="spPrint" type="button">Imprimir ou salvar PDF</button><button class="fbtn" id="spPng" type="button">Salvar como imagem</button></div></header>
+    <div class="simact"><button class="fbtn ghost" id="spPrint" type="button">Imprimir ou salvar PDF</button><button class="fbtn ghost" id="spXls" type="button">Exportar Excel</button><button class="fbtn" id="spPng" type="button">Salvar como imagem</button></div></header>
     ${rows.length ? simTable(rows, 'sp') : ''}`;
   $('#spPrint').onclick = () => print();
   root.onclick = e => { const gm = e.target.closest('[data-gmap]'); if(gm) openGroupMap(gm.dataset.gmap); };
   $('#spPng').onclick = e => rows.length && savePng(rows, tot, e.currentTarget);
+  $('#spXls').onclick = e => rows.length && simXlsx(rows, e.currentTarget);
 }
 // Desenha a tabela num canvas e baixa como PNG
 async function savePng(rows, tot, btn){
@@ -678,8 +725,8 @@ function renderGrupos(){
     <div class="kpi"><b>${withResp.length ? avg : '–'}</b><small>faixas em comum, em média, de ${NC}</small></div>
     <div class="kpi"><b>${withResp.length ? none : '–'}</b><small>sem janela em comum nem rota em sequência</small></div>`;
   $('#gCount').textContent = `${infos.length} de ${total} agrupamentos`;
-  $('#glist').innerHTML = infos.length ? infos.map(x => `<article class="gcard"><header><h3>${esc(grpName(x.g))}</h3>${abSwitch(x.g)}<div class="gmeta"><span>${x.ss.length} ${x.ss.length>1?'lojas':'loja'}</span><span>${[...new Set(x.ss.map(s=>s.reg))].map(esc).join(', ')}</span>${x.pend?`<span class="warn">${x.pend} sem resposta</span>`:''}${x.ss.some(s => RESTR[s.code]) ? `<span class="rzwarn" title="${esc(x.ss.filter(s=>RESTR[s.code]).map(s=>s.code+' '+s.name).join(', '))}"><b>!</b>Contém loja com restrição</span>` : ''}</div><span class="stags">${grpTags(x.g)}</span>${GRP_INFO[x.g] ? `<span class="gnums">${GRP_INFO[x.g].cub ? `${fmtN(GRP_INFO[x.g].cub, 1)} m³ no total` : ''}${GRP_INFO[x.g].dmax ? `, até ${fmtN(GRP_INFO[x.g].dmax)} km do CD` : ''}</span>` : ''}</header>
-      ${groupTable(x)}<p class="gnote">${groupNoteFull(x)}</p><div><button class="btn mapbtn" data-gmap="${esc(x.g)}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Ver rota no mapa</button></div>${groupBlockers(x)}</article>`).join('')
+  $('#glist').innerHTML = infos.length ? infos.map(x => `<article class="gcard"><header><h3>${esc(grpName(x.g))}</h3>${abSwitch(x.g)}<div class="gmeta"><span>${x.ss.length} ${x.ss.length>1?'lojas':'loja'}</span>${x.pend?`<span class="warn">${x.pend} sem resposta</span>`:''}${x.ss.some(s => RESTR[s.code]) ? `<span class="rzwarn" title="${esc(x.ss.filter(s=>RESTR[s.code]).map(s=>s.code+' '+s.name).join(', '))}"><b>!</b>Contém loja com restrição</span>` : ''}</div><span class="stags">${grpTags(x.g)}</span></header>
+      ${groupTable(x)}<div class="gfoot"><button class="btn mapbtn" data-gmap="${esc(x.g)}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Ver rota no mapa</button></div>${groupComments(x)}</article>`).join('')
     : `<div class="empty">Nenhum agrupamento com esses filtros.</div>`;
 }
 $('#gq').oninput = e => { GS.q = e.target.value; renderGrupos(); };
